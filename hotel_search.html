@@ -1,0 +1,212 @@
+<html>
+<title>Hotel Search</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
+
+
+/* Fixed sidenav, full height */
+.sidenav {
+  height: 450px;
+  width: 250px;
+  position: static;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+  padding-left: 20px;
+}
+
+/* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+/* On mouse-over */
+.sidenav a:hover, .dropdown-btn:hover {
+  color: #f1f1f1;
+}
+</style>
+<body>
+
+<!-- Navigation Bar -->
+<div class="w3-bar w3-white w3-large">
+  <a href="#" class="w3-bar-item w3-button w3-black w3-mobile"><i class="fa fa-bed w3-margin-right"></i>Logo</a>
+  <a href="#rooms" class="w3-bar-item w3-button w3-mobile">Reserve</a>
+  <a href="#about" class="w3-bar-item w3-button w3-mobile">Hotels</a>
+  <a href="#contact" class="w3-bar-item w3-button w3-mobile">About</a>
+  <a href="#contact" class="w3-bar-item w3-button w3-mobile">Contact</a>
+  <a href="#contact" class="w3-bar-item w3-button w3-right w3-light-grey w3-mobile">Sign up</a>
+
+</div>
+
+</body>
+
+<br>
+<br>
+<!-- Reservation Panel -->
+<div class="w3-container" style="padding:20px 100px; background-color:#2F4550" id="reserve">
+  <h3 class="w3-center" style="color:#ffffff;"><b>Reserve Now</b></h3>
+  <p class="w3-center w3-large" style="color:#ffffff;">Take the first step towards your vacation by inputting the information below!</p>
+  <div class="w3-row-padding" style="color:#ffffff;">
+    <div class="w3-col m3">
+      <label><i class="fa fa-calendar-o"></i> Check In</label>
+      <input class="w3-input w3-border" type="text" placeholder="DD MM YYYY">
+    </div>
+    <div class="w3-col m3">
+      <label><i class="fa fa-calendar-o"></i> Check Out</label>
+      <input class="w3-input w3-border" type="text" placeholder="DD MM YYYY">
+    </div>
+    <div class="w3-col m2">
+      <label><i class="fa fa-male"></i> Adults</label>
+      <input class="w3-input w3-border" type="number" placeholder="1">
+    </div>
+    <div class="w3-col m2">
+      <label><i class="fa fa-child"></i> Kids</label>
+      <input class="w3-input w3-border" type="number" placeholder="0">
+    </div>
+    <div class="w3-col m2">
+      <label><i class="fa fa-search"></i> Search</label>
+      <button class="w3-button w3-block w3-black">Search</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div>
+
+
+  <table>
+
+    <!--Side Menu Column-->
+    <td>
+      <div class="sidenav" style="color:#FFFFFF;">
+        <h3>Price</h3>
+        <div class="slidecontainer">
+          $50<input type="range" min="50" max="1000" class="slider" id="myRange">$1000
+        </div>
+
+        <h3>Rating</h3>
+        <input type="checkbox" id="Rating_1" value="1_star">
+        <label for="Rating_1">1 Star</label><br>
+
+        <input type="checkbox" id="Rating_2" value="2_star">
+        <label for="Rating_2">2 Star</label><br>
+
+        <input type="checkbox" id="Rating_3" value="3_star">
+        <label for="Rating_3">3 Star</label><br>
+
+        <input type="checkbox" id="Rating_4" value="4_star">
+        <label for="Rating_4">4 Star</label><br>
+
+        <input type="checkbox" id="Rating_5" value="5_star">
+        <label for="Rating_5">5 Star</label><br>
+
+
+
+
+        <h3>Anemeties</h3>
+        <input type="checkbox" id="Anemeties_Gym" value="gym">
+        <label for="Anemeties_Gym">Gym</label><br>
+
+        <input type="checkbox" id="Anemeties_Spa" value="gym">
+        <label for="Anemeties_Spa">Spa</label><br>
+
+        <input type="checkbox" id="Anemeties_Pool" value="gym">
+        <label for="Anemeties_Pool">Pool</label><br>
+
+        <input type="checkbox" id="Anemeties_Business_Office" value="gym">
+        <label for="Anemeties_Business_Office">Business Office</label><br>
+
+        <input type="checkbox" id="Anemeties_WiFi" value="gym">
+        <label for="Anemeties_WiFi">WiFi</label><br>
+
+
+        <br>
+        <br>
+
+      </div>
+
+      <br>
+      <center><a class="w3-button" style = "background-color:#2F4550;color:#FFFFFF;">Apply Filters</a><center>
+    </td>
+
+    <!--Hotel List Response Column-->
+    <td>
+      <!-- Hotel List Panel-->
+      <div class="w3-container" style="padding:30px 16px" id="hotels">
+        <h1 class="w3-center"><b>2 Hotels Available</b></h1>
+        <div>
+          <ul style="list-style-type: none;margin:0px;padding:0px">
+
+            <li>
+              <div class="w3-row w3-border">
+                <div class="w3-third w3-container">
+                  <center><img src="./images/hotel_icon_1.jpeg" style = "width:300px;height:300px;"></img></center>
+                </div>
+                <div class="w3-third w3-container">
+                  <center><h2><b>Vyatt</b></h2></center>
+                  <h5><b>Location:</b> San Antonio, TX</h5>
+                  <h5><b>Features:</b> This hotel offers a gym, free wifi, and free breakfast.</h5>
+                  <h5><b>Reviews:</b> 4.8/5 Excellent (23 Reviews)</h5>
+                </div>
+                <div class="w3-third w3-container">
+                  <center><h3><b>Price:</b></h3></center>
+                  <center><h5>$70<h5></center>
+                </div>
+              </div>
+            </li>
+
+
+
+            <li>
+
+              <div class="w3-row w3-border">
+                <div class="w3-third w3-container">
+                  <center><img src="./images/hotel_icon_2.jpeg" style = "width:300px;height:300px;"></img></center>
+                </div>
+                <div class="w3-third w3-container">
+                  <center><h2><b>V Premium Suites</b></h2></center>
+                  <h5><b>Location:</b> Houston, TX</h5>
+                  <h5><b>Features:</b> This hotel offers free wifi,free breakfast,bar, and pet friendly.</h5>
+                  <h5><b>Reviews:</b> 4.8/5 Excellent (23 Reviews)</h5>
+                </div>
+                <div class="w3-third w3-container">
+                  <center><h3><b>Price:</b></h3></center>
+                  <center><h5>$100<h5></center>
+                </div>
+              </div>
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </td>
+  </table>
+
+</div>
+
+
+
+
+
+
+</html>
