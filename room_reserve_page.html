@@ -1,0 +1,180 @@
+<html>
+
+<html>
+
+<title>Hotel Search</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
+
+</style>
+<body>
+
+<!-- Navigation Bar -->
+<div class="w3-bar w3-white w3-large">
+  <a href="#" class="w3-bar-item w3-button w3-black w3-mobile"><i class="fa fa-bed w3-margin-right"></i>Logo</a>
+  <a href="#rooms" class="w3-bar-item w3-button w3-mobile">Reserve</a>
+  <a href="#about" class="w3-bar-item w3-button w3-mobile">Hotels</a>
+  <a href="#contact" class="w3-bar-item w3-button w3-mobile">About</a>
+  <a href="#contact" class="w3-bar-item w3-button w3-mobile">Contact</a>
+  <a href="#contact" class="w3-bar-item w3-button w3-right w3-light-grey w3-mobile">Sign up</a>
+
+</div>
+
+<br>
+<br>
+<h2>Review and Book</h2>
+
+<br>
+<br>
+
+
+
+<div class="w3-row">
+  <div class="w3-third w3-container">
+    <div class="w3-row-padding">
+        <div class="w3-card">
+          <img src="./images/hotel_icon_1.jpeg" alt="John" style="width:100%">
+          <div class="w3-container">
+            <h2>Vyatt</h2>
+            <h3>1 King bed room</h3>
+            <br>
+            <h4>Anemities:</h4>
+            <p>* Gym<br>* WiFi</p>
+
+            <br>
+            <br>
+            <h3>Price Details</h3>
+            <p> Room $150</p>
+            <p> Taxes $20</p>
+            <hr>
+            <p> Total $170</p>
+            <br>
+            <p> Your first payment will be $170, any additional charges will be handled through your hotel provider</p>
+          </div>
+        </div>
+    </div>
+  </div>
+
+
+  <div class="w3-half w3-container">
+    <form class = "w3-container w3-border">
+        <h2>Personal Information</h2>
+      <div class="w3-half">
+        <label>First name *</label>
+        <input class="w3-input w3-border" type="text" placeholder="First name" required>
+      </div>
+      <div class="w3-half">
+        <label>Last name *</label>
+        <input class="w3-input w3-border" type="text" placeholder="Last name"  required>
+      </div>
+        <label>Phone number *</label>
+        <input class="w3-input w3-border" type="text" placeholder="(100) 123-4567"  required>
+        <br>
+    </form>
+
+    <br>
+    <br>
+    <br>
+
+    <form class = "w3-container w3-border">
+        <h2>Protect your hotel *</h2>
+        <p><b>Cover your stay against the unexpected:</b><br><br>
+          1.Up to 100% hotel reimbursement if you're sick and have a late cancellation<br>
+          2.Up to 100% reimbursement on unused hotel nights if you're sick and need to come home early<br>
+          3.Up to $150 for a hotel or meals if your trip is delayed for covered reasons<br>
+          4.Up to $150 for covered essentials if your bag is delayed</p>
+
+        <div class = "w3-container w3-border">
+          <br>
+          <input id="insurance_yes" class="w3-input" type="checkbox">
+          <label for="insurance_yes">Yes, I want to protect!</label>
+        </div>
+        <br>
+        <div class = "w3-container w3-border">
+          <br>
+          <input id="insurance_no" class="w3-input" type="checkbox">
+          <label for="insurance_no">No, I am willing to risk it!</label>
+        </div>
+        <br>
+
+    </form>
+
+    <br>
+    <br>
+    <form class = "w3-container w3-border">
+        <h2>Payment Information</h2>
+        <img src="./images/credit_card_banner.png" style="width:200px;height:40px;">
+        <br>
+        <h4>Pay with debit/credit</h4>
+        <label>Name on card *</label>
+        <input class="w3-input w3-border" type="text" placeholder="Name on card" required>
+        <br>
+        <label>Card number *</label>
+        <input class="w3-input w3-border" type="text" placeholder="card number"  required>
+        <br>
+        <div class="w3-half">
+          <label>Expiration month *</label>
+          <input class="w3-input w3-border" type="text" placeholder="Month"  required>
+        </div>
+        <div class="w3-half">
+          <label>Expiration year *</label>
+          <input class="w3-input w3-border" type="text" placeholder="Year"  required>
+        </div>
+        <br>
+        <label>Security code *</label>
+        <input class="w3-input w3-border" type="text" placeholder="CVV"  required>
+        <br>
+    </form>
+
+    <form class = "w3-container w3-border">
+        <h2>Confirmation Email</h2>
+        <label>Email *</label>
+        <input class="w3-input w3-border" type="text" placeholder="example@example.com" required>
+        <br>
+    </form>
+
+    <div class = "w3-container w3-border">
+      <h3>Hotel Rules</h3>
+      <p>Drury Plaza Hotel San Antonio Riverwalk
+          Fri, Oct 8 - Sat, Oct 9
+          If you cancel or change your plans, please cancel your reservation in accordance with the property's cancellation policies to avoid a no-show charge.
+          This rate is non-refundable. If you change or cancel your booking you will not get a refund or credit to use for a future stay. This policy will apply regardless of COVID-19, subject to any local consumer laws.
+          No refunds will be issued for late check-in or early check-out.
+          Stay extensions require a new reservation.
+          Front desk staff will greet guests on arrival. For more details, please contact the property using the information on the booking confirmation.
+          You'll be asked to pay the following charges at the property:
+          Deposit: USD 50 per accommodation, per stay
+          We have included all charges provided to us by the property.
+        </p>
+    </div>
+
+    <br>
+    <br>
+    <form class = "w3-container w3-border">
+        <h2>Complete Booking</h2>
+        <label for="submit_rules">I have read and accept the terms & conditions for the hotel</label>
+        <input id="submit_rules" class="w3-input" type="checkbox">
+        <br>
+        <center><a class="w3-blue w3-button">Submit</a><center>
+        <br>
+    </form>
+
+
+  </div>
+
+
+
+</div>
+
+
+</body>
+
+
+
+
+<html>
