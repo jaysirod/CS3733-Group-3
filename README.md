@@ -4,8 +4,8 @@ Valadez Hotels Project
 ## Todo:
 
 ### Webpages:
-- Hotel Page
-- Reservation page
+- User Page (Reservation, User Info)
+- Admin Page
 
 ### Backend
 
