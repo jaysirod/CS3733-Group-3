@@ -2,7 +2,7 @@
 
 import sqlite3
 
-conn = sqlite3.connect('test.db')
+conn = sqlite3.connect('test_DB.db')
 
 conn.execute('''CREATE TABLE USERS
          (UID INT PRIMARY KEY     NOT NULL,
@@ -38,8 +38,7 @@ conn.execute('''CREATE TABLE RESERVATIONS
          RID              INT     NOT NULL,
          START_DATE       INT     NOT NULL,
          END_DATE         INT     NOT NULL);''')
-   
+
 
 
 conn.close()
-
