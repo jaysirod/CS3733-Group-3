@@ -43,7 +43,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
   color: #f1f1f1;
 }
 </style>
-<body>
+
+<body onload="create_hotel_list()">
 
 <!-- Navigation Bar -->
 <div class="w3-bar w3-white w3-large">
@@ -97,7 +98,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
   <table>
 
     <!--Side Menu Column-->
-    <td>
+    <td class="w3-third">
       <div class="sidenav" style="color:#FFFFFF;">
         <h3>Price</h3>
         <div class="slidecontainer">
@@ -146,7 +147,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
       </div>
 
       <br>
-      <center><a class="w3-button" style = "background-color:#2F4550;color:#FFFFFF;">Apply Filters</a><center>
+      <center><a class="w3-button" style = "background-color:#2F4550;color:#FFFFFF;">Apply Filters</a></center>
     </td>
 
     <!--Hotel List Response Column-->
@@ -155,47 +156,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
       <div class="w3-container" style="padding:30px 16px" id="hotels">
         <h1 class="w3-center"><b>2 Hotels Available</b></h1>
         <div>
-          <ul style="list-style-type: none;margin:0px;padding:0px">
+          <ul style="list-style-type: none;margin:0px;padding:0px" id="Hotel_List">
 
-            <li>
-              <div class="w3-row w3-border">
-                <div class="w3-third w3-container">
-                  <center><img src="./images/hotel_icon_1.jpeg" style = "width:300px;height:300px;"></img></center>
-                </div>
-                <div class="w3-third w3-container">
-                  <center><h2><b>Vyatt</b></h2></center>
-                  <h5><b>Location:</b> San Antonio, TX</h5>
-                  <h5><b>Features:</b> This hotel offers a gym, free wifi, and free breakfast.</h5>
-                  <h5><b>Reviews:</b> 4.8/5 Excellent (23 Reviews)</h5>
-                </div>
-                <div class="w3-third w3-container">
-                  <center><h3><b>Price:</b></h3></center>
-                  <center><h5>$70<h5></center>
-                </div>
-              </div>
-            </li>
-
-
-
-            <li>
-
-              <div class="w3-row w3-border">
-                <div class="w3-third w3-container">
-                  <center><img src="./images/hotel_icon_2.jpeg" style = "width:300px;height:300px;"></img></center>
-                </div>
-                <div class="w3-third w3-container">
-                  <center><h2><b>V Premium Suites</b></h2></center>
-                  <h5><b>Location:</b> Houston, TX</h5>
-                  <h5><b>Features:</b> This hotel offers free wifi,free breakfast,bar, and pet friendly.</h5>
-                  <h5><b>Reviews:</b> 4.8/5 Excellent (23 Reviews)</h5>
-                </div>
-                <div class="w3-third w3-container">
-                  <center><h3><b>Price:</b></h3></center>
-                  <center><h5>$100<h5></center>
-                </div>
-              </div>
-
-            </li>
           </ul>
         </div>
       </div>
@@ -210,3 +172,54 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
 
 </html>
+
+
+<script>
+
+function create_hotel_list() {
+
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/hotels';
+  Http.open("GET", url);
+  Http.send();
+
+
+  Http.onreadystatechange = (e) => {
+    document.getElementById('Hotel_List').innerHTML = '';
+    var hotels = JSON.parse(Http.responseText);
+    var hotelsLen = Object.keys(hotels).length;
+
+    for(var i = 0; i < hotelsLen; i++)
+    {
+      var hotel = hotels[i];
+
+      var hotel_card = `
+      <div class="w3-row w3-border">
+        <div class="w3-third w3-container">
+          <center><img src="./images/hotel_icon_2.jpeg" style = "width:300px;height:300px;"></img></center>
+        </div>
+        <div class="w3-third w3-container">
+          <center><h2><b>`+hotel.Name+`</b></h2></center>
+          <h5><b>Location:</b> Houston, TX</h5>
+          <h5><b>Features:</b> This hotel offers free wifi,free breakfast,bar, and pet friendly.</h5>
+          <h5><b>Reviews:</b> 4.8/5 Excellent (23 Reviews)</h5>
+        </div>
+        <div class="w3-third w3-container">
+          <center><h3><b>Price:</b></h3></center>
+          <center><h5>$100<h5></center>
+        </div>
+      </div>
+      `;
+
+      var li = document.createElement('li');
+      li.innerHTML = hotel_card;
+      document.getElementById('Hotel_List').appendChild(li);
+
+    }
+
+  }
+
+}
+
+
+</script>
