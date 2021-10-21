@@ -68,11 +68,11 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
   <div class="w3-row-padding" style="color:#ffffff;">
     <div class="w3-col m3">
       <label><i class="fa fa-calendar-o"></i> Check In</label>
-      <input class="w3-input w3-border" type="text" placeholder="DD MM YYYY">
+      <input id="start_date" class="w3-input w3-border" type="date" placeholder="MM DD YYYY">
     </div>
     <div class="w3-col m3">
       <label><i class="fa fa-calendar-o"></i> Check Out</label>
-      <input class="w3-input w3-border" type="text" placeholder="DD MM YYYY">
+      <input id="end_date" class="w3-input w3-border" type="date" placeholder="MM DD YYYY">
     </div>
     <div class="w3-col m2">
       <label><i class="fa fa-male"></i> Adults</label>
@@ -84,88 +84,71 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
     </div>
     <div class="w3-col m2">
       <label><i class="fa fa-search"></i> Search</label>
-      <button class="w3-button w3-block w3-black">Search</button>
+      <button class="w3-button w3-block w3-black" onclick="create_hotel_list()">Search</button>
     </div>
   </div>
 </div>
 
 
 
+<br>
+<br>
+<br>
+<h1 class="w3-center" id="num_hotels_found"><b>Please input a check-out and a check-in date</b></h1>
+<div class="w3-row">
+  <div class="w3-third w3-container w3-black">
+    <div class="w3-row-padding">
+        <div class="w3-card">
+          <div class="w3-container">
+            <h1 class="w3-center"><b>Filters : </b></h1>
+            <h2>Price</h2>
+            <label>Low</label>
+            <input id="price_low" class="w3-input w3-border" type="text" placeholder="0" required>
 
-<div>
+            <br>
 
+            <label>High</label>
+            <input id="price_high" class="w3-input w3-border" type="text" placeholder="900" required>
 
-  <table>
+            <h2>Amenities</h2>
+            <input type="checkbox" id="Anemeties_Gym" value="Gym">
+            <label for="Anemeties_Gym">Gym</label><br>
 
-    <!--Side Menu Column-->
-    <td class="w3-third">
-      <div class="sidenav" style="color:#FFFFFF;">
-        <h3>Price</h3>
-        <div class="slidecontainer">
-          $50<input type="range" min="50" max="1000" class="slider" id="myRange">$1000
+            <input type="checkbox" id="Anemeties_Spa" value="Spa">
+            <label for="Anemeties_Spa">Spa</label><br>
+
+            <input type="checkbox" id="Anemeties_Pool" value="Pool">
+            <label for="Anemeties_Pool">Pool</label><br>
+
+            <input type="checkbox" id="Anemeties_Business_Office" value="Business Office">
+            <label for="Anemeties_Business_Office">Business Office</label><br>
+
+            <input type="checkbox" id="Anemeties_WiFi" value="WiFi">
+            <label for="Anemeties_WiFi">WiFi</label><br>
+
+            <br>
+            <br>
+            <center><a class="w3-button w3-white" onclick="create_hotel_list()">Apply Filters</a></center>
+          </div>
         </div>
-
-        <h3>Rating</h3>
-        <input type="checkbox" id="Rating_1" value="1_star">
-        <label for="Rating_1">1 Star</label><br>
-
-        <input type="checkbox" id="Rating_2" value="2_star">
-        <label for="Rating_2">2 Star</label><br>
-
-        <input type="checkbox" id="Rating_3" value="3_star">
-        <label for="Rating_3">3 Star</label><br>
-
-        <input type="checkbox" id="Rating_4" value="4_star">
-        <label for="Rating_4">4 Star</label><br>
-
-        <input type="checkbox" id="Rating_5" value="5_star">
-        <label for="Rating_5">5 Star</label><br>
+    </div>
+  </div>
 
 
+  <div class="w3-twothird w3-container">
+
+    <div>
+      <ul style="list-style-type: none;margin:0px;padding:0px" id="Hotel_List">
+
+      </ul>
+    </div>
 
 
-        <h3>Anemeties</h3>
-        <input type="checkbox" id="Anemeties_Gym" value="gym">
-        <label for="Anemeties_Gym">Gym</label><br>
-
-        <input type="checkbox" id="Anemeties_Spa" value="gym">
-        <label for="Anemeties_Spa">Spa</label><br>
-
-        <input type="checkbox" id="Anemeties_Pool" value="gym">
-        <label for="Anemeties_Pool">Pool</label><br>
-
-        <input type="checkbox" id="Anemeties_Business_Office" value="gym">
-        <label for="Anemeties_Business_Office">Business Office</label><br>
-
-        <input type="checkbox" id="Anemeties_WiFi" value="gym">
-        <label for="Anemeties_WiFi">WiFi</label><br>
+  </div>
 
 
-        <br>
-        <br>
-
-      </div>
-
-      <br>
-      <center><a class="w3-button" style = "background-color:#2F4550;color:#FFFFFF;">Apply Filters</a></center>
-    </td>
-
-    <!--Hotel List Response Column-->
-    <td>
-      <!-- Hotel List Panel-->
-      <div class="w3-container" style="padding:30px 16px" id="hotels">
-        <h1 class="w3-center"><b>2 Hotels Available</b></h1>
-        <div>
-          <ul style="list-style-type: none;margin:0px;padding:0px" id="Hotel_List">
-
-          </ul>
-        </div>
-      </div>
-    </td>
-  </table>
 
 </div>
-
 
 
 
@@ -176,10 +159,56 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
 <script>
 
+function open_hotel_page(HID)
+{
+  var start_date = document.getElementById('start_date').value;
+  var end_date = document.getElementById('end_date').value;
+
+  localStorage.setItem("HID",HID);
+  localStorage.setItem("Start_Date",start_date);
+  localStorage.setItem("End_Date",end_date);
+  window.open("./hotel_page.html");
+
+}
+
+
+
 function create_hotel_list() {
 
+
+  var price_low_filter = document.getElementById('price_low').value;
+  var price_high_filter = document.getElementById('price_high').value;
+
+  var start_date = document.getElementById('start_date').value;
+  var end_date = document.getElementById('end_date').value;
+
+  var amenities = [];
+  if(document.getElementById('Anemeties_Gym').checked)
+  {
+    amenities.push(document.getElementById('Anemeties_Gym').value)
+  }
+  if(document.getElementById('Anemeties_Spa').checked)
+  {
+    amenities.push(document.getElementById('Anemeties_Spa').value)
+  }
+  if(document.getElementById('Anemeties_Pool').checked)
+  {
+    amenities.push(document.getElementById('Anemeties_Pool').value)
+  }
+  if(document.getElementById('Anemeties_Business_Office').checked)
+  {
+    amenities.push(document.getElementById('Anemeties_Business_Office').value)
+  }
+  if(document.getElementById('Anemeties_WiFi').checked)
+  {
+    amenities.push(document.getElementById('Anemeties_WiFi').value)
+  }
+
+  var amenities_text = amenities.toString()
+
+
   const Http = new XMLHttpRequest();
-  const url='http://localhost:5000/hotels';
+  const url='http://localhost:5000/hotels?start_date='+start_date+'&end_date='+end_date+'&user_amenities='+amenities_text+'&lowest_price='+price_low_filter+'&highest_price='+price_high_filter;
   Http.open("GET", url);
   Http.send();
 
@@ -188,28 +217,54 @@ function create_hotel_list() {
     document.getElementById('Hotel_List').innerHTML = '';
     var hotels = JSON.parse(Http.responseText);
     var hotelsLen = Object.keys(hotels).length;
+    if (hotelsLen > 1)
+    {
+      document.getElementById('num_hotels_found').innerHTML = "<b>"+hotelsLen.toString()+" Hotels Found</b>"
+    }else if (hotelsLen == 1){
+      document.getElementById('num_hotels_found').innerHTML = "<b>"+hotelsLen.toString()+" Hotel Found</b>"
+    }else
+    {
+      document.getElementById('num_hotels_found').innerHTML = "<b>No Hotels Found</b>"
+    }
 
     for(var i = 0; i < hotelsLen; i++)
     {
       var hotel = hotels[i];
+      var minPrice = 999999
 
+      for(var j = 0; j < Object.keys(hotel.ROOMS).length; j++)
+      {
+        if (minPrice > hotel.ROOMS[j])
+        {
+          minPrice = hotel.ROOMS[j];
+        }
+      }
       var hotel_card = `
       <div class="w3-row w3-border">
         <div class="w3-third w3-container">
-          <center><img src="./images/hotel_icon_2.jpeg" style = "width:300px;height:300px;"></img></center>
+          <center><img src="`+hotel.IMG_URL+`" style = "width:300px;height:300px;"></img></center>
         </div>
-        <div class="w3-third w3-container">
-          <center><h2><b>`+hotel.Name+`</b></h2></center>
-          <h5><b>Location:</b> Houston, TX</h5>
-          <h5><b>Features:</b> This hotel offers free wifi,free breakfast,bar, and pet friendly.</h5>
-          <h5><b>Reviews:</b> 4.8/5 Excellent (23 Reviews)</h5>
-        </div>
-        <div class="w3-third w3-container">
+        <div class="w3-twothird w3-container">
+          <center><h3><b>`+hotel.Name+`</b></h3></center>
+
+          <center><h3><b>Amenities:</b></h3></center>
+          <center><h4>`+Object.keys(hotel.AMENITIES)+`</h4></center>
+
+          <center><h3><b>Rooms Available:</b></h3></center>
+          <center><h4><b>`+hotel.NUM_OF_ROOMS+`</b></h4></center>
+
           <center><h3><b>Price:</b></h3></center>
-          <center><h5>$100<h5></center>
+          <center><h4><b>$`+minPrice.toString()+`</b></h4></center>
+
+          <center><a class="w3-button w3-blue w3-xlarge" onclick="open_hotel_page(`+hotel.HID+`)">View Hotel</a></center>
+          <br>
+
         </div>
       </div>
+
+      <br>
       `;
+
 
       var li = document.createElement('li');
       li.innerHTML = hotel_card;

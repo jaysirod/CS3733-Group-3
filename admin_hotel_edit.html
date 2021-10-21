@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Admin Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+
+</style>
+<body onload="populate_hotel_info()">
+<!-- Sidebar -->
+<div class="w3-row">
+
+<div class="w3-onethird w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5" id="mySidebar">
+  <br>
+  <center><h4 ><b>Admin Menu</b></h4></center>
+  <br>
+  <center><h4><b>Welcome AdminName!</b></h4></center>
+  <br>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Hotels</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Staff</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Analytics</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Make a Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Delete a Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Check-in</a>
+</div>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+
+<div class="w3-main" style="margin-left:250px;margin-right:50px;">
+  <center><h2>Edit/View Hotel</h2></center>
+  <br>
+  <br>
+
+  <form class = "w3-container w3-border">
+      <h2>Hotel Information</h2>
+
+      <label>Hotel name:</label>
+      <input class="w3-input w3-border" type="text" id="hotel_name" required>
+      <br>
+      <label>Number of Rooms:</label>
+      <input class="w3-input w3-border" type="text" id="num_rooms" required>
+      <br>
+      <label>Phone number:</label>
+      <input class="w3-input w3-border" type="text" id="phone_number" required>
+      <br>
+      <label>Hotel Image:</label>
+      <br>
+      <img id="hotel_img" style="width:300px;height:300px;">
+      <br>
+      <br>
+      <input type="file" id="new_hotel_img" name="filename">
+
+      <br>
+      <br>
+      <br>
+
+      <h2>Room Information</h2>
+
+      <div class="w3-row-padding w3-center">
+        <div class="w3-third" >
+          <center><img id="standard_image" style = "width:300px;height:300px;"></img></center>
+          <h2><b>Standard</b></h2>
+          <label>Price</label>
+          <input class="w3-input w3-border" type="text" id="standard_price" required>
+          <br>
+          <label>Update Room Image</label>
+          <br>
+          <input type="file" id="new_standard_img" name="filename">
+          <br>
+
+        </div>
+
+        <div class="w3-third">
+          <center><img id="queen_image" style = "width:300px;height:300px;"></img></center>
+          <h2><b>Queen</b></h2>
+          <label>Price</label>
+          <input class="w3-input w3-border" type="text" id="queen_price" required>
+          <br>
+          <label>Update Room Image</label>
+          <br>
+          <input type="file" id="new_queen_img" name="filename">
+          <br>
+        </div>
+
+        <div class="w3-third">
+          <center><img id="king_image" style = "width:300px;height:300px;"></img></center>
+          <h2><b>King</b></h2>
+          <label>Price</label>
+          <input class="w3-input w3-border" type="text" id="king_price"required>
+          <br>
+          <label>Update Room Image</label>
+          <br>
+          <input type="file" id="new_king_img" name="filename">
+          <br>
+        </div>
+      </div>
+
+
+      <br>
+      <br>
+      <br>
+
+      <h2>Amenities Information</h2>
+
+      <div class="w3-container">
+        <div class="w3-half">
+        <h3>Add Amenity</h3>
+        <label><h4>Amenity</h4></label>
+        <select name="Availability" id="amenity_type">
+          <option value="Gym">Gym</option>
+          <option value="Spa">Spa</option>
+          <option value="Pool">Pool</option>
+          <option value="Business">Business Office</option>
+          <option value="WiFi">WiFi</option>
+        </select>
+        <br>
+        <br>
+        <a class="w3-button w3-small w3-black">Add Amenity</a>
+        </div>
+
+        <div class="w3-half">
+          <table class="w3-table w3-striped w3-white" id="current_amenities_table">
+
+          </table>
+
+        </div>
+      </div>
+
+      <br>
+      <br>
+      <center><a class="w3-button w3-xlarge w3-black">Save Changes</a></center>
+      <br>
+      <br>
+  </form>
+
+  <br>
+  <br>
+</div>
+
+
+
+<!-- END MAIN -->
+</div>
+</div>
+
+<script>
+
+function populate_hotel_info()
+{
+    var HID = localStorage.getItem("HID");
+
+    const Http = new XMLHttpRequest();
+    const url='http://localhost:5000/admin_hotel_info?HID='+HID;
+    Http.open("GET", url);
+    Http.send();
+
+
+    Http.onreadystatechange = (e) => {
+
+      var hotel_info = JSON.parse(Http.responseText);
+      var amenities_len = Object.keys(hotel_info[0].AMENITIES).length;
+
+      document.getElementById('hotel_name').value = hotel_info[0].Name;
+      document.getElementById('num_rooms').value = hotel_info[0].NUM_OF_ROOMS;
+      document.getElementById('phone_number').value = hotel_info[0].PHONE_NUMBER;
+      document.getElementById('hotel_img').src = hotel_info[0].IMG_URL;
+      document.getElementById('standard_image').src = hotel_info[0].ROOMS.Standard.IMAGE_URL
+      document.getElementById('standard_price').value = hotel_info[0].ROOMS.Standard.PRICE;
+      document.getElementById('queen_image').src = hotel_info[0].ROOMS.Queen.IMAGE_URL
+      document.getElementById('queen_price').value = hotel_info[0].ROOMS.Queen.PRICE;
+      document.getElementById('king_image').src = hotel_info[0].ROOMS.King.IMAGE_URL
+      document.getElementById('king_price').value = hotel_info[0].ROOMS.King.PRICE;
+
+      document.getElementById('current_amenities_table').innerHTML = '';
+      for(var i = 0 ; i < amenities_len; i++)
+      {
+        var amenity_card = `
+        <tr>
+          <td>
+            <h4>`+hotel_info[0].AMENITIES[i].TYPE+`</h4>
+          </td>
+          <td>
+          <select name="Availability" value="`+hotel_info[0].AMENITIES[i].AVAILABILITY+`" id="amenities_availability">
+              <option value="Open">Open</option>
+              <option value="Closed">Closed</option>
+          </select>
+          </td>
+          <td>
+          <a class="w3-button w3-small w3-black">Delete Amenity</a>
+          </td>
+        </tr>
+        `;
+        var tr = document.createElement('tr');
+        tr.innerHTML = amenity_card;
+        document.getElementById('current_amenities_table').appendChild(tr);
+
+      }
+
+
+      }
+
+  }
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

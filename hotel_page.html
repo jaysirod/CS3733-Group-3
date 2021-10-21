@@ -10,7 +10,11 @@
 body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
 </style>
-<body>
+
+
+
+
+<body onload="add_rooms()">
 
 <!-- Navigation Bar -->
 <div class="w3-bar w3-white w3-large">
@@ -26,20 +30,19 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
 
 <div class="w3-container" style="padding:30px 16px" id="hotel_information">
-  <h3 class="w3-center"><b>Your stay: Monday March 23,2018 - Thursday March 26,2018 | 1 Adult , 0 Children</b></h3><br><br>
+  <h3 class="w3-center" id="reservation_details"><b>Your Stay:</b></h3><br><br>
   <div>
     <div class="w3-row">
       <div class="w3-third w3-container">
-        <center><img src="./images/hotel_icon_1.jpeg" style = "width:300px;height:300px;"></img></center>
+        <center><img id="hotel_img" style = "width:300px;height:300px;"></img></center>
         </div>
         <div class="w3-third w3-container">
         </div>
         <div class="w3-third w3-container">
           <center>
-            <h2><b>Vyatt</b></h2>
-            <h5><b>Location:</b> San Antonio, TX</h5>
-            <h5><b>Features:</b> This hotel offers a gym, free wifi, and free breakfast.</h5>
-            <h5><b>Reviews:</b> 4.8/5 Excellent (23 Reviews)</h5>
+            <h2 id="hotel_name"><b>name</b></h2>
+            <h4><b>Amenities:</b></h4>
+            <h5 id="hotel_amenities"><b>amenities</b></h5>
           </center>
         </div>
       </div>
@@ -49,49 +52,97 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 <hr >
 
 
-<div class="w3-container" style="padding:30px 16px" id="rooms">
-  <h3 class="w3-center">Rooms</h3>
-  <div class="w3-row-padding" style="margin-top:30px">
-    <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-card">
-        <img src="./images/hotel_room_img.jpeg" alt="John" style="width:100%">
-        <div class="w3-container">
-          <h3>1 King bed room</h3>
-          <p><button class="w3-button w3-blue w3-block">Book for $200</button></p>
-        </div>
-      </div>
+<div class="w3-container" style="padding:60px 16px" id="about">
+  <h1 class="w3-center">Rooms</h1>
+
+  <div class="w3-row-padding w3-center">
+    <div class="w3-third" >
+      <center><img id="standard-image" style = "width:300px;height:300px;"></img></center>
+      <h2><b>Standard</b></h2>
+      <center><h3 id="standard-price"><b>$100 Per Night</b></h3></center>
+      <a class="w3-button w3-block w3-black">Reserve Room!</a>
+      <br>
+
     </div>
-    <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-card">
-        <img src="./images/hotel_room_img.jpeg" alt="John" style="width:100%">
-        <div class="w3-container">
-          <h3>1 Queen bed room</h3>
-          <p><button class="w3-button w3-blue w3-block">Book for $100</button></p>
-        </div>
-      </div>
+
+    <div class="w3-third">
+      <center><img id="queen-image" style = "width:300px;height:300px;"></img></center>
+      <h2><b>Queen</b></h2>
+      <center><h3 id="queen-price"><b>$100 Per Night</b></h3></center>
+      <a class="w3-button w3-block w3-black">Reserve Room!</a>
+      <br>
     </div>
-    <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-card">
-        <img src="./images/hotel_room_img.jpeg" alt="John" style="width:100%">
-        <div class="w3-container">
-          <h3>2 King bed room</h3>
-          <p><button class="w3-button w3-blue w3-block">Book for $300</button></p>
-        </div>
-      </div>
-    </div>
-    <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-card">
-        <img src="./images/hotel_room_img.jpeg" alt="John" style="width:100%">
-        <div class="w3-container">
-          <h3>2 twin bed room</h3>
-          <p><button class="w3-button w3-blue w3-block">Book for $105</button></p>
-        </div>
-      </div>
+
+    <div class="w3-third">
+      <center><img id="king-image" style = "width:300px;height:300px;"></img></center>
+      <h2><b>King</b></h2>
+      <center><h3 id="king-price" ><b>$100 Per Night</b></h3></center>
+      <a class="w3-button w3-block w3-black">Reserve Room!</a>
+      <br>
     </div>
   </div>
 </div>
 
 </body>
+
+
+
+
+
+<script>
+
+
+function add_rooms()
+{
+
+  var HID = localStorage.getItem("HID");
+  var start_date = localStorage.getItem("Start_Date");
+  var end_date = localStorage.getItem("End_Date");
+
+  var myRegexp = new RegExp("([0-9]*)-([0-9]*)-([0-9]*)", "g");
+  var matchStart = myRegexp.exec(start_date);
+
+  var start_day = matchStart[3]
+  var start_month = matchStart[2]
+  var start_year = matchStart[1]
+
+  var myRegexp1 = new RegExp("([0-9]*)-([0-9]*)-([0-9]*)", "g");
+  var matchEnd = myRegexp1.exec(end_date);
+
+  var end_day = matchEnd[3]
+  var end_month = matchEnd[2]
+  var end_year = matchEnd[1]
+
+
+  document.getElementById('reservation_details').innerHTML = '<b>Your Stay : '+start_month+'/'+start_day+'/'+start_year+' -> '+end_month+'/'+end_day+'/'+end_year+'</b>'
+
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/hotel_info?HID='+HID+'&start_date='+start_date+'&end_date='+end_date;
+  Http.open("GET", url);
+  Http.send();
+
+
+
+  Http.onreadystatechange = (e) =>
+  {
+    var hotel_info = JSON.parse(Http.responseText);
+    document.getElementById('hotel_img').src = hotel_info[0].IMG_URL;
+    document.getElementById('hotel_name').innerHTML = '<b>'+hotel_info[0].Name+'</b>';
+    document.getElementById('hotel_amenities').innerHTML = '<b>'+Object.keys(hotel_info[0].AMENITIES)+'</b>';
+    document.getElementById('standard-price').innerHTML = '<b> $'+hotel_info[0].ROOMS.Standard.PRICE+' Per Night</b>';
+    document.getElementById('queen-price').innerHTML = '<b> $'+hotel_info[0].ROOMS.Queen.PRICE+' Per Night</b>';
+    document.getElementById('king-price').innerHTML = '<b> $'+hotel_info[0].ROOMS.King.PRICE+' Per Night</b>';
+    document.getElementById('standard-image').src = hotel_info[0].ROOMS.Standard.IMAGE_URL;
+    document.getElementById('queen-image').src = hotel_info[0].ROOMS.Queen.IMAGE_URL;
+    document.getElementById('king-image').src = hotel_info[0].ROOMS.King.IMAGE_URL;
+
+
+  }
+
+}
+
+
+</script>
 
 
 </html>

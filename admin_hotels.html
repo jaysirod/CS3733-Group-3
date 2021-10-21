@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Admin Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+
+</style>
+<body onload=get_hotels()>
+<!-- Sidebar -->
+<div class="w3-row">
+
+<div class="w3-onethird w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5" id="mySidebar">
+  <br>
+  <center><h4 ><b>Admin Menu</b></h4></center>
+  <br>
+  <center><h4><b>Welcome AdminName!</b></h4></center>
+  <br>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Hotels</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Staff</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Analytics</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Make a Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Delete a Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Check-in</a>
+</div>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+
+<div class="w3-main" style="margin-left:250px;margin-right:10px;">
+  <h2>Hotels:</h2>
+<div>
+  <ul style="list-style-type: none;margin:0px;padding:0px" id="Hotel_List">
+
+  </ul>
+</div>
+
+
+
+
+<!-- END MAIN -->
+</div>
+</div>
+
+<script>
+
+function open_hotel_page(HID)
+{
+  localStorage.setItem("HID",HID);
+
+  window.open("./admin_hotel_edit.html");
+}
+
+
+function get_hotels()
+{
+
+    const Http = new XMLHttpRequest();
+    const url='http://localhost:5000/admin_hotels';
+    Http.open("GET", url);
+    Http.send();
+
+
+    Http.onreadystatechange = (e) => {
+      document.getElementById('Hotel_List').innerHTML = '';
+      var hotels = JSON.parse(Http.responseText);
+      var hotelsLen = Object.keys(hotels).length;
+
+      for(var i = 0; i < hotelsLen; i++)
+      {
+        var hotel = hotels[i];
+
+        var hotel_card = `
+        <div class="w3-row w3-border">
+          <div class="w3-third w3-container">
+            <center><img src="`+hotel.IMG_URL+`" style = "width:300px;height:300px;"></img></center>
+          </div>
+          <div class="w3-twothird w3-container">
+            <center><h3><b>`+hotel.Name+`</b></h3></center>
+
+            <center><h3><b>Amenities:</b></h3></center>
+            <center><h4>`+Object.keys(hotel.AMENITIES)+`</h4></center>
+
+            <center><a class="w3-button w3-blue w3-xlarge" onclick="open_hotel_page(`+hotel.HID+`)">View/Edit Hotel</a></center>
+            <br>
+
+          </div>
+        </div>
+
+        <br>
+        `;
+
+        var li = document.createElement('li');
+        li.innerHTML = hotel_card;
+        document.getElementById('Hotel_List').appendChild(li);
+
+      }
+
+    }
+
+
+}
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
