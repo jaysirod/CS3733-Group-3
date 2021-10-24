@@ -26,27 +26,32 @@ conn.execute('''CREATE TABLE HOTEL
          NAME             TEXT    NOT NULL,
          NUM_OF_ROOMS     INT     NOT NULL,
          IMG_URL          TEXT    NOT NULL,
+         WEEKEND_PERCENT  TEXT    NOT NULL,
          PHONE_NUMBER     INT     NOT NULL);''')
 
 
 conn.execute('''CREATE TABLE AMENITIES
-         (HID             INT     NOT NULL,
+         (HID             TEXT     NOT NULL,
          TYPE             TEXT    NOT NULL,
-         AVAILABILITY     INT     NOT NULL);''')
+         AVAILABILITY     TEXT     NOT NULL);''')
 
 conn.execute('''CREATE TABLE HOTEL_ROOM
-         (HID             INT     NOT NULL,
+         (HID             TEXT     NOT NULL,
          NUM              TEXT    NOT NULL,
-         TYPE             INT     NOT NULL,
+         TYPE             TEXT     NOT NULL,
          IMG_URL          TEXT    NOT NULL,
          PRICE            INT     NOT NULL);''')
 
 conn.execute('''CREATE TABLE RESERVATIONS
-         (HID             INT     NOT NULL,
+         (HID             TEXT     NOT NULL,
          UID              TEXT    NOT NULL,
-         RID              INT     NOT NULL,
-         START_DATE       INT     NOT NULL,
-         END_DATE         INT     NOT NULL);''')
+         RID              TEXT     NOT NULL,
+         ROOM_TYPE        TEXT   NOT NULL,
+         START_DATE       TEXT     NOT NULL,
+         PRICE            TEXT    NOT NULL,
+         NUM_ADULTS            TEXT    NOT NULL,
+         NUM_CHILDREN            TEXT    NOT NULL,
+         END_DATE         TEXT     NOT NULL);''')
 
 
 

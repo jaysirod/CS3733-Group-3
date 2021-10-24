@@ -40,19 +40,46 @@ def add_users():
     conn = sqlite3.connect('test_DB.db')
     print("Opened database successfully")
     conn.execute("INSERT INTO USERS (UID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUM,PASSWORD) \
-          VALUES (1000, 'Mario', 'De Jesus', 'test@test.com', 2103075408,'password123')")
+          VALUES ('1000', 'Mario', 'De Jesus', 'test@test.com', 2103075408,'password123')")
 
     conn.execute("INSERT INTO USERS (UID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUM,PASSWORD) \
-          VALUES (2000, 'Juan-Carlos', 'Rodriguez', 'test@test.com', 2101234567,'password123')")
+          VALUES ('2000', 'Juan-Carlos', 'Rodriguez', 'test@test.com', 2101234567,'password123')")
 
     conn.execute("INSERT INTO USERS (UID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUM,PASSWORD) \
-          VALUES (3000, 'Alan', 'Mendoza', 'test@test.com', 2101234567,'password123')")
+          VALUES ('3000', 'Alan', 'Mendoza', 'test@test.com', 2101234567,'password123')")
 
     conn.execute("INSERT INTO USERS (UID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUM,PASSWORD) \
-          VALUES (4000, 'David', 'Jackson', 'test@test.com', 2101234567,'password123')")
+          VALUES ('4000', 'David', 'Jackson', 'test@test.com', 2101234567,'password123')")
 
     conn.execute("INSERT INTO USERS (UID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUM,PASSWORD) \
-          VALUES (5000, 'Miguel', 'Alejandro', 'test@test.com', 2101234567,'password123')")
+          VALUES ('5000', 'Miguel', 'Alejandro', 'test@test.com', 2101234567,'password123')")
+
+
+    conn.commit()
+    print("Successfully Added Users to Database")
+    conn.close()
+
+
+
+
+
+def add_admin():
+    conn = sqlite3.connect('test_DB.db')
+    print("Opened database successfully")
+    conn.execute("INSERT INTO ADMIN (UID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUM,SALARY,PASSWORD) \
+          VALUES ('1000', 'Mario', 'De Jesus', 'test@test.com', 2103075408,10000,'password123')")
+
+    conn.execute("INSERT INTO ADMIN (UID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUM,SALARY,PASSWORD) \
+          VALUES ('2000', 'Juan-Carlos', 'Rodriguez', 'test@test.com', 2101234567,10000,'password123')")
+
+    conn.execute("INSERT INTO ADMIN (UID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUM,SALARY,PASSWORD) \
+          VALUES ('3000', 'Alan', 'Mendoza', 'test@test.com', 2101234567,10000,'password123')")
+
+    conn.execute("INSERT INTO ADMIN (UID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUM,SALARY,PASSWORD) \
+          VALUES ('4000', 'David', 'Jackson', 'test@test.com', 2101234567,10000,'password123')")
+
+    conn.execute("INSERT INTO ADMIN (UID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUM,SALARY,PASSWORD) \
+          VALUES ('5000', 'Miguel', 'Alejandro', 'test@test.com', 2101234567,10000,'password123')")
 
 
     conn.commit()
@@ -64,14 +91,31 @@ def add_users():
 def add_hotels():
     conn = sqlite3.connect('test_DB.db')
     print("Opened database successfully")
-    conn.execute("INSERT INTO HOTEL (HID,NAME,NUM_OF_ROOMS,IMG_URL,PHONE_NUMBER) \
-          VALUES (1000, 'The Magnolia All Suites', 20, './hotel_images/hotel_img1.jpg', 2101234567)")
+    conn.execute("INSERT INTO HOTEL (HID,NAME,NUM_OF_ROOMS,IMG_URL,WEEKEND_PERCENT,PHONE_NUMBER) \
+          VALUES ('1000', 'The Magnolia All Suites', 20, './hotel_images/hotel_img1.jpg','25', 2101234567)")
 
-    conn.execute("INSERT INTO HOTEL (HID,NAME,NUM_OF_ROOMS,IMG_URL,PHONE_NUMBER) \
-          VALUES (2000, 'The Lofts at Town Centre', 60, './hotel_images/hotel_img2.jpg', 2101234567)")
+    conn.execute("INSERT INTO HOTEL (HID,NAME,NUM_OF_ROOMS,IMG_URL,WEEKEND_PERCENT,PHONE_NUMBER) \
+          VALUES ('2000', 'The Lofts at Town Centre', 60, './hotel_images/hotel_img2.jpg','35', 2101234567)")
 
-    conn.execute("INSERT INTO HOTEL (HID,NAME,NUM_OF_ROOMS,IMG_URL,PHONE_NUMBER) \
-          VALUES (3000, 'Park North Hotel', 100,'./hotel_images/hotel_img3.jpg', 2101234567)")
+    conn.execute("INSERT INTO HOTEL (HID,NAME,NUM_OF_ROOMS,IMG_URL,WEEKEND_PERCENT,PHONE_NUMBER) \
+          VALUES ('3000', 'Park North Hotel', 100,'./hotel_images/hotel_img3.jpg','15', 2101234567)")
+
+    conn.commit()
+    print("Successfully Added Hotels to Database")
+    conn.close()
+
+
+def add_reservations():
+    conn = sqlite3.connect('test_DB.db')
+    print("Opened database successfully")
+    conn.execute("INSERT INTO RESERVATIONS (HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE) \
+          VALUES ('1000', '1000', '1000', 'Standard','2021-10-30', 100,1,0,'2021-11-3')")
+
+    conn.execute("INSERT INTO RESERVATIONS (HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE) \
+          VALUES ('2000', '1000', '2000', 'Standard','2020-5-6', 100,1,0,'2020-6-7')")
+
+    conn.execute("INSERT INTO RESERVATIONS (HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE) \
+          VALUES ('3000', '1000', '3000', 'Queen','2021-10-5', 100,1,0,'2021-10-7')")
 
     conn.commit()
     print("Successfully Added Hotels to Database")
@@ -163,8 +207,34 @@ def add_hotel_rooms():
     print("Successfully Added Hotel Rooms to Database")
     conn.close()
 
+
+def add_entry():
+    conn = sqlite3.connect('test_DB.db')
+    print("Opened database successfully")
+    conn.execute("INSERT INTO RESERVATIONS (HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE) \
+          VALUES ('1000', '1000', '10023', 'Standard','2021-10-23', 100,1,0,'2021-11-3')")
+
+    conn.execute("INSERT INTO RESERVATIONS (HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE) \
+          VALUES ('1000', '1000', '10023', 'Standard','2021-10-23', 100,1,0,'2021-11-3')")
+
+    conn.execute("INSERT INTO RESERVATIONS (HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE) \
+          VALUES ('1000', '1000', '10023', 'Standard','2021-10-20', 100,1,0,'2021-11-3')")
+
+    conn.execute("INSERT INTO RESERVATIONS (HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE) \
+          VALUES ('1000', '1000', '10023', 'Standard','2021-9-20', 100,1,0,'2021-11-3')")
+
+    conn.execute("INSERT INTO RESERVATIONS (HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE) \
+          VALUES ('1000', '1000', '10023', 'Standard','2021-10-30', 100,1,0,'2021-11-3')")
+
+    conn.commit()
+    print("Successfully Added Hotel Rooms to Database")
+    conn.close()
+
+
 if __name__ == '__main__':
     add_anemities()
     add_users()
     add_hotels()
     add_hotel_rooms()
+    add_admin()
+    add_reservations()

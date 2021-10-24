@@ -34,6 +34,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
 <div class="w3-main" style="margin-left:250px;margin-right:10px;">
   <h2>Hotels:</h2>
+  <a class="w3-button w3-green w3-xlarge" onclick="add_hotel()">Add Hotel</a>
+  <br>
+  <br>
 <div>
   <ul style="list-style-type: none;margin:0px;padding:0px" id="Hotel_List">
 
@@ -48,6 +51,29 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 </div>
 
 <script>
+
+function add_hotel()
+{
+  window.open("./admin_add_hotel.html");
+}
+
+function delete_hotel(hotel_id)
+{
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/delete_hotel?HID='+hotel_id;
+  Http.open("GET", url);
+  Http.send();
+
+
+  Http.onreadystatechange = (e) => {
+    if (parseInt(Http.responseText) == 0)
+    {
+      alert("Hotel Successfully Deleted!");
+      location.reload();
+    }
+  }
+
+}
 
 function open_hotel_page(HID)
 {
@@ -87,6 +113,10 @@ function get_hotels()
             <center><h4>`+Object.keys(hotel.AMENITIES)+`</h4></center>
 
             <center><a class="w3-button w3-blue w3-xlarge" onclick="open_hotel_page(`+hotel.HID+`)">View/Edit Hotel</a></center>
+            <br>
+            <br>
+            <center><a class="w3-button w3-red w3-xlarge" onclick="delete_hotel(`+hotel.HID+`)">Delete Hotel</a></center>
+
             <br>
 
           </div>

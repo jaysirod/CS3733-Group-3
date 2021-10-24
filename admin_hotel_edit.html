@@ -37,7 +37,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   <br>
   <br>
 
-  <form class = "w3-container w3-border">
+  <form action = "http://localhost:5000/uploader" method = "POST" class = "w3-container w3-border" enctype="multipart/form-data">
       <h2>Hotel Information</h2>
 
       <label>Hotel name:</label>
@@ -49,12 +49,16 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
       <label>Phone number:</label>
       <input class="w3-input w3-border" type="text" id="phone_number" required>
       <br>
+      <label>Weekend Percent Increase:</label>
+      <input class="w3-input w3-border" type="text" id="weekend_percent" required>
+      <br>
       <label>Hotel Image:</label>
       <br>
       <img id="hotel_img" style="width:300px;height:300px;">
       <br>
       <br>
-      <input type="file" id="new_hotel_img" name="filename">
+
+      <input type="file" id="new_hotel_img" name="hotel_img">
 
       <br>
       <br>
@@ -71,7 +75,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
           <br>
           <label>Update Room Image</label>
           <br>
-          <input type="file" id="new_standard_img" name="filename">
+          <input type="file" id="new_standard_img" name="standard_img">
           <br>
 
         </div>
@@ -84,7 +88,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
           <br>
           <label>Update Room Image</label>
           <br>
-          <input type="file" id="new_queen_img" name="filename">
+          <input type="file" id="new_queen_img" name="queen_img">
           <br>
         </div>
 
@@ -96,7 +100,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
           <br>
           <label>Update Room Image</label>
           <br>
-          <input type="file" id="new_king_img" name="filename">
+          <input type="file" id="new_king_img" name="king_img">
           <br>
         </div>
       </div>
@@ -116,12 +120,12 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
           <option value="Gym">Gym</option>
           <option value="Spa">Spa</option>
           <option value="Pool">Pool</option>
-          <option value="Business">Business Office</option>
+          <option value="Business Office">Business Office</option>
           <option value="WiFi">WiFi</option>
         </select>
         <br>
         <br>
-        <a class="w3-button w3-small w3-black">Add Amenity</a>
+        <a class="w3-button w3-small w3-black" onclick="add_amenity_to_table()">Add Amenity</a>
         </div>
 
         <div class="w3-half">
@@ -134,7 +138,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
       <br>
       <br>
-      <center><a class="w3-button w3-xlarge w3-black">Save Changes</a></center>
+      <center><input class="w3-button w3-xlarge w3-black" type = "submit" value="Save Changes" onclick="update_hotel()"></center>
+
       <br>
       <br>
   </form>
@@ -150,6 +155,162 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 </div>
 
 <script>
+
+
+function update_hotel()
+{
+
+  var HID = localStorage.getItem("HID");
+  var hotel_name = document.getElementById('hotel_name').value;
+  var num_rooms = document.getElementById('num_rooms').value;
+  var phone_number = document.getElementById('phone_number').value;
+  var weekend_percent = document.getElementById('weekend_percent').value;
+  var new_hotel_img = document.getElementById('new_hotel_img').value.split(/(\\|\/)/g).pop();
+  var new_standard_img = document.getElementById('new_standard_img').value.split(/(\\|\/)/g).pop();
+  var standard_price = document.getElementById('standard_price').value;
+  var new_queen_img = document.getElementById('new_queen_img').value.split(/(\\|\/)/g).pop();
+  var queen_price = document.getElementById('queen_price').value;
+  var new_king_img = document.getElementById('new_king_img').value.split(/(\\|\/)/g).pop();
+  var king_price = document.getElementById('king_price').value;
+
+  //.replace(/[\/\\]/g, "-")
+
+  var amenities_len = (document.getElementById("current_amenities_table").rows.length) -1;
+  var amenities = "";
+  var amenity_availability = "";
+
+
+  for(var i = 0 ; i < amenities_len; i++)
+  {
+    //amenities.push(document.getElementById("amenity_"+i).innerHTML);
+    //amenity_availability.push(document.getElementById("availability_"+i).value);
+
+    amenities += document.getElementById("amenity_"+i).innerHTML+",";
+    amenity_availability += document.getElementById("availability_"+i).value+",";
+
+
+  }
+
+
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/update_hotel?HID='+HID+'&hotel_name='+hotel_name+'&num_of_rooms='+num_rooms+'&hotel_img='+new_hotel_img+'&weekend_percent='+weekend_percent+'&phone_number='+phone_number+'&standard_image='+new_standard_img+'&standard_price='+standard_price+'&queen_image='+new_queen_img+'&queen_price='+queen_price+'&king_image='+new_king_img+'&king_price='+king_price+'&amenities='+amenities+'&amenities_availability='+amenity_availability;
+  Http.open("GET", url);
+  Http.send();
+
+  Http.onreadystatechange = (e) => {
+    if (parseInt(Http.responseText) == 0)
+    {
+      alert("Hotel Successfully Updated!");
+    }
+  }
+
+}
+
+
+
+function delete_amenity(delete_index)
+{
+  var amenities_len = (document.getElementById("current_amenities_table").rows.length) -1;
+  var count = 0;
+  var amenities = [];
+  var amenity_availability = [];
+
+  for(var i = 0 ; i < amenities_len; i++)
+  {
+    if (("delete_"+i) == delete_index.toString())
+    {
+      continue;
+    }
+
+    amenities.push(document.getElementById("amenity_"+i).innerHTML);
+    amenity_availability.push(document.getElementById("availability_"+i).value);
+  }
+
+
+
+  document.getElementById('current_amenities_table').innerHTML = '';
+  var amenity_header = `
+  <tr>
+    <th><h2>Amenity</h2></th>
+    <th><h2>Availability</h2></th>
+    <th><h2>Delete</h2></th>
+  </tr>
+  `;
+
+  var tr = document.createElement('tr');
+  tr.innerHTML = amenity_header;
+  document.getElementById('current_amenities_table').appendChild(tr);
+  for(var i = 0 ; i < amenities.length; i++)
+  {
+    var amenity_card = `
+    <tr>
+      <td>
+        <h4 id="amenity_`+i+`">`+amenities[i]+`</h4>
+      </td>
+      <td>
+      <select name="Availability" id="availability_`+i+`">
+          <option value="Open">Open</option>
+          <option value="Closed">Closed</option>
+      </select>
+      </td>
+      <td>
+      <a class="w3-button w3-small w3-black" id="delete_`+i+`" onclick="delete_amenity(this.id)">Delete Amenity</a>
+      </td>
+    </tr>
+    `;
+    var tr = document.createElement('tr');
+    tr.innerHTML = amenity_card;
+    document.getElementById('current_amenities_table').appendChild(tr);
+    document.getElementById("availability_"+i).value = amenity_availability[i];
+
+  }
+
+
+}
+
+
+
+function add_amenity_to_table()
+{
+  var amenity = document.getElementById("amenity_type").value;
+  var amenity_length = ((document.getElementById("current_amenities_table").rows.length) - 1);
+
+  //console.log(document.getElementById("current_amenities_table").rows.length)
+  //console.log(document.getElementById("amenity_0").innerHTML)
+  //console.log(document.getElementById("availability_0").value)
+  console.log(amenity_length);
+
+  for(var i =0 ; i < amenity_length ; i++ )
+  {
+    console.log((document.getElementById("amenity_"+i).innerHTML));
+      if ((document.getElementById("amenity_"+i).innerHTML) == amenity)
+      {
+        alert("Hotel Already Contains Amenity : "+ amenity);
+        return;
+      }
+  }
+  var amenity_card = `
+  <tr>
+    <td>
+      <h4 id="amenity_`+amenity_length+`">`+amenity+`</h4>
+    </td>
+    <td>
+    <select name="Availability" id="availability_`+amenity_length+`"value="Open">
+        <option value="Open">Open</option>
+        <option value="Closed">Closed</option>
+    </select>
+    </td>
+    <td>
+    <a class="w3-button w3-small w3-black" id="delete_`+amenity_length+`" onclick="delete_amenity(this.id)">Delete Amenity</a>
+    </td>
+  </tr>
+  `;
+  var tr = document.createElement('tr');
+  tr.innerHTML = amenity_card;
+  document.getElementById('current_amenities_table').appendChild(tr);
+
+}
+
 
 function populate_hotel_info()
 {
@@ -169,36 +330,52 @@ function populate_hotel_info()
       document.getElementById('hotel_name').value = hotel_info[0].Name;
       document.getElementById('num_rooms').value = hotel_info[0].NUM_OF_ROOMS;
       document.getElementById('phone_number').value = hotel_info[0].PHONE_NUMBER;
+      document.getElementById('weekend_percent').value = hotel_info[0].WEEKEND_PERCENT;
       document.getElementById('hotel_img').src = hotel_info[0].IMG_URL;
-      document.getElementById('standard_image').src = hotel_info[0].ROOMS.Standard.IMAGE_URL
+      document.getElementById('standard_image').src = hotel_info[0].ROOMS.Standard.IMAGE_URL;
       document.getElementById('standard_price').value = hotel_info[0].ROOMS.Standard.PRICE;
-      document.getElementById('queen_image').src = hotel_info[0].ROOMS.Queen.IMAGE_URL
+      document.getElementById('queen_image').src = hotel_info[0].ROOMS.Queen.IMAGE_URL;
       document.getElementById('queen_price').value = hotel_info[0].ROOMS.Queen.PRICE;
-      document.getElementById('king_image').src = hotel_info[0].ROOMS.King.IMAGE_URL
+      document.getElementById('king_image').src = hotel_info[0].ROOMS.King.IMAGE_URL;
       document.getElementById('king_price').value = hotel_info[0].ROOMS.King.PRICE;
 
+
       document.getElementById('current_amenities_table').innerHTML = '';
+      var amenity_header = `
+      <tr>
+        <th><h2>Amenity</h2></th>
+        <th><h2>Availability</h2></th>
+        <th><h2>Delete</h2></th>
+      </tr>
+      `;
+
+      var tr = document.createElement('tr');
+      tr.innerHTML = amenity_header;
+      document.getElementById('current_amenities_table').appendChild(tr);
+
       for(var i = 0 ; i < amenities_len; i++)
       {
+
         var amenity_card = `
         <tr>
           <td>
-            <h4>`+hotel_info[0].AMENITIES[i].TYPE+`</h4>
+            <h4 id="amenity_`+i+`">`+hotel_info[0].AMENITIES[i].TYPE+`</h4>
           </td>
           <td>
-          <select name="Availability" value="`+hotel_info[0].AMENITIES[i].AVAILABILITY+`" id="amenities_availability">
+          <select name="Availability" id="availability_`+i+`">
               <option value="Open">Open</option>
               <option value="Closed">Closed</option>
           </select>
           </td>
           <td>
-          <a class="w3-button w3-small w3-black">Delete Amenity</a>
+          <a class="w3-button w3-small w3-black" id="delete_`+i+`" onclick="delete_amenity(this.id)">Delete Amenity</a>
           </td>
         </tr>
         `;
         var tr = document.createElement('tr');
         tr.innerHTML = amenity_card;
         document.getElementById('current_amenities_table').appendChild(tr);
+        document.getElementById('availability_'+i).value = hotel_info[0].AMENITIES[i].AVAILABILITY;
 
       }
 

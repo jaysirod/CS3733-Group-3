@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Admin Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+
+</style>
+<body >
+<!-- Sidebar -->
+<div class="w3-row">
+
+<div class="w3-onethird w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5" id="mySidebar">
+  <br>
+  <center><h4 ><b>Admin Menu</b></h4></center>
+  <br>
+  <center><h4><b>Welcome AdminName!</b></h4></center>
+  <br>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Hotels</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Staff</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Analytics</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Make a Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Delete a Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Check-in</a>
+</div>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+
+<div class="w3-main" style="margin-left:250px;margin-right:50px;">
+  <center><h2>Add Hotel</h2></center>
+  <br>
+  <br>
+
+  <form action = "http://localhost:5000/uploader" method = "POST" class = "w3-container w3-border" enctype="multipart/form-data">
+      <h2>Hotel Information</h2>
+
+      <label>Hotel name:</label>
+      <input class="w3-input w3-border" type="text" id="hotel_name" required>
+      <br>
+      <label>Number of Rooms:</label>
+      <input class="w3-input w3-border" type="text" id="num_rooms" required>
+      <br>
+      <label>Phone number:</label>
+      <input class="w3-input w3-border" type="text" id="phone_number" required>
+      <br>
+      <label>Weekend Percent Increase:</label>
+      <input class="w3-input w3-border" type="text" id="weekend_percent" required>
+      <br>
+      <label>Hotel Image:</label>
+      <br>
+
+      <input type="file" id="new_hotel_img" name="hotel_img" required>
+
+      <br>
+      <br>
+      <br>
+
+      <h2>Room Information</h2>
+
+      <div class="w3-row-padding w3-center">
+        <div class="w3-third" >
+          <h2><b>Standard</b></h2>
+          <label>Price</label>
+          <input class="w3-input w3-border" type="text" id="standard_price" required>
+          <br>
+          <label>Room Image</label>
+          <br>
+          <input type="file" id="new_standard_img" name="standard_img" required>
+          <br>
+
+        </div>
+
+        <div class="w3-third">
+          <h2><b>Queen</b></h2>
+          <label>Price</label>
+          <input class="w3-input w3-border" type="text" id="queen_price" required>
+          <br>
+          <label>Room Image</label>
+          <br>
+          <input type="file" id="new_queen_img" name="queen_img" required>
+          <br>
+        </div>
+
+        <div class="w3-third">
+          <h2><b>King</b></h2>
+          <label>Price</label>
+          <input class="w3-input w3-border" type="text" id="king_price" required>
+          <br>
+          <label>Room Image</label>
+          <br>
+          <input type="file" id="new_king_img" name="king_img" required>
+          <br>
+        </div>
+      </div>
+
+
+      <br>
+      <br>
+      <br>
+
+      <h2>Amenities Information</h2>
+
+      <div class="w3-container">
+        <div class="w3-half">
+        <h3>Add Amenity</h3>
+        <label><h4>Amenity</h4></label>
+        <select name="Availability" id="amenity_type">
+          <option value="Gym">Gym</option>
+          <option value="Spa">Spa</option>
+          <option value="Pool">Pool</option>
+          <option value="Business Office">Business Office</option>
+          <option value="WiFi">WiFi</option>
+        </select>
+        <br>
+        <br>
+        <a class="w3-button w3-small w3-black" onclick="add_amenity_to_table()">Add Amenity</a>
+        </div>
+
+        <div class="w3-half">
+          <table class="w3-table w3-striped w3-white" id="current_amenities_table">
+            <tr>
+              <th><h2>Amenity</h2></th>
+              <th><h2>Availability</h2></th>
+              <th><h2>Delete</h2></th>
+            </tr>
+          </table>
+
+        </div>
+      </div>
+
+      <br>
+      <br>
+      <center><input class="w3-button w3-xlarge w3-black" type = "submit" value="Add Hotel" onclick="add_hotel()"></center>
+
+      <br>
+      <br>
+  </form>
+
+  <br>
+  <br>
+</div>
+
+
+
+<!-- END MAIN -->
+</div>
+</div>
+
+<script>
+
+
+function add_hotel()
+{
+  var hotel_name = document.getElementById('hotel_name').value;
+  var num_rooms = document.getElementById('num_rooms').value;
+  var phone_number = document.getElementById('phone_number').value;
+  var weekend_percent = document.getElementById('weekend_percent').value;
+  var new_hotel_img = document.getElementById('new_hotel_img').value.split(/(\\|\/)/g).pop();
+  var new_standard_img = document.getElementById('new_standard_img').value.split(/(\\|\/)/g).pop();
+  var standard_price = document.getElementById('standard_price').value;
+  var new_queen_img = document.getElementById('new_queen_img').value.split(/(\\|\/)/g).pop();
+  var queen_price = document.getElementById('queen_price').value;
+  var new_king_img = document.getElementById('new_king_img').value.split(/(\\|\/)/g).pop();
+  var king_price = document.getElementById('king_price').value;
+
+  //.replace(/[\/\\]/g, "-")
+
+  var amenities_len = (document.getElementById("current_amenities_table").rows.length) -1;
+  var amenities = "";
+  var amenity_availability = "";
+
+
+  for(var i = 0 ; i < amenities_len; i++)
+  {
+    //amenities.push(document.getElementById("amenity_"+i).innerHTML);
+    //amenity_availability.push(document.getElementById("availability_"+i).value);
+
+    amenities += document.getElementById("amenity_"+i).innerHTML+",";
+    amenity_availability += document.getElementById("availability_"+i).value+",";
+
+
+  }
+
+
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/add_hotel?&hotel_name='+hotel_name+'&num_of_rooms='+num_rooms+'&hotel_img='+new_hotel_img+'&weekend_percent='+weekend_percent+'&phone_number='+phone_number+'&standard_image='+new_standard_img+'&standard_price='+standard_price+'&queen_image='+new_queen_img+'&queen_price='+queen_price+'&king_image='+new_king_img+'&king_price='+king_price+'&amenities='+amenities+'&amenities_availability='+amenity_availability;
+  Http.open("GET", url);
+  Http.send();
+
+  Http.onreadystatechange = (e) => {
+    if (parseInt(Http.responseText) == 0)
+    {
+      alert("Hotel Successfully Updated!");
+      location.reload();
+
+    }
+  }
+
+}
+
+
+
+function delete_amenity(delete_index)
+{
+  var amenities_len = (document.getElementById("current_amenities_table").rows.length) -1;
+  var count = 0;
+  var amenities = [];
+  var amenity_availability = [];
+
+  for(var i = 0 ; i < amenities_len; i++)
+  {
+    if (("delete_"+i) == delete_index.toString())
+    {
+      continue;
+    }
+
+    amenities.push(document.getElementById("amenity_"+i).innerHTML);
+    amenity_availability.push(document.getElementById("availability_"+i).value);
+  }
+
+
+
+  document.getElementById('current_amenities_table').innerHTML = '';
+  var amenity_header = `
+  <tr>
+    <th><h2>Amenity</h2></th>
+    <th><h2>Availability</h2></th>
+    <th><h2>Delete</h2></th>
+  </tr>
+  `;
+
+  var tr = document.createElement('tr');
+  tr.innerHTML = amenity_header;
+  document.getElementById('current_amenities_table').appendChild(tr);
+  for(var i = 0 ; i < amenities.length; i++)
+  {
+    var amenity_card = `
+    <tr>
+      <td>
+        <h4 id="amenity_`+i+`">`+amenities[i]+`</h4>
+      </td>
+      <td>
+      <select name="Availability" id="availability_`+i+`">
+          <option value="Open">Open</option>
+          <option value="Closed">Closed</option>
+      </select>
+      </td>
+      <td>
+      <a class="w3-button w3-small w3-black" id="delete_`+i+`" onclick="delete_amenity(this.id)">Delete Amenity</a>
+      </td>
+    </tr>
+    `;
+    var tr = document.createElement('tr');
+    tr.innerHTML = amenity_card;
+    document.getElementById('current_amenities_table').appendChild(tr);
+    document.getElementById("availability_"+i).value = amenity_availability[i];
+
+  }
+
+
+}
+
+
+
+function add_amenity_to_table()
+{
+  var amenity = document.getElementById("amenity_type").value;
+  var amenity_length = ((document.getElementById("current_amenities_table").rows.length) - 1);
+
+  //console.log(document.getElementById("current_amenities_table").rows.length)
+  //console.log(document.getElementById("amenity_0").innerHTML)
+  //console.log(document.getElementById("availability_0").value)
+  console.log(amenity_length);
+
+  for(var i =0 ; i < amenity_length ; i++ )
+  {
+    console.log((document.getElementById("amenity_"+i).innerHTML));
+      if ((document.getElementById("amenity_"+i).innerHTML) == amenity)
+      {
+        alert("Hotel Already Contains Amenity : "+ amenity);
+        return;
+      }
+  }
+  var amenity_card = `
+  <tr>
+    <td>
+      <h4 id="amenity_`+amenity_length+`">`+amenity+`</h4>
+    </td>
+    <td>
+    <select name="Availability" id="availability_`+amenity_length+`"value="Open">
+        <option value="Open">Open</option>
+        <option value="Closed">Closed</option>
+    </select>
+    </td>
+    <td>
+    <a class="w3-button w3-small w3-black" id="delete_`+amenity_length+`" onclick="delete_amenity(this.id)">Delete Amenity</a>
+    </td>
+  </tr>
+  `;
+  var tr = document.createElement('tr');
+  tr.innerHTML = amenity_card;
+  document.getElementById('current_amenities_table').appendChild(tr);
+
+}
+
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

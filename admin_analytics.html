@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Admin Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+
+</style>
+<body onload="populates_filters()">
+<!-- Sidebar -->
+<div class="w3-row">
+
+<div class="w3-onethird w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5" id="mySidebar">
+  <br>
+  <center><h4 ><b>Admin Menu</b></h4></center>
+  <br>
+  <center><h4><b>Welcome AdminName!</b></h4></center>
+  <br>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Hotels</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Staff</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Analytics</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Make a Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Delete a Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Check-in</a>
+</div>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+
+<div class="w3-main" style="margin-left:250px;margin-right:10px;">
+  <h2><i class="fa fa-dashboard"></i> Analytics:</h2>
+  <select name="time_period" id="time_period" class="w3-xlarge">
+      <option value="Today">Today</option>
+      <option value="Yesterday">Yesterday</option>
+      <option value="Past 7 Days">Past 7 Days</option>
+      <option value="Past 30 Days">Past 30 Days</option>
+      <option value="Past 365 Days">Past 365 Days</option>
+      <option value="All Time">All Time</option>
+
+  </select>
+  <select  name="hotel_options" id="hotel_options" class="w3-xlarge">
+  </select>
+
+  <a style="margin-left:20px;" class="w3-button w3-black w3-large" onclick="populate_table()">View Analytics</a>
+  <br>
+  <br>
+<div>
+  <div>
+
+    <!-- Header -->
+
+
+    <div class="w3-row-padding w3-margin-bottom">
+      <div class="w3-third">
+        <div class="w3-container w3-teal w3-padding-16">
+          <div class="w3-left"><i class='fa fa-money	w3-xxxlarge'></i></div>
+          <div class="w3-right">
+            <h3 id="revenue">0</h3>
+          </div>
+          <div class="w3-clear"></div>
+          <h4>Total Revenue</h4>
+        </div>
+      </div>
+      <div class="w3-third">
+        <div class="w3-container w3-teal w3-padding-16">
+          <div class="w3-left"><i class="fa fa-calendar w3-xxxlarge"></i></div>
+          <div class="w3-right">
+            <h3 id="bookings">0</h3>
+          </div>
+          <div class="w3-clear"></div>
+          <h4>Total Bookings</h4>
+        </div>
+      </div>
+      <div class="w3-third">
+        <div class="w3-container w3-teal w3-padding-16">
+          <div class="w3-left"><i class="	fa fa-building w3-xxxlarge"></i></div>
+          <div class="w3-right">
+            <h3 id="popular_room">None</h3>
+          </div>
+          <div class="w3-clear"></div>
+          <h4>Most Popular Hotel Room</h4>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="w3-container">
+      <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white" id="reservation_table">
+
+      </table>
+
+    </div>
+</div>
+
+
+
+
+<!-- END MAIN -->
+</div>
+</div>
+
+<script>
+
+
+function add_staff()
+{
+
+  var first_name = document.getElementById('first_name').value;
+  var last_name = document.getElementById('last_name').value;
+  var phone_number = document.getElementById('phone_number').value;
+  var member_email = document.getElementById('member_email').value;
+  var salary = document.getElementById('salary').value;
+  var password = document.getElementById('password').value;
+
+
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/add_staff_member?&first_name='+first_name+'&last_name='+last_name+'&phone_number='+phone_number+'&member_email='+member_email+'&salary='+salary+'&password='+password;
+  Http.open("GET", url);
+  Http.send();
+
+
+  Http.onreadystatechange = (e) => {
+    if (parseInt(Http.responseText) == 0)
+    {
+      alert("Staff Member Successfully Added!");
+      location.reload();
+
+    }
+  }
+
+
+}
+
+
+function populates_filters()
+{
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/admin_hotels';
+  Http.open("GET", url);
+  Http.send();
+
+
+  Http.onreadystatechange = (e) => {
+    document.getElementById('hotel_options').innerHTML = '';
+    var hotels = JSON.parse(Http.responseText);
+    var hotelsLen = Object.keys(hotels).length;
+
+    for(var i = 0; i < hotelsLen; i++)
+    {
+      var hotel = hotels[i];
+
+
+      var option = document.createElement('option');
+      option.value = hotel.HID;
+      option.id = hotel.HID;
+      option.innerHTML = hotel.Name;
+      document.getElementById('hotel_options').appendChild(option);
+
+    }
+    var option = document.createElement('option');
+    option.value = "All Hotels";
+    option.id = "All Hotels";
+    option.innerHTML = "All Hotels";
+    document.getElementById('hotel_options').appendChild(option);
+
+
+  }
+}
+
+
+
+
+function populate_table()
+{
+  var time_period = document.getElementById('time_period').value;
+  var hotel_id = document.getElementById('hotel_options').value;
+  document.getElementById('revenue').innerHTML = 0;
+  document.getElementById('bookings').innerHTML = 0;
+  document.getElementById('popular_room').innerHTML = "None";
+
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/get_reservations_analytics?time_period='+time_period+'&hotel_id='+hotel_id;
+  Http.open("GET", url);
+  Http.send();
+
+
+  Http.onreadystatechange = (e) => {
+    document.getElementById('reservation_table').innerHTML = '';
+    var reservations = JSON.parse(Http.responseText);
+    var reservation_length = Object.keys(reservations).length;
+
+
+
+          var reservation_header = `
+          <tr>
+            <th><h4>Hotel</h4></th>
+            <th><h4>Reservation Id</h4></th>
+            <th><h4>Room Type</h4></th>
+            <th><h4>Price</h4></th>
+            <th><h4>Number of Adults</h4></th>
+            <th><h4>Number of Children</h4></th>
+            <th><h4>Start Date</h4></th>
+            <th><h4>End Date</h4></th>
+          </tr>
+          `;
+
+          var tr = document.createElement('tr');
+          tr.innerHTML = reservation_header;
+          document.getElementById('reservation_table').appendChild(tr);
+
+          for(var i = 0 ; i < reservation_length-1; i++)
+          {
+
+            var reservation_card = `
+            <tr>
+              <td>
+                <h4 id="staff_`+i+`">`+reservations[i].HID+`</h4>
+              </td>
+              <td>
+                <h4 id="staff_`+i+`">`+reservations[i].RID+`</h4>
+              </td>
+              <td>
+                <h4 id="staff_`+i+`">`+reservations[i].ROOM_TYPE+`</h4>
+              </td>
+              <td>
+                <h4 id="staff_`+i+`">`+reservations[i].PRICE+`</h4>
+              </td>
+              <td>
+                <h4 id="staff_`+i+`">`+reservations[i].NUM_ADULTS+`</h4>
+              </td>
+              <td>
+                <h4 id="staff_`+i+`">`+reservations[i].NUM_CHILDREN+`</h4>
+              </td>
+              <td>
+                <h4 id="staff_`+i+`">`+reservations[i].START_DATE+`</h4>
+              </td>
+              <td>
+                <h4 id="staff_`+i+`">`+reservations[i].END_DATE+`</h4>
+              </td>
+            </tr>
+            `;
+            var tr = document.createElement('tr');
+            tr.innerHTML = reservation_card;
+            document.getElementById('reservation_table').appendChild(tr);
+
+          }
+
+
+          document.getElementById('revenue').innerHTML = reservations[reservation_length-1].Revenue;
+          document.getElementById('bookings').innerHTML = reservations[reservation_length-1].Bookings;
+          document.getElementById('popular_room').innerHTML = reservations[reservation_length-1].Popular_Room;
+
+
+  }
+
+
+}
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

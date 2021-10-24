@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Admin Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+
+</style>
+<body onload="populate_staff_info()">
+<!-- Sidebar -->
+<div class="w3-row">
+
+<div class="w3-onethird w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5" id="mySidebar">
+  <br>
+  <center><h4 ><b>Admin Menu</b></h4></center>
+  <br>
+  <center><h4><b>Welcome AdminName!</b></h4></center>
+  <br>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Hotels</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Staff</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Analytics</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Make a Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Delete a Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Check-in</a>
+</div>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+
+<div class="w3-main" style="margin-left:250px;margin-right:50px;">
+  <center><h2>Add Staff Member</h2></center>
+  <br>
+  <br>
+
+  <form  class = "w3-container w3-border" >
+      <h2>Staff Member Information</h2>
+      <label>First name:</label>
+      <input class="w3-input w3-border" type="text" id="first_name" required>
+      <br>
+      <label>Last Name:</label>
+      <input class="w3-input w3-border" type="text" id="last_name" required>
+      <br>
+      <label>Email:</label>
+      <input class="w3-input w3-border" type="text" id="member_email" required>
+      <br>
+      <label>Phone Number:</label>
+      <input class="w3-input w3-border" type="text" id="phone_number" required>
+      <br>
+      <label>Salary:</label>
+      <input class="w3-input w3-border" type="text" id="salary" required>
+      <br>
+      <label>Password:</label>
+      <input class="w3-input w3-border" type="text" id="password" required>
+      <br>
+      <center><input class="w3-button w3-xlarge w3-black" type = "submit" value="Save Changes" onclick="add_staff()"></center>
+      <br>
+  </form>
+
+  <br>
+  <br>
+</div>
+
+
+
+<!-- END MAIN -->
+</div>
+</div>
+
+<script>
+
+
+function add_staff()
+{
+
+  var first_name = document.getElementById('first_name').value;
+  var last_name = document.getElementById('last_name').value;
+  var phone_number = document.getElementById('phone_number').value;
+  var member_email = document.getElementById('member_email').value;
+  var salary = document.getElementById('salary').value;
+  var password = document.getElementById('password').value;
+
+
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/add_staff_member?&first_name='+first_name+'&last_name='+last_name+'&phone_number='+phone_number+'&member_email='+member_email+'&salary='+salary+'&password='+password;
+  Http.open("GET", url);
+  Http.send();
+
+
+  Http.onreadystatechange = (e) => {
+    if (parseInt(Http.responseText) == 0)
+    {
+      alert("Staff Member Successfully Added!");
+      location.reload();
+
+    }
+  }
+
+
+}
+
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

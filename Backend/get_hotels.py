@@ -5,13 +5,14 @@ import re
 
 
 def create_date(date_string):
-    #CONSISTANT FORMAT mm-dd-yyyy : EXAMPLE: 2/4/2021 or 12/12/2021
+    #CONSISTANT FORMAT yyyy-mm-dd : EXAMPLE: 2/4/2021 or 12/12/2021
 
     processed_date = re.search(r'([0-9]*)-([0-9]*)-([0-9]*)', date_string)
 
-    month = processed_date.group[2]
-    day = processed_date.group[3]
-    year = processed_date.group[1]
+
+    month = int(processed_date.group(2))
+    day = int(processed_date.group(3))
+    year = int(processed_date.group(1))
 
     date = datetime.datetime(year,month,day)
 
