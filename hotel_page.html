@@ -1,6 +1,6 @@
 <html>
 
-<title>Hotel Search</title>
+<title>Hotel Page</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -60,7 +60,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
       <center><img id="standard-image" style = "width:300px;height:300px;"></img></center>
       <h2><b>Standard</b></h2>
       <center><h3 id="standard-price"><b>$100 Per Night</b></h3></center>
-      <a class="w3-button w3-block w3-black">Reserve Room!</a>
+      <center><h4 id="standard-rooms"><b>10 Rooms</b></h4></center>
+      <span id="standard-button"></span>
       <br>
 
     </div>
@@ -69,7 +70,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
       <center><img id="queen-image" style = "width:300px;height:300px;"></img></center>
       <h2><b>Queen</b></h2>
       <center><h3 id="queen-price"><b>$100 Per Night</b></h3></center>
-      <a class="w3-button w3-block w3-black">Reserve Room!</a>
+      <center><h4 id="queen-rooms"><b>10 Rooms</b></h4></center>
+      <span id="queen-button"><a class="w3-button w3-block w3-black">Reserve Room!</a></span>
       <br>
     </div>
 
@@ -77,7 +79,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
       <center><img id="king-image" style = "width:300px;height:300px;"></img></center>
       <h2><b>King</b></h2>
       <center><h3 id="king-price" ><b>$100 Per Night</b></h3></center>
-      <a class="w3-button w3-block w3-black">Reserve Room!</a>
+      <center><h4 id="king-rooms"><b>10 Rooms</b></h4></center>
+      <span id="king-button"><a class="w3-button w3-block w3-black">Reserve Room!</a></span>
       <br>
     </div>
   </div>
@@ -91,6 +94,15 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
 <script>
 
+
+function reserve_room(room_type,price)
+{
+  console.log(room_type)
+  var HID = localStorage.getItem("HID");
+  localStorage.setItem("ROOM_TYPE",room_type);
+  localStorage.setItem("Price",price);
+  window.open("./room_reserve_page.html");
+}
 
 function add_rooms()
 {
@@ -114,7 +126,7 @@ function add_rooms()
   var end_year = matchEnd[1]
 
 
-  document.getElementById('reservation_details').innerHTML = '<b>Your Stay : '+start_month+'/'+start_day+'/'+start_year+' -> '+end_month+'/'+end_day+'/'+end_year+'</b>'
+  document.getElementById('reservation_details').innerHTML = '<b>Your Stay : '+start_month+'/'+start_day+'/'+start_year+' -> '+end_month+'/'+end_day+'/'+end_year+'</b>';
 
   const Http = new XMLHttpRequest();
   const url='http://localhost:5000/hotel_info?HID='+HID+'&start_date='+start_date+'&end_date='+end_date;
@@ -125,13 +137,48 @@ function add_rooms()
 
   Http.onreadystatechange = (e) =>
   {
+
+    var queen_text = "Queen";
+    var Queen = "Queen";
     var hotel_info = JSON.parse(Http.responseText);
     document.getElementById('hotel_img').src = hotel_info[0].IMG_URL;
     document.getElementById('hotel_name').innerHTML = '<b>'+hotel_info[0].Name+'</b>';
     document.getElementById('hotel_amenities').innerHTML = '<b>'+Object.keys(hotel_info[0].AMENITIES)+'</b>';
-    document.getElementById('standard-price').innerHTML = '<b> $'+hotel_info[0].ROOMS.Standard.PRICE+' Per Night</b>';
-    document.getElementById('queen-price').innerHTML = '<b> $'+hotel_info[0].ROOMS.Queen.PRICE+' Per Night</b>';
-    document.getElementById('king-price').innerHTML = '<b> $'+hotel_info[0].ROOMS.King.PRICE+' Per Night</b>';
+    if(hotel_info[0].ROOMS.Standard.AVAILABLE == "True"){
+      document.getElementById('standard-price').innerHTML = '<b> $'+hotel_info[0].ROOMS.Standard.PRICE+' Per Night</b>';
+      document.getElementById('standard-rooms').innerHTML = '<b> '+hotel_info[0].ROOMS.Standard.NUM_OF_ROOMS+' Available</b>';
+      document.getElementById('standard-button').innerHTML = '<button id="Standard" class="w3-button w3-block w3-black" onclick="reserve_room(this.id,'+hotel_info[0].ROOMS.Standard.PRICE+')">Reserve Room!</button>';
+
+    }else
+    {
+      document.getElementById('standard-price').innerHTML = '<b style="color:red"> Unavailable </b>';
+      document.getElementById('standard-rooms').innerHTML = '<b> No Rooms Available </b>';
+
+
+    }
+    if(hotel_info[0].ROOMS.Queen.AVAILABLE == "True"){
+      document.getElementById('queen-price').innerHTML = '<b> $'+hotel_info[0].ROOMS.Queen.PRICE+' Per Night</b>';
+      document.getElementById('queen-rooms').innerHTML = '<b> '+hotel_info[0].ROOMS.Queen.NUM_OF_ROOMS+' Available</b>';
+      document.getElementById('queen-button').innerHTML = '<button id="Queen" class="w3-button w3-block w3-black" onclick="reserve_room(this.id,'+hotel_info[0].ROOMS.Queen.PRICE+')">Reserve Room!</button>';
+
+
+    }else
+    {
+      document.getElementById('queen-price').innerHTML = '<b style="color:red"> Unavailable </b>';
+      document.getElementById('queen-rooms').innerHTML = '<b> No Rooms Available </b>';
+
+    }
+    if(hotel_info[0].ROOMS.King.AVAILABLE == "True"){
+      document.getElementById('king-price').innerHTML = '<b> $'+hotel_info[0].ROOMS.King.PRICE+' Per Night</b>';
+      document.getElementById('king-rooms').innerHTML = '<b> '+hotel_info[0].ROOMS.King.NUM_OF_ROOMS+' Available</b>';
+      document.getElementById('king-button').innerHTML = '<button id="King" class="w3-button w3-block w3-black" onclick="reserve_room(this.id,'+hotel_info[0].ROOMS.King.PRICE+')">Reserve Room!</button>';
+
+    }else
+    {
+      document.getElementById('king-price').innerHTML = '<b style="color:red"> Unavailable </b>';
+      document.getElementById('king-rooms').innerHTML = '<b> No Rooms Available </b>';
+
+    }
     document.getElementById('standard-image').src = hotel_info[0].ROOMS.Standard.IMAGE_URL;
     document.getElementById('queen-image').src = hotel_info[0].ROOMS.Queen.IMAGE_URL;
     document.getElementById('king-image').src = hotel_info[0].ROOMS.King.IMAGE_URL;

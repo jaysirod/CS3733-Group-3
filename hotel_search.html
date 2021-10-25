@@ -76,11 +76,11 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
     </div>
     <div class="w3-col m2">
       <label><i class="fa fa-male"></i> Adults</label>
-      <input class="w3-input w3-border" type="number" placeholder="1">
+      <input id="adult_num" class="w3-input w3-border" type="number" placeholder="1">
     </div>
     <div class="w3-col m2">
-      <label><i class="fa fa-child"></i> Kids</label>
-      <input class="w3-input w3-border" type="number" placeholder="0">
+      <label><i class="fa fa-child"></i> Children</label>
+      <input id="children_num" class="w3-input w3-border" type="number" placeholder="0">
     </div>
     <div class="w3-col m2">
       <label><i class="fa fa-search"></i> Search</label>
@@ -164,9 +164,16 @@ function open_hotel_page(HID)
   var start_date = document.getElementById('start_date').value;
   var end_date = document.getElementById('end_date').value;
 
+
+  var num_adult = document.getElementById('adult_num').value;
+  var num_children = document.getElementById('children_num').value;
+
+
   localStorage.setItem("HID",HID);
   localStorage.setItem("Start_Date",start_date);
   localStorage.setItem("End_Date",end_date);
+  localStorage.setItem("num_adult",num_adult);
+  localStorage.setItem("num_children",num_children);
   window.open("./hotel_page.html");
 
 }

@@ -4,6 +4,56 @@ import datetime
 import re
 
 
+
+
+def create_date(date_string):
+    #CONSISTANT FORMAT yyyy-mm-dd : EXAMPLE: 2/4/2021 or 12/12/2021
+
+    processed_date = re.search(r'([0-9]*)-([0-9]*)-([0-9]*)', date_string)
+
+
+    month = int(processed_date.group(2))
+    day = int(processed_date.group(3))
+    year = int(processed_date.group(1))
+
+    date = datetime.datetime(year,month,day)
+
+    return date
+
+
+def is_room_type_available(conn,HID,room_type,num_of_rooms,user_start_date,user_end_date):
+    # out of total num rooms = 50% will be standard , 30% will be Queen, and 20% will be King = 100% total
+    if str(room_type) == "Standard":
+        num_of_rooms = int(int(num_of_rooms) * 0.50)
+    elif str(room_type) == "Queen":
+        num_of_rooms = int(int(num_of_rooms) * 0.30)
+    elif str(room_type) == "King":
+        num_of_rooms = int(int(num_of_rooms) * 0.20)
+
+
+    cursor = conn.execute("SELECT UID,RID,ROOM_TYPE,START_DATE,END_DATE from RESERVATIONS WHERE HID = '"+str(HID)+"'")
+
+    #traverse through all of reservations.
+    conn.commit()
+    for row in cursor:
+        user_start_date = create_date(str(user_start_date))
+        user_end_date = create_date(str(user_end_date))
+        reservation_start_date = create_date(row[3])
+        reservation_end_date = create_date(row[4])
+
+        #if there is a reservation already conflicting with the time period then decrese the number of rooms
+        if str(room_type) == row[2]:
+            if not ((user_start_date.date() > reservation_start_date.date() and user_start_date.date() > reservation_end_date.date()) or (user_end_date.date() < reservation_start_date.date() and user_end_date.date() < reservation_end_date.date())):
+                num_of_rooms -= 1
+                if num_of_rooms == 0:
+                    return [False,0]
+
+    return [True, num_of_rooms]
+
+
+
+
+
 def is_room_available(conn,HID,start_date,end_date,num_of_rooms):
     cursor = conn.execute("SELECT HID,UID,RID,START_DATE,END_DATE from RESERVATIONS")
 
@@ -17,7 +67,7 @@ def is_room_available(conn,HID,start_date,end_date,num_of_rooms):
             reservation_end_date = create_date(row[4])
 
             #if there is a reservation already conflicting with the time period then decrese the number of rooms
-            if not ((reservation_start_date < user_start_date and reservation_end_date < user_start_date) or (reservation_end_date > user_end_date and reservation_start_date > user_end_date)):
+            if not ((user_start_date.date() > reservation_start_date.date() and user_start_date.date() > reservation_end_date.date()) or (user_end_date.date() < reservation_start_date.date() and user_end_date.date() < reservation_end_date.date())):
                 num_of_rooms -= 1
                 if num_of_rooms == 0:
                     return [False,0]
@@ -44,7 +94,7 @@ def get_hotel_amenities(conn,HID):
     return hotel_amenities
 
 
-def get_hotel_rooms(conn,HID):
+def get_hotel_rooms(conn,HID,num_of_rooms,user_start_date,user_end_date):
 
     cursor = conn.execute("SELECT HID,NUM,TYPE,IMG_URL,PRICE from HOTEL_ROOM WHERE HID="+str(HID))
 
@@ -53,8 +103,12 @@ def get_hotel_rooms(conn,HID):
     count = 0
     for row in cursor:
         if str(HID) == str(row[0]):
-            hotel_rooms[str(row[2])] = {'IMAGE_URL':row[3],'PRICE':row[4]}
-            count += 1
+            rooms = is_room_type_available(conn,HID,row[2],num_of_rooms,user_start_date,user_end_date)
+            if rooms[0] == True:
+                hotel_rooms[str(row[2])] = {'IMAGE_URL':row[3],'PRICE':row[4] , 'AVAILABLE':"True","NUM_OF_ROOMS":str(rooms[1])}
+                count += 1
+            else:
+                hotel_rooms[str(row[2])] = {'IMAGE_URL':row[3],'PRICE':row[4], 'AVAILABLE': "False","NUM_OF_ROOMS":str(rooms[1])}
 
     conn.commit()
 
@@ -73,8 +127,8 @@ def get_hotel_info(HID,start_date,end_date):
     hotel_information = {}
 
     hotel_amenities = get_hotel_amenities(conn,HID)
-    hotel_rooms = get_hotel_rooms(conn,HID)
-    num_of_rooms = is_room_available(conn,HID,start_date,end_date,row[0][2])
+    num_of_rooms = row[0][2]
+    hotel_rooms = get_hotel_rooms(conn,HID,num_of_rooms,start_date,end_date)
 
     hotel_information[0] = {"HID" : HID, "Name" : row[0][1], "NUM_OF_ROOMS" : num_of_rooms, "PHONE_NUMBER" : row[0][4], "AMENITIES" : hotel_amenities, "IMG_URL":row[0][3],"ROOMS": hotel_rooms}
 

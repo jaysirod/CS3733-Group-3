@@ -22,6 +22,8 @@ import update_staff
 import delete_staff
 import add_staff
 import admin_analytics
+import create_reservation
+
 
 app = Flask(__name__)
 CORS(app)
@@ -310,6 +312,28 @@ def admin_get_reservation_analytics():
 
     return reservations_json
 
+@app.route('/create_reservation')
+def reservation_creation():
+    print('[+] Reservation is Being Created')
 
+    HID = request.args.get('HID',type=str)
+    start_date= request.args.get('start_date',type=str)
+    end_date = request.args.get('end_date',type=str)
+    ROOM_TYPE = request.args.get('ROOM_TYPE',type=str)
+    price = request.args.get('price',type=str)
+    num_adult = request.args.get('num_adult',type=str)
+    num_children = request.args.get('num_children',type=str)
+    first_name = request.args.get('first_name',type=str)
+    last_name = request.args.get('last_name',type=str)
+    user_email = request.args.get('user_email',type=str)
+
+
+    UID = str(id_generator.user_id_generate())
+    RID = str(id_generator.reservation_id_generate())
+
+    code = create_reservation.create(HID,UID,RID,start_date,end_date,ROOM_TYPE,price,num_adult,num_children,first_name,last_name,user_email)
+
+    return code
+    
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)

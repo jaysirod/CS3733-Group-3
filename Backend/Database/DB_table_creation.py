@@ -49,6 +49,9 @@ conn.execute('''CREATE TABLE RESERVATIONS
          ROOM_TYPE        TEXT   NOT NULL,
          START_DATE       TEXT     NOT NULL,
          PRICE            TEXT    NOT NULL,
+         EMAIL            TEXT    NOT NULL,
+         FIRST_NAME            TEXT    NOT NULL,
+         LAST_NAME            TEXT    NOT NULL,
          NUM_ADULTS            TEXT    NOT NULL,
          NUM_CHILDREN            TEXT    NOT NULL,
          END_DATE         TEXT     NOT NULL);''')

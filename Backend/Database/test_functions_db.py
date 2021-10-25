@@ -226,6 +226,22 @@ def add_entry():
     conn.execute("INSERT INTO RESERVATIONS (HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE) \
           VALUES ('1000', '1000', '10023', 'Standard','2021-10-30', 100,1,0,'2021-11-3')")
 
+
+
+    conn.execute("INSERT INTO RESERVATIONS (HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE) \
+          VALUES ('1000', '1000', '10023', 'Standard','2021-10-30', 100,1,0,'2021-11-3')")
+
+
+    conn.execute("INSERT INTO RESERVATIONS (HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE) \
+          VALUES ('1000', '1000', '10023', 'Standard','2021-10-30', 100,1,0,'2021-11-3')")
+
+
+    conn.execute("INSERT INTO RESERVATIONS (HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE) \
+          VALUES ('1000', '1000', '10023', 'Standard','2021-10-30', 100,1,0,'2021-11-3')")
+
+
+
+
     conn.commit()
     print("Successfully Added Hotel Rooms to Database")
     conn.close()
@@ -237,4 +253,3 @@ if __name__ == '__main__':
     add_hotels()
     add_hotel_rooms()
     add_admin()
-    add_reservations()
