@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Admin Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+
+</style>
+<body onload=load_reservation_information()>
+<!-- Sidebar -->
+<div class="w3-row">
+
+<div class="w3-onethird w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5" id="mySidebar">
+  <br>
+  <center><h4 ><b>Admin Menu</b></h4></center>
+  <br>
+  <center><h4><b>Welcome AdminName!</b></h4></center>
+  <br>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Hotels</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Staff</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Analytics</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Create Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Modify Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Check-in</a>
+</div>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+
+
+<div class="w3-main" style="margin-left:250px;margin-right:10px;">
+  <h2>Edit/View User Reservation:</h2>
+  <br>
+  <br>
+  <center><h2 id="hotel_name">Hotel Name</h2></center>
+  <form class = "w3-container w3-border" enctype="multipart/form-data">
+    <h2>User Information : </h2>
+    <label>User's Email:</label>
+    <input class="w3-input w3-border" type="text" id="user_email_input" required>
+    <br>
+    <label>User's First Name:</label>
+    <input class="w3-input w3-border" type="text" id="first_name_input" required>
+    <br>
+    <label>User's Last Name:</label>
+    <input class="w3-input w3-border" type="text" id="last_name_input" required>
+    <br>
+    <h2>Hotel Information : </h2>
+
+
+    <div class="w3-row-padding w3-center">
+      <center><h2 id="selected_room">Selected Room : </h2></center>
+      <div class="w3-third" id="standard-element">
+        <center><img id="standard-image" style = "width:300px;height:300px;"></img></center>
+        <h2><b>Standard</b></h2>
+        <center><h3 id="standard-price"><b>$100 Per Night</b></h3></center>
+        <center><h4 id="standard-rooms"><b>10 Rooms</b></h4></center>
+        <span id="standard-button"></span>
+        <br>
+
+      </div>
+      <div class="w3-third" id="queen-element">
+        <center><img id="queen-image" style = "width:300px;height:300px;"></img></center>
+        <h2><b>Queen</b></h2>
+        <center><h3 id="queen-price"><b>$100 Per Night</b></h3></center>
+        <center><h4 id="queen-rooms"><b>10 Rooms</b></h4></center>
+        <span id="queen-button"></span>
+        <br>
+      </div>
+
+      <div class="w3-third" id="king-element">
+        <center><img id="king-image" style = "width:300px;height:300px;"></img></center>
+        <h2><b>King</b></h2>
+        <center><h3 id="king-price" ><b>$100 Per Night</b></h3></center>
+        <center><h4 id="king-rooms"><b>10 Rooms</b></h4></center>
+        <span id="king-button"></span>
+        <br>
+      </div>
+    </div>
+    <br>
+    <label>Check-In Date:</label>
+    <input id="start_date" class="w3-input w3-border" type="date" placeholder="MM DD YYYY">
+    <br>
+    <label>Check-Out Date:</label>
+    <input id="end_date" class="w3-input w3-border" type="date" placeholder="MM DD YYYY">
+    <br>
+    <label>Number of Adults:</label>
+    <input id="adult_num" class="w3-input w3-border" type="number" min="0" placeholder="1">
+    <br>
+    <label>Number of Children:</label>
+    <input id="children_num" class="w3-input w3-border" type="number" min="0" placeholder="0">
+    <br>
+
+
+    <br>
+    <br>
+    <center><input class="w3-button w3-xlarge w3-black" type = "submit" value="Make Changes" onclick="Update_Reservation()"></center>
+
+    <br>
+    <br>
+  </form>
+
+
+
+
+
+<!-- END MAIN -->
+</div>
+</div>
+
+<script>
+
+function set_selected_room(room_type)
+{
+  if(room_type == "Standard")
+  {
+    document.getElementById('Standard').checked = true;
+    localStorage.setItem("room_type","Standard");
+    document.getElementById('Queen').checked = false;
+    document.getElementById('King').checked = false;
+  }else if(room_type == "Queen")
+  {
+    document.getElementById('Queen').checked = true;
+    localStorage.setItem("room_type","Queen");
+    document.getElementById('Standard').checked = false;
+    document.getElementById('King').checked = false;
+
+  }else if(room_type == "King")
+  {
+    document.getElementById('King').checked = true;
+    localStorage.setItem("room_type","King");
+    document.getElementById('Queen').checked = false;
+    document.getElementById('Standard').checked = false;
+
+  }
+}
+
+function king_selected_room(room_type)
+{
+  if(document.getElementById('King').checked)
+  {
+    localStorage.setItem("room_type","King");
+    document.getElementById('Queen').checked = false;
+    document.getElementById('Standard').checked = false;
+
+  }
+}
+
+
+function queen_selected_room(room_type)
+{
+  if(document.getElementById('Queen').checked)
+  {
+    localStorage.setItem("room_type","Queen");
+    document.getElementById('Standard').checked = false;
+    document.getElementById('King').checked = false;
+
+  }
+}
+
+function stan_selected_room(room_type)
+{
+
+  if(document.getElementById('Standard').checked)
+  {
+    localStorage.setItem("room_type","Standard");
+    document.getElementById('Queen').checked = false;
+    document.getElementById('King').checked = false;
+  }
+}
+
+
+function Update_Reservation()
+{
+  var RID = localStorage.getItem("RID");
+  var user_email = document.getElementById('user_email_input').value;
+  var first_name = document.getElementById('first_name_input').value;
+  var last_name = document.getElementById('last_name_input').value;
+  var room_type = localStorage.getItem('room_type');
+
+  var start_date = document.getElementById('start_date').value;
+  var end_date = document.getElementById('end_date').value;
+  var adult_num = document.getElementById('adult_num').value;
+  var children_num = document.getElementById('children_num').value;
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/update_reservation?RID='+RID+'&user_email='+user_email+'&first_name='+first_name+'&last_name='+last_name+'&room_type='+room_type+'&start_date='+start_date+'&end_date='+end_date+'&adult_num='+adult_num+'&children_num='+children_num;
+  Http.open("GET", url);
+  Http.send();
+
+
+  Http.onreadystatechange = (e) => {
+
+    if (parseInt(Http.responseText) == 0)
+    {
+      alert("Reservation Successfully Modified!");
+      location.reload();
+    }else if(parseInt(Http.responseText) == 1)
+    {
+      alert("Reservation Did Not Update!");
+      location.reload();
+    }
+
+  }
+
+}
+
+
+function load_reservation_information()
+{
+
+  var RID = localStorage.getItem("RID");
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/load_reservation_information?RID='+RID;
+  Http.open("GET", url);
+  Http.send();
+
+
+  Http.onreadystatechange = (e) => {
+
+    var reservation_info = JSON.parse(Http.responseText);
+
+
+    document.getElementById('hotel_name').innerHTML = reservation_info[0].HName;
+
+    document.getElementById('user_email_input').value = reservation_info[0].EMAIL;
+    document.getElementById('first_name_input').value = reservation_info[0].FIRST_NAME;
+    document.getElementById('last_name_input').value = reservation_info[0].LAST_NAME;
+//    if queen or king or standard
+//      document.getElementById('user_email_input').value =
+
+
+    document.getElementById('standard-image').src = reservation_info[0].Standard.IMG_URL;
+    document.getElementById('queen-image').src = reservation_info[0].Queen.IMG_URL;
+    document.getElementById('king-image').src = reservation_info[0].King.IMG_URL;
+
+
+    if(reservation_info[0].Standard.AVAILABLE == "True"){
+      document.getElementById('standard-price').innerHTML = '<b> $'+reservation_info[0].Standard.PRICE+' Per Night</b>';
+      document.getElementById('standard-rooms').innerHTML = '<b> '+reservation_info[0].Standard.NUM+' Available</b>';
+
+      document.getElementById('standard-button').innerHTML = '<input type="checkbox" id="Standard" onchange="stan_selected_room(this.id)" value="Standard">';
+
+    }else
+    {
+      document.getElementById('standard-price').innerHTML = '<b style="color:red"> Unavailable </b>';
+      document.getElementById('standard-rooms').innerHTML = '<b> No Rooms Available </b>';
+
+
+    }
+    if(reservation_info[0].Queen.AVAILABLE == "True"){
+      document.getElementById('queen-price').innerHTML = '<b> $'+reservation_info[0].Queen.PRICE+' Per Night</b>';
+      document.getElementById('queen-rooms').innerHTML = '<b> '+reservation_info[0].Queen.NUM+' Available</b>';
+      document.getElementById('queen-button').innerHTML = '<input type="checkbox" id="Queen" onchange="queen_selected_room(this.id)" value="Queen">';
+
+
+    }else
+    {
+      document.getElementById('queen-price').innerHTML = '<b style="color:red"> Unavailable </b>';
+      document.getElementById('queen-rooms').innerHTML = '<b> No Rooms Available </b>';
+
+    }
+    if(reservation_info[0].King.AVAILABLE == "True"){
+      document.getElementById('king-price').innerHTML = '<b> $'+reservation_info[0].King.PRICE+' Per Night</b>';
+      document.getElementById('king-rooms').innerHTML = '<b> '+reservation_info[0].King.NUM+' Available</b>';
+      document.getElementById('king-button').innerHTML = '<input type="checkbox" id="King" onchange="king_selected_room(this.id)" value="King">';
+
+
+    }else
+    {
+      document.getElementById('king-price').innerHTML = '<b style="color:red"> Unavailable </b>';
+      document.getElementById('king-rooms').innerHTML = '<b> No Rooms Available </b>';
+
+    }
+
+
+    document.getElementById('start_date').value = reservation_info[0].START_DATE;
+    document.getElementById('end_date').value = reservation_info[0].END_DATE;
+    document.getElementById('adult_num').value = reservation_info[0].NUM_ADULTS;
+    document.getElementById('children_num').value =reservation_info[0].NUM_CHILDREN;
+
+    set_selected_room(reservation_info[0].ROOM_TYPE);
+
+
+  }
+}
+
+</script>
+
+</body>
+</html>

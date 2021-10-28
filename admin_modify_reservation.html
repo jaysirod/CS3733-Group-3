@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Admin Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+
+</style>
+<body>
+<!-- Sidebar -->
+<div class="w3-row">
+
+<div class="w3-onethird w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5" id="mySidebar">
+  <br>
+  <center><h4 ><b>Admin Menu</b></h4></center>
+  <br>
+  <center><h4><b>Welcome AdminName!</b></h4></center>
+  <br>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Hotels</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Staff</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Analytics</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Create Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Modify Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Check-in</a>
+</div>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+
+<div class="w3-main" style="margin-left:250px;margin-right:10px;">
+  <h2>Modify Reservation:</h2>
+
+  <div class="w3-container" style="padding:20px 100px; background-color:#2F4550" id="reserve">
+    <h3 class="w3-center" style="color:#ffffff;"><b>Find Reservation : </b></h3>
+    <div class="w3-row-padding" style="color:#ffffff;">
+      <div class="w3-col m3">
+        <label>Reservation ID</label>
+        <input id="reservation_id_input" class="w3-input w3-border" type="text" placeholder="Reservation ID" required>
+      </div>
+      <div class="w3-col m1">
+        <center><h4>OR</h4></center>
+      </div>
+      <div class="w3-col m2">
+        <label>First name</label>
+        <input id="first_name_input" class="w3-input w3-border" type="text" placeholder="First name" required>
+      </div>
+      <div class="w3-col m2">
+        <label>Last name</label>
+        <input id="last_name_input" class="w3-input w3-border" type="text" placeholder="Last name"  required>
+      </div>
+      <div class="w3-col m3">
+        <label>Email</label>
+        <input id="email_input" class="w3-input w3-border" type="text" placeholder="example@example.com" required>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <div>
+        <button class="w3-button w3-block w3-black" onclick="get_reservations()">Find Reservation</button>
+      </div>
+    </div>
+  </div>
+
+<br>
+<div>
+  <ul style="list-style-type: none;margin:0px;padding:0px" id="reservation_list">
+
+  </ul>
+</div>
+
+
+
+
+<!-- END MAIN -->
+</div>
+</div>
+
+<script>
+function view_edit_reservation(RID)
+{
+  localStorage.setItem("RID",RID);
+
+  window.open("./admin_reservation_edit.html");
+}
+
+function delete_reservation(RID)
+{
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/delete_reservation_user?RID='+RID;
+  Http.open("GET", url);
+  Http.send();
+
+
+  Http.onreadystatechange = (e) => {
+    if (parseInt(Http.responseText) == 0)
+    {
+      alert("Reservation Successfully Deleted!");
+      location.reload();
+    }
+  }
+}
+
+function get_reservations()
+{
+
+    var RID = document.getElementById('reservation_id_input').value;
+    var first_name = document.getElementById('first_name_input').value;
+    var last_name = document.getElementById('last_name_input').value;
+    var user_email = document.getElementById('email_input').value;
+
+    const Http = new XMLHttpRequest();
+    const url='http://localhost:5000/get__user_reservations?RID='+RID+'&first_name='+first_name+'&last_name='+last_name+'&email='+user_email;
+    Http.open("GET", url);
+    Http.send();
+
+
+    Http.onreadystatechange = (e) => {
+      document.getElementById('reservation_list').innerHTML = '';
+
+      if(Http.responseText == "NO RESERVATIONS")
+      {
+        var li = document.createElement('li');
+        li.innerHTML = '<h1>No Reservations Found</h1>';
+        document.getElementById('reservation_list').appendChild(li);
+
+      }
+      var reservations = JSON.parse(Http.responseText);
+      var reservation_len = Object.keys(reservations).length;
+
+      var li = document.createElement('li');
+      li.innerHTML = '<h1>'+reservation_len+' Reservation(s) Found</h1>';
+      document.getElementById('reservation_list').appendChild(li);
+
+
+      for(var i = 0; i < reservation_len; i++)
+      {
+        var reservation = reservations[i];
+
+        var reservation_card = `
+        <div class="w3-row w3-border">
+          <div class="w3-third w3-container">
+            <center><img src="`+reservation.IMG_URL+`" style = "width:300px;height:300px;"></img></center>
+          </div>
+          <div class="w3-twothird w3-container">
+            <center><h3><b>`+reservation.Name+`</b></h3></center>
+
+            <center><h3><b>Start Date:</b></h3></center>
+            <center><h4>`+reservation.START_DATE+`</h4></center>
+
+            <center><h3><b>End Date:</b></h3></center>
+            <center><h4>`+reservation.END_DATE+`</h4></center>
+
+            <center><h3><b>Room Type:</b></h3></center>
+            <center><h4>`+reservation.ROOM_TYPE+`</h4></center>
+
+            <center><h3><b>Price:</b></h3></center>
+            <center><h4>`+reservation.Price+`</h4></center>
+
+
+            <center><a class="w3-button w3-blue w3-xlarge" onclick="view_edit_reservation(`+reservation.RID+`)">View/Edit Hotel</a></center>
+            <br>
+            <br>
+            <center><a class="w3-button w3-red w3-xlarge" onclick="delete_reservation(`+reservation.RID+`)">Delete Hotel</a></center>
+
+            <br>
+
+          </div>
+        </div>
+
+        <br>
+        `;
+
+        var li = document.createElement('li');
+        li.innerHTML = reservation_card;
+        document.getElementById('reservation_list').appendChild(li);
+
+      }
+
+    }
+
+
+}
+
+
+
+</script>
+
+</body>
+</html>

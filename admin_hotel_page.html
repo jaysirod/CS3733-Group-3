@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Admin Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+
+</style>
+<body onload=add_rooms()>
+<!-- Sidebar -->
+<div class="w3-row">
+
+<div class="w3-onethird w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5" id="mySidebar">
+  <br>
+  <center><h4 ><b>Admin Menu</b></h4></center>
+  <br>
+  <center><h4><b>Welcome AdminName!</b></h4></center>
+  <br>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Hotels</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Staff</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Analytics</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Create Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Modify Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Check-in</a>
+</div>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+
+<div class="w3-main" style="margin-left:250px;margin-right:10px;">
+  <h2>Hotel Room:</h2>
+  <div class="w3-container" style="padding:30px 16px" id="hotel_information">
+    <h3 class="w3-center" id="reservation_details"><b>Your Stay:</b></h3><br><br>
+    <div>
+      <div class="w3-row">
+        <div class="w3-third w3-container">
+          <center><img id="hotel_img" style = "width:300px;height:300px;"></img></center>
+          </div>
+          <div class="w3-third w3-container">
+          </div>
+          <div class="w3-third w3-container">
+            <center>
+              <h2 id="hotel_name"><b>name</b></h2>
+              <h4><b>Amenities:</b></h4>
+              <h5 id="hotel_amenities"><b>amenities</b></h5>
+            </center>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <hr >
+
+
+  <div class="w3-container" style="padding:60px 16px" id="about">
+    <h1 class="w3-center">Rooms</h1>
+
+    <div class="w3-row-padding w3-center">
+      <div class="w3-third" >
+        <center><img id="standard-image" style = "width:300px;height:300px;"></img></center>
+        <h2><b>Standard</b></h2>
+        <center><h3 id="standard-price"><b>$100 Per Night</b></h3></center>
+        <center><h4 id="standard-rooms"><b>10 Rooms</b></h4></center>
+        <span id="standard-button"></span>
+        <br>
+
+      </div>
+
+      <div class="w3-third">
+        <center><img id="queen-image" style = "width:300px;height:300px;"></img></center>
+        <h2><b>Queen</b></h2>
+        <center><h3 id="queen-price"><b>$100 Per Night</b></h3></center>
+        <center><h4 id="queen-rooms"><b>10 Rooms</b></h4></center>
+        <span id="queen-button"><a class="w3-button w3-block w3-black">Reserve Room!</a></span>
+        <br>
+      </div>
+
+      <div class="w3-third">
+        <center><img id="king-image" style = "width:300px;height:300px;"></img></center>
+        <h2><b>King</b></h2>
+        <center><h3 id="king-price" ><b>$100 Per Night</b></h3></center>
+        <center><h4 id="king-rooms"><b>10 Rooms</b></h4></center>
+        <span id="king-button"><a class="w3-button w3-block w3-black">Reserve Room!</a></span>
+        <br>
+      </div>
+    </div>
+  </div>
+
+
+
+<!-- END MAIN -->
+</div>
+</div>
+
+<script>
+
+
+  function reserve_room(room_type,price)
+  {
+    console.log(room_type)
+    var HID = localStorage.getItem("HID");
+    localStorage.setItem("ROOM_TYPE",room_type);
+    localStorage.setItem("Price",price);
+    window.open("./admin_room_reserve_page.html");
+  }
+
+  function add_rooms()
+  {
+
+    var HID = localStorage.getItem("HID");
+    var start_date = localStorage.getItem("Start_Date");
+    var end_date = localStorage.getItem("End_Date");
+
+    var myRegexp = new RegExp("([0-9]*)-([0-9]*)-([0-9]*)", "g");
+    var matchStart = myRegexp.exec(start_date);
+
+    var start_day = matchStart[3]
+    var start_month = matchStart[2]
+    var start_year = matchStart[1]
+
+    var myRegexp1 = new RegExp("([0-9]*)-([0-9]*)-([0-9]*)", "g");
+    var matchEnd = myRegexp1.exec(end_date);
+
+    var end_day = matchEnd[3]
+    var end_month = matchEnd[2]
+    var end_year = matchEnd[1]
+
+
+    document.getElementById('reservation_details').innerHTML = '<b>Your Stay : '+start_month+'/'+start_day+'/'+start_year+' -> '+end_month+'/'+end_day+'/'+end_year+'</b>';
+
+    const Http = new XMLHttpRequest();
+    const url='http://localhost:5000/hotel_info?HID='+HID+'&start_date='+start_date+'&end_date='+end_date;
+    Http.open("GET", url);
+    Http.send();
+
+
+
+    Http.onreadystatechange = (e) =>
+    {
+
+      var queen_text = "Queen";
+      var Queen = "Queen";
+      var hotel_info = JSON.parse(Http.responseText);
+      document.getElementById('hotel_img').src = hotel_info[0].IMG_URL;
+      document.getElementById('hotel_name').innerHTML = '<b>'+hotel_info[0].Name+'</b>';
+      document.getElementById('hotel_amenities').innerHTML = '<b>'+Object.keys(hotel_info[0].AMENITIES)+'</b>';
+      if(hotel_info[0].ROOMS.Standard.AVAILABLE == "True"){
+        document.getElementById('standard-price').innerHTML = '<b> $'+hotel_info[0].ROOMS.Standard.PRICE+' Per Night</b>';
+        document.getElementById('standard-rooms').innerHTML = '<b> '+hotel_info[0].ROOMS.Standard.NUM_OF_ROOMS+' Available</b>';
+        document.getElementById('standard-button').innerHTML = '<button id="Standard" class="w3-button w3-block w3-black" onclick="reserve_room(this.id,'+hotel_info[0].ROOMS.Standard.PRICE+')">Reserve Room!</button>';
+
+      }else
+      {
+        document.getElementById('standard-price').innerHTML = '<b style="color:red"> Unavailable </b>';
+        document.getElementById('standard-rooms').innerHTML = '<b> No Rooms Available </b>';
+
+
+      }
+      if(hotel_info[0].ROOMS.Queen.AVAILABLE == "True"){
+        document.getElementById('queen-price').innerHTML = '<b> $'+hotel_info[0].ROOMS.Queen.PRICE+' Per Night</b>';
+        document.getElementById('queen-rooms').innerHTML = '<b> '+hotel_info[0].ROOMS.Queen.NUM_OF_ROOMS+' Available</b>';
+        document.getElementById('queen-button').innerHTML = '<button id="Queen" class="w3-button w3-block w3-black" onclick="reserve_room(this.id,'+hotel_info[0].ROOMS.Queen.PRICE+')">Reserve Room!</button>';
+
+
+      }else
+      {
+        document.getElementById('queen-price').innerHTML = '<b style="color:red"> Unavailable </b>';
+        document.getElementById('queen-rooms').innerHTML = '<b> No Rooms Available </b>';
+
+      }
+      if(hotel_info[0].ROOMS.King.AVAILABLE == "True"){
+        document.getElementById('king-price').innerHTML = '<b> $'+hotel_info[0].ROOMS.King.PRICE+' Per Night</b>';
+        document.getElementById('king-rooms').innerHTML = '<b> '+hotel_info[0].ROOMS.King.NUM_OF_ROOMS+' Available</b>';
+        document.getElementById('king-button').innerHTML = '<button id="King" class="w3-button w3-block w3-black" onclick="reserve_room(this.id,'+hotel_info[0].ROOMS.King.PRICE+')">Reserve Room!</button>';
+
+      }else
+      {
+        document.getElementById('king-price').innerHTML = '<b style="color:red"> Unavailable </b>';
+        document.getElementById('king-rooms').innerHTML = '<b> No Rooms Available </b>';
+
+      }
+      document.getElementById('standard-image').src = hotel_info[0].ROOMS.Standard.IMAGE_URL;
+      document.getElementById('queen-image').src = hotel_info[0].ROOMS.Queen.IMAGE_URL;
+      document.getElementById('king-image').src = hotel_info[0].ROOMS.King.IMAGE_URL;
+
+
+    }
+
+  }
+
+
+
+</script>
+
+</body>
+</html>

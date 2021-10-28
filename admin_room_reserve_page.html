@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Admin Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+
+</style>
+<body onload=load_hotel_info()>
+<!-- Sidebar -->
+<div class="w3-row">
+
+<div class="w3-onethird w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5" id="mySidebar">
+  <br>
+  <center><h4 ><b>Admin Menu</b></h4></center>
+  <br>
+  <center><h4><b>Welcome AdminName!</b></h4></center>
+  <br>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Hotels</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Staff</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Analytics</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Create Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Modify Reservation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Check-in</a>
+</div>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+
+<div class="w3-main" style="margin-left:250px;margin-right:10px;">
+  <h2>Customer Payment Information:</h2>
+  <div class="w3-row">
+    <div class="w3-third w3-container">
+      <div class="w3-row-padding">
+          <div class="w3-card">
+            <img id="hotel_image_info" src="./images/hotel_icon_1.jpeg" style="width:100%">
+            <div class="w3-container">
+
+              <h2 id="hotel_name_info">Vyatt</h2>
+              <h3 id="hotel_room_type_info">1 King bed room</h3>
+              <br>
+              <h4 id="person_num_info">1 Adult & 0 Children</h4>
+              <br>
+              <h4 id="reservation_date_info">1/1/99 -> 1/2/99</h4>
+              <br>
+              <h3>Price Details</h3>
+              <p id="room_price_info"> Room $150</p>
+              <p id="room_taxes_info"> Taxes $20</p>
+              <hr>
+              <p id="room_total_info"> Total $170</p>
+              <br>
+              <p id="hotel_pricing_condition_info"> Your first payment will be $170, any additional charges will be handled through your hotel provider</p>
+            </div>
+          </div>
+      </div>
+    </div>
+
+
+    <div class="w3-twothird w3-container">
+      <form class = "w3-container w3-border">
+          <h2>Personal Information</h2>
+        <div class="w3-half">
+          <label>First name <span style="color:red;font-size:20px;">*</span></label>
+          <input id="first_name_input" class="w3-input w3-border" type="text" placeholder="First name" required>
+        </div>
+        <div class="w3-half">
+          <label>Last name <span style="color:red;font-size:20px;">*</span></label>
+          <input id="last_name_input" class="w3-input w3-border" type="text" placeholder="Last name"  required>
+        </div>
+          <label>Phone number <span style="color:red;font-size:20px;">*</span></label>
+          <input class="w3-input w3-border" type="text" placeholder="(100) 123-4567"  required>
+          <br>
+      </form>
+
+      <br>
+      <br>
+      <br>
+
+      <form class = "w3-container w3-border">
+          <h2>Protect your hotel <span style="color:red;font-size:30px;">*</span></h2>
+          <p><b>Cover your stay against the unexpected:</b><br><br>
+            1.Up to 100% hotel reimbursement if you're sick and have a late cancellation<br>
+            2.Up to 100% reimbursement on unused hotel nights if you're sick and need to come home early<br>
+            3.Up to $150 for a hotel or meals if your trip is delayed for covered reasons<br>
+            4.Up to $150 for covered essentials if your bag is delayed</p>
+
+          <div class = "w3-container w3-border">
+            <br>
+            <input id="insurance_yes" class="w3-input" type="checkbox">
+            <label for="insurance_yes">Yes, I want to protect!</label>
+          </div>
+          <br>
+          <div class = "w3-container w3-border">
+            <br>
+            <input id="insurance_no" class="w3-input" type="checkbox">
+            <label for="insurance_no">No, I am willing to risk it!</label>
+          </div>
+          <br>
+
+      </form>
+
+      <br>
+      <br>
+      <form class = "w3-container w3-border">
+          <h2>Payment Information</h2>
+          <img src="./images/credit_card_banner.png" style="width:200px;height:40px;">
+          <br>
+          <h4>Pay with debit/credit</h4>
+          <label>Name on card <span style="color:red;font-size:20px;">*</span></label>
+          <input class="w3-input w3-border" type="text" placeholder="Name on card" required>
+          <br>
+          <label>Card number <span style="color:red;font-size:20px;">*</span></label>
+          <input class="w3-input w3-border" type="text" placeholder="card number"  required>
+          <br>
+          <div class="w3-half">
+            <label>Expiration month <span style="color:red;font-size:20px;">*</span></label>
+            <select class="w3-input w3-border" id="month_menu">
+              <option value="Jan">January</option>
+              <option value="Feb">February</option>
+              <option value="Mar">March</option>
+              <option value="Apr">April</option>
+              <option value="May">May</option>
+              <option value="June">June</option>
+              <option value="Jul">July</option>
+              <option value="Aug">August</option>
+              <option value="Sep">September</option>
+              <option value="oct">October</option>
+              <option value="nov">November</option>
+              <option value="dec">December</option>
+
+            </select>
+          </div>
+          <div class="w3-half">
+            <label>Expiration year <span style="color:red;font-size:20px;">*</span></label>
+            <input class="w3-input w3-border" type="text" placeholder="Year"  required>
+          </div>
+          <br>
+          <label>Security code <span style="color:red;font-size:20px;">*</span></label>
+          <input class="w3-input w3-border" type="text" placeholder="CVV"  required>
+          <br>
+      </form>
+
+      <form class = "w3-container w3-border">
+          <h2>Confirmation Email</h2>
+          <label>Email <span style="color:red;font-size:20px;">*</span></label>
+          <input id="email_input" class="w3-input w3-border" type="text" placeholder="example@example.com" required>
+          <br>
+      </form>
+
+      <div class = "w3-container w3-border">
+        <h2>Hotel Rules</h2>
+        <h3 id="hotel_name_rules">Drury Plaza Hotel San Antonio Riverwalk</h3>
+        <h3 id="hotel_reservation_date_rules"> Fri, Oct 8 - Sat, Oct 9</h3>
+          <p>
+            If you cancel or change your plans, please cancel your reservation in accordance with the property's cancellation policies to avoid a no-show charge.
+            This rate is non-refundable. If you change or cancel your booking you will not get a refund or credit to use for a future stay. This policy will apply regardless of COVID-19, subject to any local consumer laws.
+            No refunds will be issued for late check-in or early check-out.
+            Stay extensions require a new reservation.
+            Front desk staff will greet guests on arrival. For more details, please contact the property using the information on the booking confirmation.
+            You'll be asked to pay the following charges at the property:
+            Deposit: USD 50 per accommodation, per stay
+            We have included all charges provided to us by the property.
+          </p>
+      </div>
+
+      <br>
+      <br>
+      <form class = "w3-container w3-border">
+          <h2>Complete Booking</h2>
+          <label for="submit_rules">I have read and accept the terms & conditions for the hotel <span style="color:red;font-size:20px;">*</span></label>
+          <input id="submit_rules" class="w3-input" type="checkbox">
+          <br>
+          <center><a class="w3-blue w3-button" onclick="create_reservation()">Submit</a><center>
+          <br>
+      </form>
+
+
+    </div>
+
+
+
+  </div>
+
+
+
+
+
+<!-- END MAIN -->
+</div>
+</div>
+
+<script>
+  function create_reservation()
+  {
+
+    var HID = localStorage.getItem("HID");
+    var start_date = localStorage.getItem("Start_Date");
+    var end_date = localStorage.getItem("End_Date");
+    var ROOM_TYPE = localStorage.getItem("ROOM_TYPE");
+    var price = localStorage.getItem("Price");
+    price = (parseInt(price)+(parseInt(price) * 0.0825)).toFixed(2).toString()
+    var num_adult = localStorage.getItem("num_adult");
+    var num_children = localStorage.getItem("num_children");
+
+    var first_name = document.getElementById('first_name_input').value;
+    var last_name = document.getElementById('last_name_input').value;
+    var user_email = document.getElementById('email_input').value;
+
+    if(first_name == "" || last_name == "" || user_email == "")
+    {
+      if(first_name == "")
+      {
+        document.getElementById('first_name_input').style = "background-color:rgba(255, 0, 0, 0.2);";
+      }
+      if(last_name == "")
+      {
+        document.getElementById('last_name_input').style = "background-color:rgba(255, 0, 0, 0.2);";
+      }
+      if(user_email == "")
+      {
+        document.getElementById('email_input').style = "background-color:rgba(255, 0, 0, 0.2);";
+      }
+      alert("Please Fill Out Required Fields!");
+      return;
+    }
+
+
+    const Http = new XMLHttpRequest();
+    const url='http://localhost:5000/create_reservation?HID='+HID+'&start_date='+start_date+'&end_date='+end_date+'&ROOM_TYPE='+ROOM_TYPE+'&price='+price+'&num_adult='+num_adult+'&num_children='+num_children+'&first_name='+first_name+'&last_name='+last_name+'&user_email='+user_email;
+    Http.open("GET", url);
+    Http.send();
+
+    Http.onreadystatechange = (e) =>
+    {
+      if (parseInt(Http.responseText) == 0)
+      {
+        alert("Your Room Has Been Reserved!");
+        window.open("./admin_hotels.html")
+
+      }
+
+    }
+
+  }
+
+
+
+
+
+  function load_hotel_info(){
+
+
+    var HID = localStorage.getItem("HID");
+    var start_date = localStorage.getItem("Start_Date");
+    var end_date = localStorage.getItem("End_Date");
+    var ROOM_TYPE = localStorage.getItem("ROOM_TYPE");
+    var price = localStorage.getItem("Price");
+    var num_adult = localStorage.getItem("num_adult");
+    var num_children = localStorage.getItem("num_children");
+    if (num_children == "")
+    {
+      num_children = 0;
+    }
+
+    var myRegexp = new RegExp("([0-9]*)-([0-9]*)-([0-9]*)", "g");
+    var matchStart = myRegexp.exec(start_date);
+
+    var start_day = matchStart[3];
+    var start_month = matchStart[2];
+    var start_year = matchStart[1];
+
+    var myRegexp1 = new RegExp("([0-9]*)-([0-9]*)-([0-9]*)", "g");
+    var matchEnd = myRegexp1.exec(end_date);
+
+    var end_day = matchEnd[3];
+    var end_month = matchEnd[2];
+    var end_year = matchEnd[1];
+
+
+    const Http = new XMLHttpRequest();
+    const url='http://localhost:5000/hotel_info?HID='+HID+'&start_date='+start_date+'&end_date='+end_date;
+    Http.open("GET", url);
+    Http.send();
+
+    Http.onreadystatechange = (e) =>
+    {
+      var hotel_info = JSON.parse(Http.responseText);
+
+
+      document.getElementById('hotel_image_info').src = hotel_info[0].IMG_URL;
+      document.getElementById('hotel_name_info').innerHTML = hotel_info[0].Name;
+      document.getElementById('reservation_date_info').innerHTML = '<b>Your Stay : '+start_month+'/'+start_day+'/'+start_year+' -> '+end_month+'/'+end_day+'/'+end_year+'</b>';
+      document.getElementById('hotel_room_type_info').innerHTML = 'Room : '+ROOM_TYPE;
+      document.getElementById('room_price_info').innerHTML = "Hotel Room Price : $"+price;
+      document.getElementById('room_taxes_info').innerHTML = "Taxes : $"+(parseInt(price) * 0.0825).toFixed(2).toString();
+      document.getElementById('room_total_info').innerHTML = "Total Price : $"+(parseInt(price)+(parseInt(price) * 0.0825)).toFixed(2).toString();
+      document.getElementById('hotel_pricing_condition_info').innerHTML = "Your first payment will be $"+(parseInt(price)+(parseInt(price) * 0.0825)).toFixed(2).toString()+", any additional charges will be handled through your hotel provider";
+      document.getElementById('person_num_info').innerHTML = num_adult+" Adults & "+num_children+" Children"
+      document.getElementById('hotel_name_rules').innerHTML = hotel_info[0].Name;
+      document.getElementById('hotel_reservation_date_rules').innerHTML = '<b>Your Stay : '+start_month+'/'+start_day+'/'+start_year+' -> '+end_month+'/'+end_day+'/'+end_year+'</b>';
+
+
+
+
+
+    }
+  }
+
+
+
+
+
+</script>
+
+</body>
+</html>

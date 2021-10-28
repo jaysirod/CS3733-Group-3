@@ -23,7 +23,10 @@ import delete_staff
 import add_staff
 import admin_analytics
 import create_reservation
-
+import get_reservations
+import get_user_reservation_info
+import update_reservation
+import delete_reservation
 
 app = Flask(__name__)
 CORS(app)
@@ -334,6 +337,52 @@ def reservation_creation():
     code = create_reservation.create(HID,UID,RID,start_date,end_date,ROOM_TYPE,price,num_adult,num_children,first_name,last_name,user_email)
 
     return code
-    
+
+@app.route('/get__user_reservations')
+def admin_get_reservations():
+    RID = request.args.get('RID',type=str)
+    first_name= request.args.get('first_name',type=str)
+    last_name = request.args.get('last_name',type=str)
+    email = request.args.get('email',type=str)
+
+    reservations_json = get_reservations.get_user_reservations(RID,first_name,last_name,email)
+
+    return reservations_json
+
+
+@app.route('/load_reservation_information')
+def get_reservation_info():
+    RID = request.args.get('RID',type=str)
+
+    reservation_info = get_user_reservation_info.get_user_reservation(RID)
+
+    return reservation_info
+
+
+@app.route('/update_reservation')
+def update_reservation_user():
+    RID = request.args.get('RID',type=str)
+    user_email = request.args.get('user_email',type=str)
+    first_name = request.args.get('first_name',type=str)
+    last_name = request.args.get('last_name',type=str)
+    room_type = request.args.get('room_type',type=str)
+    start_date = request.args.get('start_date',type=str)
+    end_date = request.args.get('end_date',type=str)
+
+    adult_num = request.args.get('adult_num',type=str)
+    children_num = request.args.get('children_num',type=str)
+    code = update_reservation.update_user_reservation(RID,user_email,first_name,last_name,room_type,start_date,end_date,adult_num,children_num)
+    return code
+
+
+
+@app.route('/delete_reservation_user')
+def delete_user_reservation():
+    RID = request.args.get('RID',type=str)
+
+    code = delete_reservation.delete_reservation(RID)
+
+    return code
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)

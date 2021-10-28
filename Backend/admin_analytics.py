@@ -3,6 +3,9 @@ import sqlite3
 import datetime
 import re
 from datetime import timedelta
+
+
+
 def find_max_room(rooms):
     max_room = 0
     max_index = 0
@@ -48,7 +51,7 @@ def get_reservations(time_period,hotel_id):
             if datetime.datetime(year,month,day).date() == datetime.datetime.today().date():
                 reservations[count] = {"HID" : row[0], "UID" : row[1],"RID" : row[2],"ROOM_TYPE" : row[3],"START_DATE" : row[4],"PRICE" : row[5],"NUM_ADULTS" : row[6],"NUM_CHILDREN" : row[7],"END_DATE" : row[8]}
                 count += 1
-                total_revenue += int(row[5])
+                total_revenue += float(row[5])
                 if row[3] == "Standard":
                     popular_room[0] += 1
                 elif row[3] == "Queen":
@@ -94,7 +97,7 @@ def get_reservations(time_period,hotel_id):
             if datetime.datetime(year,month,day).date() == (datetime.datetime.now() - timedelta(1)).date():
                 reservations[count] = {"HID" : row[0], "UID" : row[1],"RID" : row[2],"ROOM_TYPE" : row[3],"START_DATE" : row[4],"PRICE" : row[5],"NUM_ADULTS" : row[6],"NUM_CHILDREN" : row[7],"END_DATE" : row[8]}
                 count += 1
-                total_revenue += int(row[5])
+                total_revenue += float(row[5])
                 if row[3] == "Standard":
                     popular_room[0] += 1
                 elif row[3] == "Queen":
@@ -139,7 +142,7 @@ def get_reservations(time_period,hotel_id):
             if datetime.datetime(year,month,day).date() >= (datetime.datetime.now() - timedelta(7)).date() and datetime.datetime(year,month,day).date() < datetime.datetime.today().date():
                 reservations[count] = {"HID" : row[0], "UID" : row[1],"RID" : row[2],"ROOM_TYPE" : row[3],"START_DATE" : row[4],"PRICE" : row[5],"NUM_ADULTS" : row[6],"NUM_CHILDREN" : row[7],"END_DATE" : row[8]}
                 count += 1
-                total_revenue += int(row[5])
+                total_revenue += float(row[5])
                 if row[3] == "Standard":
                     popular_room[0] += 1
                 elif row[3] == "Queen":
@@ -185,7 +188,7 @@ def get_reservations(time_period,hotel_id):
             if datetime.datetime(year,month,day).date() >= (datetime.datetime.now() - timedelta(30)).date() and datetime.datetime(year,month,day).date() < datetime.datetime.today().date():
                 reservations[count] = {"HID" : row[0], "UID" : row[1],"RID" : row[2],"ROOM_TYPE" : row[3],"START_DATE" : row[4],"PRICE" : row[5],"NUM_ADULTS" : row[6],"NUM_CHILDREN" : row[7],"END_DATE" : row[8]}
                 count += 1
-                total_revenue += int(row[5])
+                total_revenue += float(row[5])
                 if row[3] == "Standard":
                     popular_room[0] += 1
                 elif row[3] == "Queen":
@@ -231,7 +234,7 @@ def get_reservations(time_period,hotel_id):
             if datetime.datetime(year,month,day).date() >= (datetime.datetime.now() - timedelta(365)).date() and datetime.datetime(year,month,day).date() < datetime.datetime.today().date():
                 reservations[count] = {"HID" : row[0], "UID" : row[1],"RID" : row[2],"ROOM_TYPE" : row[3],"START_DATE" : row[4],"PRICE" : row[5],"NUM_ADULTS" : row[6],"NUM_CHILDREN" : row[7],"END_DATE" : row[8]}
                 count += 1
-                total_revenue += int(row[5])
+                total_revenue += float(row[5])
                 if row[3] == "Standard":
                     popular_room[0] += 1
                 elif row[3] == "Queen":
@@ -270,7 +273,7 @@ def get_reservations(time_period,hotel_id):
         for row in cursor:
             reservations[count] = {"HID" : row[0], "UID" : row[1],"RID" : row[2],"ROOM_TYPE" : row[3],"START_DATE" : row[4],"PRICE" : row[5],"NUM_ADULTS" : row[6],"NUM_CHILDREN" : row[7],"END_DATE" : row[8]}
             count += 1
-            total_revenue += int(row[5])
+            total_revenue += float(row[5])
             if row[3] == "Standard":
                 popular_room[0] += 1
             elif row[3] == "Queen":

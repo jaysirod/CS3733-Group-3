@@ -71,7 +71,7 @@ def is_room_available(conn,HID,start_date,end_date,num_of_rooms):
                 num_of_rooms -= 1
                 if num_of_rooms == 0:
                     return [False,0]
-    return num_of_rooms
+    return [True, num_of_rooms]
 
 
 

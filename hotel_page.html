@@ -138,8 +138,7 @@ function add_rooms()
   Http.onreadystatechange = (e) =>
   {
 
-    var queen_text = "Queen";
-    var Queen = "Queen";
+
     var hotel_info = JSON.parse(Http.responseText);
     document.getElementById('hotel_img').src = hotel_info[0].IMG_URL;
     document.getElementById('hotel_name').innerHTML = '<b>'+hotel_info[0].Name+'</b>';
