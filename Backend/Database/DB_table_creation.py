@@ -5,7 +5,7 @@ import sqlite3
 conn = sqlite3.connect('test_DB.db')
 
 conn.execute('''CREATE TABLE USERS
-         (UID INT PRIMARY KEY     NOT NULL,
+         (UID TEXT PRIMARY KEY     NOT NULL,
          FIRST_NAME       TEXT    NOT NULL,
          LAST_NAME        TEXT    NOT NULL,
          EMAIL                    CHAR(50),
@@ -13,7 +13,7 @@ conn.execute('''CREATE TABLE USERS
          PASSWORD       CHAR(30));''')
 
 conn.execute('''CREATE TABLE ADMIN
-         (UID INT PRIMARY KEY     NOT NULL,
+         (UID TEXT PRIMARY KEY     NOT NULL,
          FIRST_NAME       TEXT    NOT NULL,
          LAST_NAME        TEXT    NOT NULL,
          EMAIL                    CHAR(50),
@@ -22,7 +22,7 @@ conn.execute('''CREATE TABLE ADMIN
          PASSWORD       CHAR(30));''')
 
 conn.execute('''CREATE TABLE HOTEL
-         (HID INT PRIMARY KEY     NOT NULL,
+         (HID TEXT PRIMARY KEY     NOT NULL,
          NAME             TEXT    NOT NULL,
          NUM_OF_ROOMS     INT     NOT NULL,
          IMG_URL          TEXT    NOT NULL,

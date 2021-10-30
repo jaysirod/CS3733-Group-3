@@ -9,7 +9,6 @@
 
     <title>Login - V Hotels</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sign-in/">
 
     <!-- Bootstrap core CSS -->
     <!-- CSS only -->
@@ -37,11 +36,55 @@
           <input type="checkbox" value="remember-me"> Remember me
         </label>
       </div>
-      <a class="w3-button w3-theme" style="background-color:#000000;" type="submit">Login</a><br><br>
-      <a href="./signin.html" class="w3-button w3-theme" style="background-color:#000000;" type="submit">Sign up</a>
+
+      <button class="w3-button w3-theme w3-black" onclick="login_user()">Login</button><br><br>
+
+      <p>Don't Have an Account? <a href = "./signin.html">Sign Up</a></p>
 
       <p class="mt-5 mb-3 text-muted">© 2021</p>
     </form>
 
 </body>
+
+<script>
+
+function login_user()
+{
+  var user_email = document.getElementById('inputEmail').value;
+  var password = document.getElementById('inputPassword').value;
+
+  if(user_email == "" || password == "")
+  {
+    alert("Please fill in all of the fields");
+    return;
+  }
+
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/user_login?user_email='+user_email+'&password='+password;
+  Http.open("GET", url);
+  Http.send();
+
+
+  Http.onreadystatechange = (e) => {
+    var response = JSON.parse(Http.responseText);
+    if(response[0].CODE == "0")
+    {
+      localStorage.setItem("UID",response);
+      window.open("./index.html","_self");
+
+    }else if(response[0].CODE == "1")
+    {
+      alert("Invalid Credentials!");
+    }
+  }
+}
+
+
+
+
+</script>
+
+
+
+
 </html>

@@ -27,6 +27,8 @@ import get_reservations
 import get_user_reservation_info
 import update_reservation
 import delete_reservation
+import create_user
+import user_login
 
 app = Flask(__name__)
 CORS(app)
@@ -383,6 +385,41 @@ def delete_user_reservation():
     code = delete_reservation.delete_reservation(RID)
 
     return code
+
+
+@app.route('/user_signup')
+def user_create():
+
+    UID = str(id_generator.user_id_generate())
+    user_email = request.args.get('user_email',type=str)
+    first_name = request.args.get('first_name',type=str)
+    last_name = request.args.get('last_name',type=str)
+    phone_number = request.args.get('phone_number',type=str)
+    password = request.args.get('password',type=str)
+
+    create_user.create_user(UID,first_name,last_name,user_email,phone_number,password)
+
+    response = {}
+    response[0] = {"CODE":"0","UID":UID}
+    response_json = json.dumps(response)
+
+    return response_json
+
+
+
+@app.route('/user_login')
+def user_verify_login():
+    user_email = request.args.get('user_email',type=str)
+    password = request.args.get('password',type=str)
+
+    code,UID = user_login.login(user_email,password)
+    response = {}
+    response[0] = {"CODE":str(code),"UID":str(UID)}
+    response_json = json.dumps(response)
+    return response_json
+
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)

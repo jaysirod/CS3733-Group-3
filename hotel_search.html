@@ -44,7 +44,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 }
 </style>
 
-<body onload="create_hotel_list()">
+<body onload="first_time_load()">
 
 <!-- Navigation Bar -->
 <div class="w3-bar w3-white w3-large">
@@ -179,15 +179,39 @@ function open_hotel_page(HID)
 }
 
 
+function first_time_load()
+{
+  try{
+    var start_date1 = localStorage.getItem("Start_Date");
+    var end_date1 = localStorage.getItem("End_Date");
+    var num_adult1 = localStorage.getItem("num_adult");
+    var num_children1 = localStorage.getItem("num_children");
+
+    document.getElementById('start_date').value = start_date1;
+    document.getElementById('end_date').value = end_date1;
+    document.getElementById('adult_num').value = num_adult1;
+    document.getElementById('children_num').value = num_children1;
+  }catch(err) {
+      console.log("No attributes stored");
+    }
+
+  create_hotel_list();
+}
+
+
+
 
 function create_hotel_list() {
-
 
   var price_low_filter = document.getElementById('price_low').value;
   var price_high_filter = document.getElementById('price_high').value;
 
   var start_date = document.getElementById('start_date').value;
   var end_date = document.getElementById('end_date').value;
+
+  var num_adult = document.getElementById('adult_num').value;
+  var num_children = document.getElementById('children_num').value;
+
 
   var amenities = [];
   if(document.getElementById('Anemeties_Gym').checked)
@@ -278,6 +302,8 @@ function create_hotel_list() {
       document.getElementById('Hotel_List').appendChild(li);
 
     }
+
+
 
   }
 
