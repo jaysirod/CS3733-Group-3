@@ -3,7 +3,6 @@ import sqlite3
 import datetime
 import re
 
-
 def login(user_email, user_password):
 
     print('[!] Accessing Database!')
@@ -11,7 +10,7 @@ def login(user_email, user_password):
     conn = sqlite3.connect('./Database/test_DB.db')
 
 
-    cursor = conn.execute("SELECT UID from USERS WHERE EMAIL='"+user_email+"' AND PASSWORD='"+user_password+"'")
+    cursor = conn.execute("SELECT UID from ADMIN WHERE EMAIL='"+user_email+"' AND PASSWORD='"+user_password+"'")
     row = cursor.fetchall()
 
 

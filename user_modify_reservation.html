@@ -1,152 +1,141 @@
-<!DOCTYPE html>
-<html lang="en">
-<title>Admin Dashboard</title>
+<html>
+
+<title>User Account</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
 </style>
-<body onload="load_reservation_information()">
-<!-- Sidebar -->
-<div class="w3-row">
 
-<div class="w3-onethird w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5" id="mySidebar">
-  <br>
-  <center><h4 ><b>Admin Menu</b></h4></center>
-  <br>
-  <center><h4 id="admin_name"><b>Welcome AdminName!</b></h4></center>
-  <br>
-  <a class="w3-bar-item w3-button w3-hover-black" href="./admin_hotels.html">Hotels</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="./admin_staff.html">Staff</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="./admin_analytics.html">Analytics</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="./admin_create_reservation.html">Create Reservation</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="./admin_modify_reservation.html">Modify Reservation</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="./admin_checkin.html">Check-in</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="./admin_login.html" onclick="logout()">Logout</a>
+
+<!-- Navigation Bar -->
+<div class="w3-bar w3-white w3-large">
+  <a href="#" class="w3-bar-item w3-button w3-black w3-mobile"><i class="fa fa-bed w3-margin-right"></i>Logo</a>
+  <a href="#rooms" class="w3-bar-item w3-button w3-mobile">Reserve</a>
+  <a href="#about" class="w3-bar-item w3-button w3-mobile">Hotels</a>
+  <a href="#contact" class="w3-bar-item w3-button w3-mobile">About</a>
+  <a href="#contact" class="w3-bar-item w3-button w3-mobile">Contact</a>
+  <a href="#contact" class="w3-bar-item w3-button w3-right w3-light-grey w3-mobile">Sign up</a>
 
 </div>
 
-<!-- Overlay effect when opening sidebar on small screens -->
-<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<br>
+<br>
+<center><h2>Modify Reservation</h2></center>
 
 
-<div class="w3-main" style="margin-left:250px;margin-right:10px;">
-  <h2>Edit/View User Reservation:</h2>
-  <br>
-  <br>
-  <center><h2 id="hotel_name">Hotel Name</h2></center>
-  <form class = "w3-container w3-border" enctype="multipart/form-data">
-    <h2>User Information : </h2>
-    <label>User's Email:</label>
-    <input class="w3-input w3-border" type="text" id="user_email_input" required>
-    <br>
-    <label>User's First Name:</label>
-    <input class="w3-input w3-border" type="text" id="first_name_input" required>
-    <br>
-    <label>User's Last Name:</label>
-    <input class="w3-input w3-border" type="text" id="last_name_input" required>
-    <br>
-    <h2>Hotel Information : </h2>
+<br>
+<br>
 
-
-    <div class="w3-row-padding w3-center">
-      <center><h2 id="selected_room">Selected Room : </h2></center>
-      <div class="w3-third" id="standard-element">
-        <center><img id="standard-image" style = "width:300px;height:300px;"></img></center>
-        <h2><b>Standard</b></h2>
-        <center><h3 id="standard-price"><b>$100 Per Night</b></h3></center>
-        <center><h4 id="standard-rooms"><b>10 Rooms</b></h4></center>
-        <span id="standard-button"></span>
-        <br>
-
-      </div>
-      <div class="w3-third" id="queen-element">
-        <center><img id="queen-image" style = "width:300px;height:300px;"></img></center>
-        <h2><b>Queen</b></h2>
-        <center><h3 id="queen-price"><b>$100 Per Night</b></h3></center>
-        <center><h4 id="queen-rooms"><b>10 Rooms</b></h4></center>
-        <span id="queen-button"></span>
-        <br>
-      </div>
-
-      <div class="w3-third" id="king-element">
-        <center><img id="king-image" style = "width:300px;height:300px;"></img></center>
-        <h2><b>King</b></h2>
-        <center><h3 id="king-price" ><b>$100 Per Night</b></h3></center>
-        <center><h4 id="king-rooms"><b>10 Rooms</b></h4></center>
-        <span id="king-button"></span>
-        <br>
+<body onload="load_reservation_information()">
+  <div class="w3-row">
+    <div class="w3-third w3-container">
+      <div class="w3-row-padding">
+          <div class="w3-card">
+            <div class="w3-container">
+              <br>
+              <a href="./user_account_page_personal.html" class="w3-button w3-xlarge w3-block w3-left-align"><i class='fa fa-user-circle'></i> Personal</a>
+              <hr>
+              <a href="./user_account_page_future_reservations.html" class="w3-button w3-xlarge w3-block w3-left-align"><i class='fa fa-book'></i> Future Reservations</a>
+              <hr>
+              <a href="./user_account_page_past_reservations.html" class="w3-button w3-xlarge w3-block w3-left-align"><i class='fa fa-clock-o'></i> Past Reservations</a>
+              <br>
+            </div>
+          </div>
       </div>
     </div>
-    <br>
-    <label>Check-In Date:</label>
-    <input id="start_date" class="w3-input w3-border" type="date" placeholder="MM DD YYYY">
-    <br>
-    <label>Check-Out Date:</label>
-    <input id="end_date" class="w3-input w3-border" type="date" placeholder="MM DD YYYY">
-    <br>
-    <label>Number of Adults:</label>
-    <input id="adult_num" class="w3-input w3-border" type="number" min="0" placeholder="1">
-    <br>
-    <label>Number of Children:</label>
-    <input id="children_num" class="w3-input w3-border" type="number" min="0" placeholder="0">
-    <br>
+
+    <div class="w3-twothird w3-container">
 
 
-    <br>
-    <br>
+      <center><h2>Edit/View Your Reservation:</h2></center>
+      <br>
+      <br>
+      <center><h2 id="hotel_name">Hotel Name</h2></center>
+      <form class = "w3-container w3-border" enctype="multipart/form-data">
+        <h2>User Information : </h2>
+        <label>User's Email:</label>
+        <input class="w3-input w3-border" type="text" id="user_email_input" required>
+        <br>
+        <label>User's First Name:</label>
+        <input class="w3-input w3-border" type="text" id="first_name_input" required>
+        <br>
+        <label>User's Last Name:</label>
+        <input class="w3-input w3-border" type="text" id="last_name_input" required>
+        <br>
+        <h2>Hotel Information : </h2>
 
-    <center><input class="w3-button w3-theme w3-black" type="button" value="Make Changes" onclick="Update_Reservation()"></input></center>
 
-    <br>
-    <br>
-  </form>
+        <div class="w3-row-padding w3-center">
+          <center><h2 id="selected_room">Selected Room : </h2></center>
+          <div class="w3-third" id="standard-element">
+            <center><img id="standard-image" style = "width:300px;height:300px;"></img></center>
+            <h2><b>Standard</b></h2>
+            <center><h3 id="standard-price"><b>$100 Per Night</b></h3></center>
+            <center><h4 id="standard-rooms"><b>10 Rooms</b></h4></center>
+            <span id="standard-button"></span>
+            <br>
+
+          </div>
+          <div class="w3-third" id="queen-element">
+            <center><img id="queen-image" style = "width:300px;height:300px;"></img></center>
+            <h2><b>Queen</b></h2>
+            <center><h3 id="queen-price"><b>$100 Per Night</b></h3></center>
+            <center><h4 id="queen-rooms"><b>10 Rooms</b></h4></center>
+            <span id="queen-button"></span>
+            <br>
+          </div>
+
+          <div class="w3-third" id="king-element">
+            <center><img id="king-image" style = "width:300px;height:300px;"></img></center>
+            <h2><b>King</b></h2>
+            <center><h3 id="king-price" ><b>$100 Per Night</b></h3></center>
+            <center><h4 id="king-rooms"><b>10 Rooms</b></h4></center>
+            <span id="king-button"></span>
+            <br>
+          </div>
+        </div>
+        <br>
+        <label>Check-In Date:</label>
+        <input id="start_date" class="w3-input w3-border" type="date" placeholder="MM DD YYYY">
+        <br>
+        <label>Check-Out Date:</label>
+        <input id="end_date" class="w3-input w3-border" type="date" placeholder="MM DD YYYY">
+        <br>
+        <label>Number of Adults:</label>
+        <input id="adult_num" class="w3-input w3-border" type="number" min="0" placeholder="1">
+        <br>
+        <label>Number of Children:</label>
+        <input id="children_num" class="w3-input w3-border" type="number" min="0" placeholder="0">
+        <br>
+
+
+        <br>
+        <br>
+
+
+        <center><input class="w3-button w3-theme w3-black" type="button" value="Make Changes" onclick="Update_Reservation()"></input></center>
+
+        <br>
+        <br>
+      </form>
+
+
+    </div>
+  </div>
 
 
 
 
+</body>
 
-<!-- END MAIN -->
-</div>
-</div>
 
 <script>
 
-function logout()
-{
-  localStorage.removeItem("UID");
-
-}
-function get_admin()
-{
-
-  var UID = localStorage.getItem("UID");
-
-  const Http = new XMLHttpRequest();
-  const url='http://localhost:5000/admin_verify?UID='+UID;
-  Http.open("GET", url);
-  Http.send();
-
-
-  Http.onreadystatechange = (e) => {
-    var response = JSON.parse(Http.responseText);
-    if (response[0].CODE == 0)
-    {
-      var name = response[0].NAME;
-      document.getElementById("admin_name").innerHTML = '<b>Welcome '+name+'!</b>';
-
-    }
-  }
-
-
-
-
-}
 function set_selected_room(room_type)
 {
   if(room_type == "Standard")
@@ -245,9 +234,6 @@ function Update_Reservation()
 function load_reservation_information()
 {
 
-
-  get_admin()
-
   var RID = localStorage.getItem("RID");
   const Http = new XMLHttpRequest();
   const url='http://localhost:5000/load_reservation_information?RID='+RID;
@@ -324,7 +310,6 @@ function load_reservation_information()
   }
 }
 
-</script>
 
-</body>
+</script>
 </html>

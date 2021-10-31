@@ -29,7 +29,12 @@ import update_reservation
 import delete_reservation
 import create_user
 import user_login
-
+import update_user_information
+import update_user_password
+import get_user_information
+import get_user_reservation
+import admin_login
+import get_login_admin_info
 app = Flask(__name__)
 CORS(app)
 
@@ -331,9 +336,11 @@ def reservation_creation():
     first_name = request.args.get('first_name',type=str)
     last_name = request.args.get('last_name',type=str)
     user_email = request.args.get('user_email',type=str)
+    UID = request.args.get('UID',type=str)
 
+    if UID == "NONE" or UID == "ADMIN":
+        UID = "NONE"
 
-    UID = str(id_generator.user_id_generate())
     RID = str(id_generator.reservation_id_generate())
 
     code = create_reservation.create(HID,UID,RID,start_date,end_date,ROOM_TYPE,price,num_adult,num_children,first_name,last_name,user_email)
@@ -417,6 +424,81 @@ def user_verify_login():
     response[0] = {"CODE":str(code),"UID":str(UID)}
     response_json = json.dumps(response)
     return response_json
+
+
+@app.route('/change_user_info')
+def update_user_info():
+    UID = request.args.get('UID',type=str)
+    user_email = request.args.get('user_email',type=str)
+    first_name = request.args.get('first_name',type=str)
+    last_name = request.args.get('last_name',type=str)
+    phone_number = request.args.get('phone_number',type=str)
+
+    code = update_user_information.update(UID,user_email,first_name,last_name,phone_number)
+
+    return code
+
+@app.route('/update_user_password')
+def update_password_user():
+    UID = request.args.get('UID',type=str)
+    new_password = request.args.get('new_password',type=str)
+    old_password = request.args.get('old_password',type=str)
+
+    code = update_user_password.update(UID,new_password,old_password)
+
+    return code
+
+
+@app.route('/get_user_info')
+def get_user():
+    UID = request.args.get('UID',type=str)
+
+    user_info_json = get_user_information.get_user(UID);
+
+
+    return user_info_json
+
+
+@app.route('/get_reservations_user_future')
+def get_reservations_for_user_future():
+    UID = request.args.get('UID',type=str)
+
+    reservations_json = get_user_reservation.get_future(UID)
+
+    return reservations_json
+
+
+@app.route('/get_reservations_user_past')
+def get_reservations_for_user_past():
+    UID = request.args.get('UID',type=str)
+
+    reservations_json = get_user_reservation.get_past(UID)
+
+    return reservations_json
+
+
+@app.route('/admin_login')
+def login_admin():
+    user_email = request.args.get('user_email',type=str)
+    password = request.args.get('password',type=str)
+
+    code,UID = admin_login.login(user_email,password)
+    response = {}
+    response[0] = {"CODE":str(code),"UID":str(UID)}
+    response_json = json.dumps(response)
+    return response_json
+
+
+@app.route('/admin_verify')
+def verify_admin():
+    UID = request.args.get('UID',type=str)
+
+    code,name = get_login_admin_info.verify(UID)
+    response = {}
+    response[0] = {"CODE":str(code),"NAME":str(name)}
+    response_json = json.dumps(response)
+    return response_json
+
 
 
 

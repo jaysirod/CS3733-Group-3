@@ -11,7 +11,7 @@
 html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
 </style>
-<body onload=get_staff()>
+<body onload="get_staff()">
 <!-- Sidebar -->
 <div class="w3-row">
 
@@ -19,7 +19,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   <br>
   <center><h4 ><b>Admin Menu</b></h4></center>
   <br>
-  <center><h4><b>Welcome AdminName!</b></h4></center>
+  <center><h4 id="admin_name"><b>Welcome AdminName!</b></h4></center>
   <br>
   <a class="w3-bar-item w3-button w3-hover-black" href="./admin_hotels.html">Hotels</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="./admin_staff.html">Staff</a>
@@ -27,6 +27,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   <a class="w3-bar-item w3-button w3-hover-black" href="./admin_create_reservation.html">Create Reservation</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="./admin_modify_reservation.html">Modify Reservation</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="./admin_checkin.html">Check-in</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="./admin_login.html" onclick="logout()">Logout</a>
+
 </div>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -55,6 +57,36 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
 <script>
 
+function logout()
+{
+  localStorage.removeItem("UID");
+
+}
+function get_admin()
+{
+
+  var UID = localStorage.getItem("UID");
+
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/admin_verify?UID='+UID;
+  Http.open("GET", url);
+  Http.send();
+
+
+  Http.onreadystatechange = (e) => {
+    var response = JSON.parse(Http.responseText);
+    if (response[0].CODE == 0)
+    {
+      var name = response[0].NAME;
+      document.getElementById("admin_name").innerHTML = '<b>Welcome '+name+'!</b>';
+
+    }
+  }
+
+
+
+
+}
 function open_staff_page(UID)
 {
   localStorage.setItem("UID",UID);
@@ -88,7 +120,7 @@ function delete_staff_member(UID)
 
 function get_staff()
 {
-
+    get_admin()
     const Http = new XMLHttpRequest();
     const url='http://localhost:5000/admin_staff';
     Http.open("GET", url);

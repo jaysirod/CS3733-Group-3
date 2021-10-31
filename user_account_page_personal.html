@@ -25,12 +25,12 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
 <br>
 <br>
-<h2>User Account</h2>
+<center><h2>User Account Information</h2></center>
 
 <br>
 <br>
 
-<body>
+<body onload="load_user_info()">
 
   <div class="w3-row">
     <div class="w3-third w3-container">
@@ -38,11 +38,11 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
           <div class="w3-card">
             <div class="w3-container">
               <br>
-              <a class="w3-button w3-xlarge w3-block w3-left-align"><i class='fa fa-user-circle' style=""></i> Personal</a>
+              <a href="./user_account_page_personal.html" class="w3-button w3-xlarge w3-block w3-left-align"><i class='fa fa-user-circle'></i> Personal</a>
               <hr>
-              <a class="w3-button w3-xlarge w3-block w3-left-align"><i class='fa fa-book'></i> Future Reservations</a>
+              <a href="./user_account_page_future_reservations.html" class="w3-button w3-xlarge w3-block w3-left-align"><i class='fa fa-book'></i> Future Reservations</a>
               <hr>
-              <a class="w3-button w3-xlarge w3-block w3-left-align"><i class='fa fa-clock-o'></i> Past Reservations</a>
+              <a href="./user_account_page_past_reservations.html" class="w3-button w3-xlarge w3-block w3-left-align"><i class='fa fa-clock-o'></i> Past Reservations</a>
               <br>
             </div>
           </div>
@@ -54,19 +54,19 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
           <h2>Personal Information</h2>
 
           <label>First name</label>
-          <input class="w3-input w3-border" type="text" value="John" required>
+          <input id="first_name" class="w3-input w3-border" type="text" value="John" required>
 
           <label>Last name</label>
-          <input class="w3-input w3-border" type="text" value="Doe"  required>
+          <input id="last_name" class="w3-input w3-border" type="text" value="Doe"  required>
 
           <label>Phone number</label>
-          <input class="w3-input w3-border" type="text" value="(100) 123-4567"  required>
+          <input id="phone_number" class="w3-input w3-border" type="text" value="(100) 123-4567"  required>
 
           <label>Email</label>
-          <input class="w3-input w3-border" type="text" value="email@email.com"  required>
+          <input id="email" class="w3-input w3-border" type="text" value="email@email.com"  required>
 
           <br>
-          <a class="w3-button w3-xlarge w3-black">Save Changes</a>
+          <input class="w3-button w3-theme w3-black" type="button" value="Save Changes" onclick="modify_user()"></input>
           <br>
           <br>
       </form>
@@ -75,16 +75,16 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
           <h2>Change Password</h2>
 
           <label>Current Password</label>
-          <input class="w3-input w3-border" type="text" placeholder="Password" required>
+          <input id="current_password" class="w3-input w3-border" placeholder="Password" type="password" required>
 
           <label>New Password</label>
-          <input class="w3-input w3-border" type="text" placeholder="Password"  required>
+          <input id="new_password_1" class="w3-input w3-border"  placeholder="Password"  type="password" required>
 
           <label>Re-Enter New Password</label>
-          <input class="w3-input w3-border" type="text" placeholder="Password"  required>
+          <input id="new_password_2" class="w3-input w3-border"  placeholder="Password"  type="password" required>
 
           <br>
-          <a class="w3-button w3-xlarge w3-black">Change Password</a>
+          <input class="w3-button w3-theme w3-black" type="button" value="Change Password" onclick="change_password()"></input>
           <br>
           <br>
       </form>
@@ -94,6 +94,99 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
 </body>
 
+<script>
 
+
+function load_user_info()
+{
+  var UID = localStorage.getItem("UID");
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/get_user_info?UID='+UID;
+  Http.open("GET", url);
+  Http.send();
+  Http.onreadystatechange = (e) =>
+  {
+    var response = JSON.parse(Http.responseText);
+
+    document.getElementById("first_name").value = response[0].FIRST_NAME;
+    document.getElementById("last_name").value = response[0].LAST_NAME;
+    document.getElementById("phone_number").value = response[0].PHONE_NUM;
+    document.getElementById("email").value = response[0].EMAIL;
+
+
+  }
+}
+function modify_user()
+{
+  var UID = localStorage.getItem("UID");
+  var first_name = document.getElementById("first_name").value;
+  var last_name = document.getElementById("last_name").value;
+  var phone_number = document.getElementById("phone_number").value;
+  var email = document.getElementById("email").value;
+
+  if(first_name == "" || last_name == "" || phone_number == "" || email == ""){
+    alert("You must fill in all fields!");
+    return;
+  }
+
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/change_user_info?first_name='+first_name+'&last_name='+last_name+'&phone_number='+phone_number+'&user_email='+email+'&UID='+UID;
+  Http.open("GET", url);
+  Http.send();
+  Http.onreadystatechange = (e) =>
+  {
+
+      if(Http.responseText.toString() == "0")
+      {
+        alert("Chages Saved!");
+        location.reload();
+
+
+      }
+  }
+}
+
+function change_password()
+{
+  var UID = localStorage.getItem("UID");
+  var old_password = document.getElementById("current_password").value;
+  var new_password = document.getElementById("new_password_1").value;
+
+
+  if(new_password == "" || old_password == "" || document.getElementById("new_password_2").value == "")
+  {
+    alert("Please Fill in All Fields!");
+  }
+
+  if(document.getElementById("new_password_1").value == document.getElementById("new_password_2").value)
+  {
+    const Http = new XMLHttpRequest();
+    const url='http://localhost:5000/update_user_password?UID='+UID+'&new_password='+new_password+'&old_password='+old_password;
+    Http.open("GET", url);
+    Http.send();
+    Http.onreadystatechange = (e) =>
+    {
+
+        if(Http.responseText.toString() == "0")
+        {
+          alert('Password Updated!')
+          location.reload();
+
+
+        }else if(Http.responseText.toString() == "1")
+        {
+          alert("Incorrect Password!");
+        }
+    }
+  }else
+  {
+    alert("Passwords Do Not Match!");
+  }
+
+
+}
+
+
+</script>
 
 </html>

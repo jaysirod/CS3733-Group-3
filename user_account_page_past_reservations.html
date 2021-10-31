@@ -25,12 +25,12 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
 <br>
 <br>
-<h2>Past Reservations</h2>
+<center><h2>Past Reservations</h2></center>
 
 <br>
 <br>
 
-<body>
+<body onload="get_user_reservations()">
 
   <div class="w3-row">
     <div class="w3-third w3-container">
@@ -38,11 +38,11 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
           <div class="w3-card">
             <div class="w3-container">
               <br>
-              <a class="w3-button w3-xlarge w3-block w3-left-align"><i class='fa fa-user-circle' style=""></i> Personal</a>
+              <a href="./user_account_page_personal.html" class="w3-button w3-xlarge w3-block w3-left-align"><i class='fa fa-user-circle'></i> Personal</a>
               <hr>
-              <a class="w3-button w3-xlarge w3-block w3-left-align"><i class='fa fa-book'></i> Future Reservations</a>
+              <a href="./user_account_page_future_reservations.html" class="w3-button w3-xlarge w3-block w3-left-align"><i class='fa fa-book'></i> Future Reservations</a>
               <hr>
-              <a class="w3-button w3-xlarge w3-block w3-left-align"><i class='fa fa-clock-o'></i> Past Reservations</a>
+              <a href="./user_account_page_past_reservations.html" class="w3-button w3-xlarge w3-block w3-left-align"><i class='fa fa-clock-o'></i> Past Reservations</a>
               <br>
             </div>
           </div>
@@ -50,48 +50,89 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
     </div>
 
     <div class="w3-twothird w3-container">
-      <ul style="list-style-type: none;margin:0px;padding:0px">
 
-        <li>
-          <div class="w3-row w3-border">
-            <div class="w3-third w3-container">
-              <center><img src="./images/hotel_icon_1.jpeg" style = "width:300px;height:300px;"></img></center>
-            </div>
-            <div class="w3-third w3-container">
+      <div>
+        <ul style="list-style-type: none;margin:0px;padding:0px" id="reservation_list">
 
-            </div>
-            <div class="w3-third w3-container">
-              <center><h2><b>Vyatt</b></h2></center>
-              <h5><b>Location:</b> San Antonio, TX</h5>
-              <h5><b>Date:</b> September 4,2021</h5>
-              <h5><b>Price:</b> $150.00</h5>
-            </div>
-          </div>
-        </li>
-
-        <li>
-          <div class="w3-row w3-border">
-            <div class="w3-third w3-container">
-              <center><img src="./images/hotel_icon_2.jpeg" style = "width:300px;height:300px;"></img></center>
-            </div>
-            <div class="w3-third w3-container">
-
-            </div>
-            <div class="w3-third w3-container">
-              <center><h2><b>Vyatt</b></h2></center>
-              <h5><b>Location:</b> San Antonio, TX</h5>
-              <h5><b>Date:</b> September 4,2021</h5>
-              <h5><b>Price:</b> $150.00</h5>
-            </div>
-          </div>
-        </li>
-      </ul>
+        </ul>
+      </div>
 
     </div>
   </div>
 
 </body>
 
+<script>
+function get_user_reservations()
+{
+  var UID = localStorage.getItem("UID");
+
+
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/get_reservations_user_past?UID='+UID;
+  Http.open("GET", url);
+  Http.send();
+
+
+  Http.onreadystatechange = (e) => {
+    document.getElementById('reservation_list').innerHTML = '';
+
+    if(Http.responseText == "NO RESERVATIONS")
+    {
+      var li = document.createElement('li');
+      li.innerHTML = '<center><h1>No Reservations Found</h1></center>';
+      document.getElementById('reservation_list').appendChild(li);
+
+    }
+    var reservations = JSON.parse(Http.responseText);
+    var reservation_len = Object.keys(reservations).length;
+
+    var li = document.createElement('li');
+    li.innerHTML = '<h1>'+reservation_len+' Reservation(s) Found</h1>';
+    document.getElementById('reservation_list').appendChild(li);
+
+
+    for(var i = 0; i < reservation_len; i++)
+    {
+      var reservation = reservations[i];
+
+      var reservation_card = `
+      <div class="w3-row w3-border">
+        <div class="w3-third w3-container">
+          <center><img src="`+reservation.IMG_URL+`" style = "width:300px;height:300px;"></img></center>
+        </div>
+        <div class="w3-twothird w3-container">
+          <center><h3><b>`+reservation.Name+`</b></h3></center>
+
+          <center><h3><b>Start Date:</b></h3></center>
+          <center><h4>`+reservation.START_DATE+`</h4></center>
+
+          <center><h3><b>End Date:</b></h3></center>
+          <center><h4>`+reservation.END_DATE+`</h4></center>
+
+          <center><h3><b>Room Type:</b></h3></center>
+          <center><h4>`+reservation.ROOM_TYPE+`</h4></center>
+
+          <center><h3><b>Price:</b></h3></center>
+          <center><h4>`+reservation.Price+`</h4></center>
+
+          <br>
+
+        </div>
+      </div>
+
+      <br>
+      `;
+
+      var li = document.createElement('li');
+      li.innerHTML = reservation_card;
+      document.getElementById('reservation_list').appendChild(li);
+
+    }
+
+  }
+}
+</script>
 
 
 </html>

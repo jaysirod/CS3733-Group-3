@@ -173,7 +173,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
         <label for="submit_rules">I have read and accept the terms & conditions for the hotel <span style="color:red;font-size:20px;">*</span></label>
         <input id="submit_rules" class="w3-input" type="checkbox">
         <br>
-        <center><a class="w3-blue w3-button" onclick="create_reservation()">Submit</a><center>
+        <center><a class="w3-blue w3-button" onclick="create_reservation()">Submit</a></center>
         <br>
     </form>
 
@@ -224,9 +224,13 @@ function create_reservation()
     return;
   }
 
-
+  var UID = localStorage.getItem("UID");
+  if(UID == null)
+  {
+    UID = "NONE";
+  }
   const Http = new XMLHttpRequest();
-  const url='http://localhost:5000/create_reservation?HID='+HID+'&start_date='+start_date+'&end_date='+end_date+'&ROOM_TYPE='+ROOM_TYPE+'&price='+price+'&num_adult='+num_adult+'&num_children='+num_children+'&first_name='+first_name+'&last_name='+last_name+'&user_email='+user_email;
+  const url='http://localhost:5000/create_reservation?HID='+HID+'&start_date='+start_date+'&end_date='+end_date+'&ROOM_TYPE='+ROOM_TYPE+'&price='+price+'&num_adult='+num_adult+'&num_children='+num_children+'&first_name='+first_name+'&last_name='+last_name+'&user_email='+user_email+'&UID='+UID;
   Http.open("GET", url);
   Http.send();
 

@@ -11,7 +11,7 @@
 html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
 </style>
-<body onload=load_hotel_info()>
+<body onload="load_hotel_info()">
 <!-- Sidebar -->
 <div class="w3-row">
 
@@ -19,7 +19,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   <br>
   <center><h4 ><b>Admin Menu</b></h4></center>
   <br>
-  <center><h4><b>Welcome AdminName!</b></h4></center>
+  <center><h4 id="admin_name"><b>Welcome AdminName!</b></h4></center>
   <br>
   <a class="w3-bar-item w3-button w3-hover-black" href="./admin_hotels.html">Hotels</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="./admin_staff.html">Staff</a>
@@ -27,6 +27,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   <a class="w3-bar-item w3-button w3-hover-black" href="./admin_create_reservation.html">Create Reservation</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="./admin_modify_reservation.html">Modify Reservation</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="./admin_checkin.html">Check-in</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="./admin_login.html" onclick="logout()">Logout</a>
+
 </div>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -175,7 +177,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
           <label for="submit_rules">I have read and accept the terms & conditions for the hotel <span style="color:red;font-size:20px;">*</span></label>
           <input id="submit_rules" class="w3-input" type="checkbox">
           <br>
-          <center><a class="w3-blue w3-button" onclick="create_reservation()">Submit</a><center>
+          <center><a class="w3-blue w3-button" onclick="create_reservation()">Submit</a></center>
           <br>
       </form>
 
@@ -195,6 +197,36 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 </div>
 
 <script>
+function logout()
+{
+  localStorage.removeItem("UID");
+
+}
+function get_admin()
+{
+
+  var UID = localStorage.getItem("UID");
+
+  const Http = new XMLHttpRequest();
+  const url='http://localhost:5000/admin_verify?UID='+UID;
+  Http.open("GET", url);
+  Http.send();
+
+
+  Http.onreadystatechange = (e) => {
+    var response = JSON.parse(Http.responseText);
+    if (response[0].CODE == 0)
+    {
+      var name = response[0].NAME;
+      document.getElementById("admin_name").innerHTML = '<b>Welcome '+name+'!</b>';
+
+    }
+  }
+
+
+
+
+}
   function create_reservation()
   {
 
@@ -229,9 +261,10 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
       return;
     }
 
+    var UID = "ADMIN";
 
     const Http = new XMLHttpRequest();
-    const url='http://localhost:5000/create_reservation?HID='+HID+'&start_date='+start_date+'&end_date='+end_date+'&ROOM_TYPE='+ROOM_TYPE+'&price='+price+'&num_adult='+num_adult+'&num_children='+num_children+'&first_name='+first_name+'&last_name='+last_name+'&user_email='+user_email;
+    const url='http://localhost:5000/create_reservation?HID='+HID+'&start_date='+start_date+'&end_date='+end_date+'&ROOM_TYPE='+ROOM_TYPE+'&price='+price+'&num_adult='+num_adult+'&num_children='+num_children+'&first_name='+first_name+'&last_name='+last_name+'&user_email='+user_email+'&UID='+UID;
     Http.open("GET", url);
     Http.send();
 
@@ -254,7 +287,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
   function load_hotel_info(){
 
-
+    get_admin()
     var HID = localStorage.getItem("HID");
     var start_date = localStorage.getItem("Start_Date");
     var end_date = localStorage.getItem("End_Date");

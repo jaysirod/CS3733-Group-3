@@ -4,26 +4,27 @@ import datetime
 import re
 
 
-def login(user_email, user_password):
+
+def verify(UID):
 
     print('[!] Accessing Database!')
 
     conn = sqlite3.connect('./Database/test_DB.db')
 
 
-    cursor = conn.execute("SELECT UID from USERS WHERE EMAIL='"+user_email+"' AND PASSWORD='"+user_password+"'")
+    cursor = conn.execute("SELECT FIRST_NAME from ADMIN WHERE UID='"+UID+"'")
     row = cursor.fetchall()
 
 
     try:
-        UID = str(row[0][0])
+        name = str(row[0][0])
         code = "0"
         print("[+] FOUND USER!")
     except:
-        UID = "NONE"
+        name = "NONE"
         code = "1"
 
     conn.commit()
     conn.close()
 
-    return code,UID
+    return code,name

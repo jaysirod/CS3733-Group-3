@@ -35,8 +35,6 @@
 
       <input class="w3-button w3-theme w3-black" type="button" value="Login" onclick="login_user()"></input>
 
-      <p>Don't Have an Account? <a href = "./signin.html">Sign Up</a></p>
-
       <p class="mt-5 mb-3 text-muted">© 2021</p>
     </form>
 
@@ -56,7 +54,7 @@ function login_user()
   }
 
   const Http = new XMLHttpRequest();
-  const url='http://localhost:5000/user_login?user_email='+user_email+'&password='+password;
+  const url='http://localhost:5000/admin_login?user_email='+user_email+'&password='+password;
   Http.open("GET", url);
   Http.send();
   Http.onreadystatechange = (e) =>
@@ -66,7 +64,7 @@ function login_user()
       if(response[0].CODE == "0")
       {
         localStorage.setItem("UID",response[0].UID);
-        window.open("./index.html","_self");
+        window.open("./admin_hotels.html","_self");
 
       }else if(response[0].CODE == "1")
       {
