@@ -77,6 +77,9 @@ function get_admin()
       var name = response[0].NAME;
       document.getElementById("admin_name").innerHTML = '<b>Welcome '+name+'!</b>';
 
+    }else
+    {
+      window.open("./admin_login.html","_self");
     }
   }
 

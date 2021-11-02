@@ -120,7 +120,7 @@ def get_hotel_info(HID,start_date,end_date):
 
     conn = sqlite3.connect('./Database/test_DB.db')
 
-    cursor = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,PHONE_NUMBER from HOTEL WHERE HID="+str(HID))
+    cursor = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,WEEKEND_PERCENT,PHONE_NUMBER from HOTEL WHERE HID="+str(HID))
 
     row = cursor.fetchall()
 
@@ -130,7 +130,7 @@ def get_hotel_info(HID,start_date,end_date):
     num_of_rooms = row[0][2]
     hotel_rooms = get_hotel_rooms(conn,HID,num_of_rooms,start_date,end_date)
 
-    hotel_information[0] = {"HID" : HID, "Name" : row[0][1], "NUM_OF_ROOMS" : num_of_rooms, "PHONE_NUMBER" : row[0][4], "AMENITIES" : hotel_amenities, "IMG_URL":row[0][3],"ROOMS": hotel_rooms}
+    hotel_information[0] = {"HID" : HID, "Name" : row[0][1], "NUM_OF_ROOMS" : num_of_rooms, "PHONE_NUMBER" : row[0][5], "AMENITIES" : hotel_amenities, "IMG_URL":row[0][3],"WEEKEND_PERCENT":row[0][4],"ROOMS": hotel_rooms}
 
 
     conn.commit()

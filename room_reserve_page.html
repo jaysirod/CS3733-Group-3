@@ -31,7 +31,6 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 <br>
 
 
-
 <div class="w3-row">
   <div class="w3-third w3-container">
     <div class="w3-row-padding">
@@ -44,10 +43,12 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
             <br>
             <h4 id="person_num_info">1 Adult & 0 Children</h4>
             <br>
-            <h4 id="reservation_date_info">1/1/99 -> 1/2/99</h4>
+            <p style="font-size:18px;" id="reservation_date_info">1/1/99 -> 1/2/99</p>
+            <p style="font-size:15px;" id="num_nights">Number Of Nights:</p>
             <br>
             <h3>Price Details</h3>
-            <p id="room_price_info"> Room $150</p>
+            <p id="room_weekday_price_info"> Room $150</p>
+            <p id="room_weekend_price_info"> Room $150</p>
             <p id="room_taxes_info"> Taxes $20</p>
             <hr>
             <p id="room_total_info"> Total $170</p>
@@ -173,8 +174,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
         <label for="submit_rules">I have read and accept the terms & conditions for the hotel <span style="color:red;font-size:20px;">*</span></label>
         <input id="submit_rules" class="w3-input" type="checkbox">
         <br>
-        <center><a class="w3-blue w3-button" onclick="create_reservation()">Submit</a></center>
+        <center><input class="w3-button w3-theme w3-blue" type="button" value="Submit" onclick="create_reservation()"></input></center>
         <br>
+
     </form>
 
 
@@ -239,7 +241,7 @@ function create_reservation()
     if (parseInt(Http.responseText) == 0)
     {
       alert("Your Room Has Been Reserved!");
-      window.open("./index.html")
+      window.open("./index.html","_self")
 
     }
 
@@ -261,6 +263,7 @@ function load_hotel_info(){
   var price = localStorage.getItem("Price");
   var num_adult = localStorage.getItem("num_adult");
   var num_children = localStorage.getItem("num_children");
+  var weekend_percent = localStorage.getItem("Weekend_Percent");
   if (num_children == "")
   {
     num_children = 0;
@@ -295,19 +298,38 @@ function load_hotel_info(){
     document.getElementById('hotel_name_info').innerHTML = hotel_info[0].Name;
     document.getElementById('reservation_date_info').innerHTML = '<b>Your Stay : '+start_month+'/'+start_day+'/'+start_year+' -> '+end_month+'/'+end_day+'/'+end_year+'</b>';
     document.getElementById('hotel_room_type_info').innerHTML = 'Room : '+ROOM_TYPE;
-    document.getElementById('room_price_info').innerHTML = "Hotel Room Price : $"+price;
-    document.getElementById('room_taxes_info').innerHTML = "Taxes : $"+(parseInt(price) * 0.0825).toFixed(2).toString();
-    document.getElementById('room_total_info').innerHTML = "Total Price : $"+(parseInt(price)+(parseInt(price) * 0.0825)).toFixed(2).toString();
-    document.getElementById('hotel_pricing_condition_info').innerHTML = "Your first payment will be $"+(parseInt(price)+(parseInt(price) * 0.0825)).toFixed(2).toString()+", any additional charges will be handled through your hotel provider";
     document.getElementById('person_num_info').innerHTML = num_adult+" Adults & "+num_children+" Children"
     document.getElementById('hotel_name_rules').innerHTML = hotel_info[0].Name;
     document.getElementById('hotel_reservation_date_rules').innerHTML = '<b>Your Stay : '+start_month+'/'+start_day+'/'+start_year+' -> '+end_month+'/'+end_day+'/'+end_year+'</b>';
 
 
 
+  }
+
+
+  const Http1 = new XMLHttpRequest();
+  const url1='http://localhost:5000/calculate_price?user_start_date='+start_date+'&user_end_date='+end_date+'&hotel_room_price='+price+'&weekend_percent='+weekend_percent;
+  Http1.open("GET", url1);
+  Http1.send();
+
+  Http1.onreadystatechange = (e) =>
+  {
+    var price_info = JSON.parse(Http1.responseText);
+    document.getElementById('num_nights').innerHTML = '<b>Number Of Nights: '+price_info[0].NUM_DAYS+'</b>'
+    document.getElementById('room_weekday_price_info').innerHTML = 'Weekday Night Price: $'+price_info[0].WEEKDAY_PRICE;
+    document.getElementById('room_weekend_price_info').innerHTML = 'Weekend Night Price: $'+price_info[0].WEEKEND_PRICE;
+    document.getElementById('room_taxes_info').innerHTML = "Taxes : $"+(parseInt(price_info[0].SUBTOTAL) * 0.0825).toFixed(2).toString();
+    var total_price = parseInt(price_info[0].SUBTOTAL);
+    total_price += parseInt(price_info[0].SUBTOTAL) * 0.0825;
+    document.getElementById('room_total_info').innerHTML = "<b>Total Price : $"+total_price.toFixed(2).toString()+"</b>";
+    document.getElementById('hotel_pricing_condition_info').innerHTML = "Your first payment will be $"+total_price.toFixed(2).toString()+", any additional charges will be handled through your hotel provider";
+
+
 
 
   }
+
+
 }
 </script>
 

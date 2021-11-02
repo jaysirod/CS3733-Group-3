@@ -3,7 +3,6 @@ import sqlite3
 import datetime
 import re
 
-
 def create_date(date_string):
     #CONSISTANT FORMAT yyyy-mm-dd : EXAMPLE: 2/4/2021 or 12/12/2021
 
@@ -156,7 +155,7 @@ def user_get_hotels(start_date,end_date,user_amenities,lowest_price,highest_pric
     print('[!] Accessing Database!')
 
     conn = sqlite3.connect('./Database/test_DB.db')
-    cursor = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,PHONE_NUMBER from HOTEL")
+    cursor = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,WEEKEND_PERCENT,PHONE_NUMBER from HOTEL")
 
     hotels = {}
     count = 0
@@ -166,7 +165,7 @@ def user_get_hotels(start_date,end_date,user_amenities,lowest_price,highest_pric
         hotel_rooms = get_hotel_availability(conn,row[0],start_date,end_date,user_amenities,hotel_amenities,lowest_price,highest_price,row[2])
 
         if not hotel_rooms == None:
-            hotels[count] = {"HID" : row[0], "Name" : row[1], "NUM_OF_ROOMS" : hotel_rooms[0], "PHONE_NUMBER" : row[4], "AMENITIES" : hotel_amenities, "ROOMS": hotel_rooms[1],"IMG_URL":row[3]}
+            hotels[count] = {"HID" : row[0], "Name" : row[1], "NUM_OF_ROOMS" : hotel_rooms[0],"WEEKEND_PERCENT":row[4], "PHONE_NUMBER" : row[5], "AMENITIES" : hotel_amenities, "ROOMS": hotel_rooms[1],"IMG_URL":row[3]}
             count += 1
 
 

@@ -35,6 +35,12 @@ import get_user_information
 import get_user_reservation
 import admin_login
 import get_login_admin_info
+import calculate_hotel_stay_price
+
+
+
+
+
 app = Flask(__name__)
 CORS(app)
 
@@ -499,9 +505,17 @@ def verify_admin():
     response_json = json.dumps(response)
     return response_json
 
+@app.route('/calculate_price')
+def calculate_price_user():
+    user_start_date = request.args.get('user_start_date',type=str)
+    user_end_date = request.args.get('user_end_date',type=str)
+    hotel_room_price = request.args.get('hotel_room_price',type=str)
+    weekend_percent = request.args.get('weekend_percent',type=str)
 
 
+    price_information_json = calculate_hotel_stay_price.calculate_price(user_start_date,user_end_date,hotel_room_price,weekend_percent)
 
+    return price_information_json
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)

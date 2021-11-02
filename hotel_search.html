@@ -102,12 +102,12 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
           <div class="w3-container">
             <h1 class="w3-center"><b>Filters : </b></h1>
             <h2>Price</h2>
-            <label>Low</label>
+            <label>Low $</label>
             <input id="price_low" class="w3-input w3-border" type="text" placeholder="0" required>
 
             <br>
 
-            <label>High</label>
+            <label>High $</label>
             <input id="price_high" class="w3-input w3-border" type="text" placeholder="900" required>
 
             <h2>Amenities</h2>
@@ -174,13 +174,29 @@ function open_hotel_page(HID)
   localStorage.setItem("End_Date",end_date);
   localStorage.setItem("num_adult",num_adult);
   localStorage.setItem("num_children",num_children);
-  window.open("./hotel_page.html");
+  window.open("./hotel_page.html","_self");
 
 }
 
 
 function first_time_load()
 {
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1; //January is 0!
+  var yyyy = today.getFullYear();
+
+  if (dd < 10) {
+     dd = '0' + dd;
+  }
+
+  if (mm < 10) {
+     mm = '0' + mm;
+  }
+
+  today = yyyy + '-' + mm + '-' + dd;
+  document.getElementById("start_date").setAttribute("min", today);
+  document.getElementById("end_date").setAttribute("min", today);
   try{
     var start_date1 = localStorage.getItem("Start_Date");
     var end_date1 = localStorage.getItem("End_Date");
@@ -284,8 +300,9 @@ function create_hotel_list() {
           <center><h3><b>Rooms Available:</b></h3></center>
           <center><h4><b>`+hotel.NUM_OF_ROOMS+`</b></h4></center>
 
-          <center><h3><b>Price:</b></h3></center>
-          <center><h4><b>$`+minPrice.toString()+`</b></h4></center>
+          <center><h3><b>Price Per Night :</b></h3></center>
+          <center><h4>Weekday Price : <b>$`+minPrice.toString()+`</b></h4></center>
+          <center><h4>Weekend Price : <b>$`+(parseFloat(minPrice)+(parseInt(minPrice)* (parseFloat(hotel.WEEKEND_PERCENT) /100))).toFixed(2).toString()+`</b></h4></center>
 
           <center><a class="w3-button w3-blue w3-xlarge" onclick="open_hotel_page(`+hotel.HID+`)">View Hotel</a></center>
           <br>
