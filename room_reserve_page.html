@@ -243,6 +243,11 @@ function create_reservation()
       alert("Your Room Has Been Reserved!");
       window.open("./index.html","_self")
 
+    }else if(parseInt(Http.responseText) == 1)
+    {
+      alert("We Truly Apologies, But This Room Is No Longer Available!");
+      window.open("./hotel_page.html","_self")
+
     }
 
   }

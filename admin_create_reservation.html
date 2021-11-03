@@ -221,16 +221,25 @@ function create_hotel_list() {
     document.getElementById('Hotel_List').innerHTML = '';
     var hotels = JSON.parse(Http.responseText);
     var hotelsLen = Object.keys(hotels).length;
-    if (hotelsLen > 1)
-    {
-      document.getElementById('num_hotels_found').innerHTML = "<b>"+hotelsLen.toString()+" Hotels Found</b>"
-    }else if (hotelsLen == 1){
-      document.getElementById('num_hotels_found').innerHTML = "<b>"+hotelsLen.toString()+" Hotel Found</b>"
-    }else
+
+    if(hotelsLen == 0)
     {
       document.getElementById('num_hotels_found').innerHTML = "<b>No Hotels Found</b>"
-    }
 
+    }
+    if (hotelsLen > 1 && hotels[0].OTHER_OFFER == "NO")
+    {
+      document.getElementById('num_hotels_found').innerHTML = "<b>"+hotelsLen.toString()+" Hotels Found</b>"
+    }else if (hotelsLen == 1 && hotels[0].OTHER_OFFER == "NO"){
+      document.getElementById('num_hotels_found').innerHTML = "<b>"+hotelsLen.toString()+" Hotel Found</b>"
+    }else if(hotelsLen > 1 && hotels[0].OTHER_OFFER == "YES")
+    {
+      document.getElementById('num_hotels_found').innerHTML = "<b>No Matches Found</b><br><b>Other Offers</b>"
+    }else if(hotelsLen == 1 && hotels[0].OTHER_OFFER == "YES")
+    {
+      document.getElementById('num_hotels_found').innerHTML = "<b>No Matches Found To Your Criteria</b><br><b>Other Offers</b>"
+
+    }
     for(var i = 0; i < hotelsLen; i++)
     {
       var hotel = hotels[i];

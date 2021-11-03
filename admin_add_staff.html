@@ -59,7 +59,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
       <label>Password:</label>
       <input class="w3-input w3-border" type="text" id="password" required>
       <br>
-      <center><input class="w3-button w3-xlarge w3-black" type = "submit" value="Save Changes" onclick="add_staff()"></center>
+      <center><input class="w3-button w3-xlarge w3-theme w3-black" type="button" value="Save Changes" onclick="add_staff()"></input></center>
+
+
       <br>
   </form>
 
@@ -132,6 +134,10 @@ function add_staff()
     {
       alert("Staff Member Successfully Added!");
       location.reload();
+
+    }else if(parseInt(Http.responseText) == 1)
+    {
+      alert("Staff Member Email Already In Use!");
 
     }
   }

@@ -89,6 +89,9 @@ function create_user()
       localStorage.setItem("UID",response[0].UID);
       window.open("./index.html","_self");
 
+    }else if(response[0].CODE == "1")
+    {
+      alert('Email Already In Use!');
     }
   }
 }

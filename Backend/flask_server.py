@@ -410,10 +410,10 @@ def user_create():
     phone_number = request.args.get('phone_number',type=str)
     password = request.args.get('password',type=str)
 
-    create_user.create_user(UID,first_name,last_name,user_email,phone_number,password)
+    code = create_user.create_user(UID,first_name,last_name,user_email,phone_number,password)
 
     response = {}
-    response[0] = {"CODE":"0","UID":UID}
+    response[0] = {"CODE":code,"UID":UID}
     response_json = json.dumps(response)
 
     return response_json

@@ -280,6 +280,11 @@ function get_admin()
         alert("Your Room Has Been Reserved!");
         window.open("./admin_hotels.html","_self")
 
+      }else if(parseInt(Http.responseText) == 1)
+      {
+        alert("We Truly Apologies, But This Room Is No Longer Available!");
+        window.open("./admin_hotel_page.html","_self")
+
       }
 
     }
