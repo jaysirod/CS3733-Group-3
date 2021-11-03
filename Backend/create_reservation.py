@@ -3,6 +3,76 @@ import sqlite3
 import datetime
 import re
 
+import smtplib
+import imghdr
+from email.message import EmailMessage
+from email.mime.multipart import MIMEMultipart #pip install email-to
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+
+def send_email(user_name,user_email,hotel_image,hotel_name,checkin,checkout,adults,children,price,reservation_id):
+
+    EMAIL_ADDRESS = "vhotels.project@gmail.com"
+    EMAIL_PASSWORD = "@Test12345"
+
+    with open("."+hotel_image, 'rb') as f:
+        file_data = f.read()
+        file_type = imghdr.what(f.name)
+        file_name = 'hotel_image.jpg'
+
+
+    msg = EmailMessage()
+    msg['Subject'] = 'Your Reservation Details!'
+    msg['From'] = EMAIL_ADDRESS
+    msg['To'] = user_email
+    #msg['To'] = (", ").join(contacts) #use this if you want to have multiple recipients in the same email
+    msg.set_content('Your Reservation Details')
+    msg.add_attachment(file_data, maintype='image', subtype=file_type, filename = file_name)
+
+    text_part,attachment_part = msg.iter_parts()
+    text_part.add_alternative("""\
+    <!DOCTYPE html>
+    <html>
+        <body>
+            <center><h1>"""+user_name+""", Your reservation is confirmed!</h1></center>
+            <center><h3>You are going to Texas!</h3></center>
+            <center><h2>"""+hotel_name+"""</h2></center>
+            <br>
+            <center><img src="cid:image1" style="width:300px;height:300px;"></img></center>
+            <hr>
+            <br>
+            <center><h2>Your Reservation Details:</h2></center>
+            <center><p style="font-size:15px;">Check-In : """+checkin+"""</p></center>
+            <center><p style="font-size:15px;">Check-Out : """+checkout+"""</p></center>
+            <center><p style="font-size:15px;">Adults : """+adults+""" , Children : """+children+"""</p></center>
+            <center><p style="font-size:15px;">Price : $"""+price+"""</p></center>
+            <center><p style="font-size:15px;">Reservation ID : """+reservation_id+"""</p></center>
+
+            <br>
+            <center><p>When you arrive please make sure to check-in at the front desk. You will provide your Reservation ID at the front desk</p></center>
+        </body>
+    </html>
+
+
+
+    """, subtype='html')
+
+    fp = open("."+hotel_image, 'rb')
+    msgImage = MIMEImage(fp.read())
+    fp.close()
+
+    # Define the image's ID as referenced above
+    msgImage.add_header('Content-ID', '<image1>')
+    msg.attach(msgImage)
+
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+        smtp.send_message(msg)
+
+
+    print('[+] Email Sent')
+
+
 
 def create_date(date_string):
     #CONSISTANT FORMAT yyyy-mm-dd : EXAMPLE: 2/4/2021 or 12/12/2021
@@ -65,9 +135,11 @@ def create(HID,UID,RID,start_date,end_date,ROOM_TYPE,price,num_adult,num_childre
 
         conn.commit()
         conn.close()
+
+        send_email(first_name,user_email,row_hotel[0][3],row_hotel[0][1],start_date,end_date,num_adult,num_children,price,RID)
         print('[+] Reservation Created')
         return "0"
     else:
         conn.close()
         print('[+] Room Is No Longer Available!')
-        return "1"        
+        return "1"

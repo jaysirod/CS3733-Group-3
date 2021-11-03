@@ -101,7 +101,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     <br>
     <br>
 
-    <center><input class="w3-button w3-theme w3-black" type="button" value="Make Changes" onclick="Update_Reservation()"></input></center>
+    <center><input id="update_reservation_button" class="w3-button w3-theme w3-black" type="button" value="Make Changes" onclick="Update_Reservation()"></input></center>
 
     <br>
     <br>
@@ -227,6 +227,7 @@ function Update_Reservation()
   Http.open("GET", url);
   Http.send();
 
+  document.getElementById("update_reservation_button").disabled = true;
 
   Http.onreadystatechange = (e) => {
 
@@ -266,7 +267,7 @@ function load_reservation_information()
   today = yyyy + '-' + mm + '-' + dd;
   document.getElementById("start_date").setAttribute("min", today);
   document.getElementById("end_date").setAttribute("min", today);
-  
+
   var RID = localStorage.getItem("RID");
   const Http = new XMLHttpRequest();
   const url='http://localhost:5000/load_reservation_information?RID='+RID;

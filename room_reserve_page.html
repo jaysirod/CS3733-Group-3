@@ -174,7 +174,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
         <label for="submit_rules">I have read and accept the terms & conditions for the hotel <span style="color:red;font-size:20px;">*</span></label>
         <input id="submit_rules" class="w3-input" type="checkbox">
         <br>
-        <center><input class="w3-button w3-theme w3-blue" type="button" value="Submit" onclick="create_reservation()"></input></center>
+        <center><input id="make_reservation_button" class="w3-button w3-theme w3-blue" type="button" value="Submit" onclick="create_reservation()"></input></center>
         <br>
 
     </form>
@@ -231,6 +231,8 @@ function create_reservation()
   {
     UID = "NONE";
   }
+
+  document.getElementById("make_reservation_button").disabled = true;
   const Http = new XMLHttpRequest();
   const url='http://localhost:5000/create_reservation?HID='+HID+'&start_date='+start_date+'&end_date='+end_date+'&ROOM_TYPE='+ROOM_TYPE+'&price='+price+'&num_adult='+num_adult+'&num_children='+num_children+'&first_name='+first_name+'&last_name='+last_name+'&user_email='+user_email+'&UID='+UID;
   Http.open("GET", url);

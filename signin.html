@@ -47,7 +47,7 @@
           <input type="checkbox" value="remember-me"> Remember me
         </label>
       </div>
-      <input class="w3-button w3-theme w3-black" type="button" value="Sign Up" onclick="create_user()"></input>
+      <input id="make_user_button" class="w3-button w3-theme w3-black" type="button" value="Sign Up" onclick="create_user()"></input>
 
       <br>
       <br>
@@ -76,6 +76,9 @@ function create_user()
     return;
   }
 
+
+  document.getElementById("make_user_button").disabled = true;
+
   const Http = new XMLHttpRequest();
   const url='http://localhost:5000/user_signup?first_name='+first_name+'&last_name='+last_name+'&phone_number='+phone_number+'&user_email='+user_email+'&password='+password;
   Http.open("GET", url);
@@ -92,6 +95,8 @@ function create_user()
     }else if(response[0].CODE == "1")
     {
       alert('Email Already In Use!');
+      document.getElementById("make_user_button").disabled = false;
+
     }
   }
 }

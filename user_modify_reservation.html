@@ -118,7 +118,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
         <br>
 
 
-        <center><input class="w3-button w3-theme w3-black" type="button" value="Make Changes" onclick="Update_Reservation()"></input></center>
+        <center><input id="update_reservation_button" class="w3-button w3-theme w3-black" type="button" value="Make Changes" onclick="Update_Reservation()"></input></center>
 
         <br>
         <br>
@@ -208,6 +208,11 @@ function Update_Reservation()
   var end_date = document.getElementById('end_date').value;
   var adult_num = document.getElementById('adult_num').value;
   var children_num = document.getElementById('children_num').value;
+
+
+  document.getElementById("update_reservation_button").disabled = true;
+
+
   const Http = new XMLHttpRequest();
   const url='http://localhost:5000/update_reservation?RID='+RID+'&user_email='+user_email+'&first_name='+first_name+'&last_name='+last_name+'&room_type='+room_type+'&start_date='+start_date+'&end_date='+end_date+'&adult_num='+adult_num+'&children_num='+children_num;
   Http.open("GET", url);
@@ -249,7 +254,7 @@ function load_reservation_information()
   today = yyyy + '-' + mm + '-' + dd;
   document.getElementById("start_date").setAttribute("min", today);
   document.getElementById("end_date").setAttribute("min", today);
-  
+
   var RID = localStorage.getItem("RID");
   const Http = new XMLHttpRequest();
   const url='http://localhost:5000/load_reservation_information?RID='+RID;
