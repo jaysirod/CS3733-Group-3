@@ -7,11 +7,41 @@
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+
+
 <style>
 html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
 </style>
 <body onload="get_staff()">
+
+  <div class="w3-top w3-hide-large">
+    <div class="w3-bar w3-black w3-card">
+      <a class="w3-bar-item w3-button w3-padding-large w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+      <a href="./admin_hotels.html" class="w3-bar-item w3-button w3-padding-large">Hotels</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+    <a href="./admin_staff.html" class="w3-bar-item w3-button w3-padding-large" >Staff</a>
+    <a href="./admin_analytics.html" class="w3-bar-item w3-button w3-padding-large" >Analytics</a>
+    <a href="./admin_create_reservation.html" class="w3-bar-item w3-button w3-padding-large" >Create Reservation</a>
+    <a href="./admin_modify_reservation.html" class="w3-bar-item w3-button w3-padding-large" >Modify Reservation</a>
+    <a href="./admin_checkin.html" class="w3-bar-item w3-button w3-padding-large" >Check-in</a>
+    <a href="./admin_login.html" class="w3-bar-item w3-button w3-padding-large" onclick="logout()">Logout</a>
+
+  </div>
 <!-- Sidebar -->
 <div class="w3-row">
 
@@ -35,13 +65,48 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
 
 <div class="w3-main" style="margin-left:200px;margin-right:10px;">
-  <h2 style="margin-left:20px;">Staff Members:</h2><br>
-  <a style="margin-left:20px;" class="w3-button w3-green w3-xlarge" onclick="add_staff()">Add Staff Member</a>
+  <span class="w3-hide-large">
+    <br>
+    <br>
+    <br>
+    <center><h2 style="margin-left:20px;">Staff Members:</h2></center><br>
+    <center><a style="margin-left:20px;" class="w3-button w3-green w3-xlarge" onclick="add_staff()">Add Staff Member</a></center>
+  </span>
+  <span class="w3-hide-medium w3-hide-small">
+    <h2 style="margin-left:20px;">Staff Members:</h2><br>
+    <a style="margin-left:20px;" class="w3-button w3-green w3-xlarge" onclick="add_staff()">Add Staff Member</a>
+  </span>
+
+  <br>
+  <br>
   <br>
   <br>
 <div>
   <div class="w3-container">
-    <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white" id="staff_table">
+    <table class="display" id="staff_table">
+      <thead>
+        <tr>
+          <th>Employee ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Phone Number</th>
+          <th>View/Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td>Row 1 Data 1</td>
+            <td>Row 1 Data 2</td>
+            <td>Row 1 Data 1</td>
+            <td>Row 1 Data 2</td>
+            <td>Row 1 Data 1</td>
+            <td>Row 1 Data 2</td>
+        </tr>
+
+      </tbody>
+
+
 
     </table>
 
@@ -56,7 +121,14 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 </div>
 
 <script>
-
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
 function logout()
 {
   localStorage.removeItem("UID");
@@ -94,12 +166,12 @@ function open_staff_page(UID)
 {
   localStorage.setItem("UID",UID);
 
-  window.open("./admin_staff_edit.html");
+  window.open("./admin_staff_edit.html","_self");
 }
 
 function add_staff()
 {
-  window.open("./admin_add_staff.html");
+  window.open("./admin_add_staff.html","_self");
 }
 
 function delete_staff_member(UID)
@@ -123,7 +195,14 @@ function delete_staff_member(UID)
 
 function get_staff()
 {
-    get_admin()
+    get_admin();
+
+
+    $(document).ready( function () {
+        $('#staff_table').DataTable();
+    } );
+
+
     const Http = new XMLHttpRequest();
     const url='http://localhost:5000/admin_staff';
     Http.open("GET", url);
@@ -131,68 +210,28 @@ function get_staff()
 
 
     Http.onreadystatechange = (e) => {
-      document.getElementById('staff_table').innerHTML = '';
       var staff = JSON.parse(Http.responseText);
       var staff_len = Object.keys(staff).length;
 
+      var table = $('#staff_table').DataTable();
 
-            var staff_header = `
-            <tr>
-              <th><h2>Employee ID</h2></th>
-              <th><h2>First Name</h2></th>
-              <th><h2>Last Name</h2></th>
-              <th><h2>Phone Number</h2></th>
-              <th><h2>View/Edit</h2></th>
-              <th><h2>Delete</h2></th>
-            </tr>
-            `;
+      table.clear().draw();
 
-            var tr = document.createElement('tr');
-            tr.innerHTML = staff_header;
-            document.getElementById('staff_table').appendChild(tr);
-
-            for(var i = 0 ; i < staff_len; i++)
-            {
-
-              var staff_card = `
-              <tr>
-                <td>
-                  <h4 id="staff_`+i+`">`+staff[i].UID+`</h4>
-                </td>
-                <td>
-                  <h4 id="staff_`+i+`">`+staff[i].FIRST_NAME+`</h4>
-                </td>
-                <td>
-                  <h4 id="staff_`+i+`">`+staff[i].LAST_NAME+`</h4>
-                </td>
-                <td>
-                  <h4 id="staff_`+i+`">`+staff[i].PHONE_NUM+`</h4>
-                </td>
-                <td>
-                  <a class="w3-button w3-small w3-blue" id="ve_`+i+`" onclick="open_staff_page(`+staff[i].UID+`)">View/Edit Staff</a>
-                </td>
-                <td>
-                  <a class="w3-button w3-small w3-red" id="delete_`+i+`" onclick="delete_staff_member(`+staff[i].UID+`)">Delete Staff</a>
-                </td>
-              </tr>
-              `;
-              var tr = document.createElement('tr');
-              tr.innerHTML = staff_card;
-              document.getElementById('staff_table').appendChild(tr);
-
-            }
+      var table = $('#staff_table').DataTable();
+      for(var i = 0 ; i < staff_len; i++)
+      {
+      table.row.add([staff[i].UID,staff[i].FIRST_NAME,staff[i].LAST_NAME,staff[i].PHONE_NUM,`<a class="w3-button w3-small w3-blue" id="ve_`+i+`" onclick="open_staff_page(`+staff[i].UID+`)">View/Edit Staff</a>`,`<a class="w3-button w3-small w3-red" id="delete_`+i+`" onclick="delete_staff_member(`+staff[i].UID+`)">Delete Staff</a>`]).draw();
+      }
 
     }
 
 
 }
 
-
-
-
-
-
 </script>
+
+
+
 
 </body>
 </html>

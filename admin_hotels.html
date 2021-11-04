@@ -7,15 +7,42 @@
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style>
 html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
+
+
+
 </style>
+
 <body onload="get_hotels()">
+<!--w3-hide-large w3-hide-medium-->
+<div class="w3-top w3-hide-large">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="./admin_hotels.html" class="w3-bar-item w3-button w3-padding-large">Hotels</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+  <a href="./admin_staff.html" class="w3-bar-item w3-button w3-padding-large" >Staff</a>
+  <a href="./admin_analytics.html" class="w3-bar-item w3-button w3-padding-large" >Analytics</a>
+  <a href="./admin_create_reservation.html" class="w3-bar-item w3-button w3-padding-large" >Create Reservation</a>
+  <a href="./admin_modify_reservation.html" class="w3-bar-item w3-button w3-padding-large" >Modify Reservation</a>
+  <a href="./admin_checkin.html" class="w3-bar-item w3-button w3-padding-large" >Check-in</a>
+  <a href="./admin_login.html" class="w3-bar-item w3-button w3-padding-large" onclick="logout()">Logout</a>
+
+</div>
+
+
+
 <!-- Sidebar -->
 <div class="w3-row">
 
-<div class="w3-onethird w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5" id="mySidebar">
+<div class="w3-hide-small w3-hide-medium w3-onethird w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5" id="mySidebar">
   <br>
   <center><h4 ><b>Admin Menu</b></h4></center>
   <br>
@@ -35,8 +62,17 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
 
 <div class="w3-main" style="margin-left:250px;margin-right:10px;">
-  <h2>Hotels:</h2>
-  <a class="w3-button w3-green w3-xlarge" onclick="add_hotel()">Add Hotel</a>
+  <span class="w3-hide-large">
+    <br>
+    <br>
+    <br>
+    <center><h2>Hotels:</h2></center>
+    <center><a class="w3-button w3-green w3-xlarge" onclick="add_hotel()">Add Hotel</a></center>
+  </span>
+  <span class="w3-hide-medium w3-hide-small">
+    <h2>Hotels:</h2>
+    <a class="w3-button w3-green w3-xlarge" onclick="add_hotel()">Add Hotel</a>
+  </span>
   <br>
   <br>
 <div>
@@ -53,6 +89,23 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 </div>
 
 <script>
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
 
 function logout()
 {
