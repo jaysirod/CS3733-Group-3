@@ -9,6 +9,42 @@
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
+/* Dropdown Button */
+.dropbtn {
+  color: white;
+  padding: 20px;
+  margin-right: 50px;
+  position: relative;
+  top: 10px;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: static;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 100px;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 20px 20px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
 </style>
 
 
@@ -16,16 +52,12 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
 <body onload="add_rooms()">
 
-<!-- Navigation Bar -->
-<div class="w3-bar w3-white w3-large">
-  <a href="#" class="w3-bar-item w3-button w3-black w3-mobile"><i class="fa fa-bed w3-margin-right"></i>Logo</a>
-  <a href="#rooms" class="w3-bar-item w3-button w3-mobile">Reserve</a>
-  <a href="#about" class="w3-bar-item w3-button w3-mobile">Hotels</a>
-  <a href="#contact" class="w3-bar-item w3-button w3-mobile">About</a>
-  <a href="#contact" class="w3-bar-item w3-button w3-mobile">Contact</a>
-  <a href="#contact" class="w3-bar-item w3-button w3-right w3-light-grey w3-mobile">Sign up</a>
-
-</div>
+  <div>
+    <div class="w3-bar w3-black w3-card">
+      <a href="./index.html" class="w3-bar-item w3-button w3-padding-large" style="font-size:30px">Home</a>
+      <span id="account_option" class="w3-right"></span>
+    </div>
+  </div>
 
 
 
@@ -114,6 +146,31 @@ function reserve_room(room_type,price,weekend_percent)
 
 function add_rooms()
 {
+
+  var UID = localStorage.getItem("UID");
+
+  if(UID != null)
+  {
+    var user_account_option = `<span class="dropdown">
+            <a class="dropbtn" href="./user_account_page_personal.html" class="w3-padding-large w3-right w3-bar-item w3-button w3-text-white"><i class="w3-xxxlarge	fa fa-user-circle-o"></i></a>
+              <div class="dropdown-content">
+                <a href="./user_account_page_personal.html">My Account</a>
+                <a href="./user_account_page_future_reservations.html">Reservations</a>
+                <a href="#" onclick="logout()">Logout</a>
+              </div>
+              </span>`;
+    var tr = document.createElement('span');
+    tr.innerHTML = user_account_option;
+    document.getElementById('account_option').appendChild(tr);
+  }
+  else
+  {
+    var user_signup = `<a href="./signin.html" class="w3-padding-large w3-right w3-bar-item w3-button w3-text-white" style="font-size:30px;">Sign up</a>`;
+    var tr = document.createElement('span');
+    tr.innerHTML = user_signup;
+    document.getElementById('account_option').appendChild(tr);
+  }
+
 
   var HID = localStorage.getItem("HID");
   var start_date = localStorage.getItem("Start_Date");

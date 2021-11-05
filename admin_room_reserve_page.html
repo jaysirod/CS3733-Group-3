@@ -274,8 +274,7 @@ function get_admin()
     var start_date = localStorage.getItem("Start_Date");
     var end_date = localStorage.getItem("End_Date");
     var ROOM_TYPE = localStorage.getItem("ROOM_TYPE");
-    var price = localStorage.getItem("Price");
-    price = (parseInt(price)+(parseInt(price) * 0.0825)).toFixed(2).toString()
+    var price = localStorage.getItem("total_price_hotel");
     var num_adult = localStorage.getItem("num_adult");
     var num_children = localStorage.getItem("num_children");
 
@@ -402,6 +401,7 @@ function get_admin()
       document.getElementById('room_total_info').innerHTML = "<b>Total Price : $"+total_price.toFixed(2).toString()+"</b>";
       document.getElementById('hotel_pricing_condition_info').innerHTML = "Your first payment will be $"+total_price.toFixed(2).toString()+", any additional charges will be handled through your hotel provider";
 
+      localStorage.setItem("total_price_hotel",total_price.toFixed(2).toString())
 
 
 

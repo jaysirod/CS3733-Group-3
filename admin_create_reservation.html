@@ -143,6 +143,39 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 </div>
 
 <script>
+function date_verify()
+{
+
+  var start_date = document.getElementById('start_date').value;
+  var end_date = document.getElementById('end_date').value;
+
+  var myRegexp = new RegExp("([0-9]*)-([0-9]*)-([0-9]*)", "g");
+  var matchStart = myRegexp.exec(start_date);
+
+  var start_day = matchStart[3];
+  var start_month = matchStart[2];
+  var start_year = matchStart[1];
+
+  var myRegexp1 = new RegExp("([0-9]*)-([0-9]*)-([0-9]*)", "g");
+  var matchEnd = myRegexp1.exec(end_date);
+
+  var end_day = matchEnd[3];
+  var end_month = matchEnd[2];
+  var end_year = matchEnd[1];
+
+  var fDate = new Date(start_month+"/"+start_day+"/"+start_year);
+  var lDate = new Date(end_month+"/"+end_day+"/"+end_year);
+
+  if(fDate >= lDate)
+  {
+    alert("Invalid Check-in or Check-out Date!");
+    return 1;
+  }
+  return 0;
+}
+
+
+
 function myFunction() {
   var x = document.getElementById("navDemo");
   if (x.className.indexOf("w3-show") == -1) {
@@ -226,7 +259,11 @@ function open_hotel_page(HID)
 
 function create_hotel_list() {
 
-
+  if (date_verify() == 1)
+  {
+    return;
+  }
+  
   var price_low_filter = document.getElementById('price_low').value;
   var price_high_filter = document.getElementById('price_high').value;
 
