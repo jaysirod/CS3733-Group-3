@@ -123,6 +123,8 @@ function logout()
 {
   localStorage.removeItem("UID");
 
+  window.open("./admin_login.html","_self");
+
 }
 
 function get_admin()
@@ -159,7 +161,7 @@ function view_edit_reservation(RID)
 {
   localStorage.setItem("RID",RID);
 
-  window.open("./admin_reservation_edit.html");
+  window.open("./admin_reservation_edit.html","_self");
 }
 
 function delete_reservation(RID)

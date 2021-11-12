@@ -111,6 +111,8 @@ function logout()
 {
   localStorage.removeItem("UID");
 
+  window.open("./admin_login.html","_self");
+
 }
 function get_admin()
 {
@@ -144,7 +146,7 @@ function get_admin()
 
 function add_hotel()
 {
-  window.open("./admin_add_hotel.html");
+  window.open("./admin_add_hotel.html","_self");
 }
 
 function delete_hotel(hotel_id)
@@ -169,7 +171,7 @@ function open_hotel_page(HID)
 {
   localStorage.setItem("HID",HID);
 
-  window.open("./admin_hotel_edit.html");
+  window.open("./admin_hotel_edit.html","_self");
 }
 
 

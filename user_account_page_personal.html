@@ -130,6 +130,12 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
 <script>
 
+function logout()
+{
+  localStorage.removeItem("UID");
+
+  location.reload();
+}
 
 function load_user_info()
 {
@@ -152,10 +158,8 @@ function load_user_info()
   }
   else
   {
-    var user_signup = `<a href="./signin.html" class="w3-padding-large w3-right w3-bar-item w3-button w3-text-white" style="font-size:30px;">Sign up</a>`;
-    var tr = document.createElement('span');
-    tr.innerHTML = user_signup;
-    document.getElementById('account_option').appendChild(tr);
+    window.open("./signin.html","_self");
+
   }
 
 

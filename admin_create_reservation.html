@@ -188,6 +188,8 @@ function logout()
 {
   localStorage.removeItem("UID");
 
+  window.open("./admin_login.html","_self");
+
 }
 function get_admin()
 {
@@ -263,7 +265,7 @@ function create_hotel_list() {
   {
     return;
   }
-  
+
   var price_low_filter = document.getElementById('price_low').value;
   var price_high_filter = document.getElementById('price_high').value;
 

@@ -104,7 +104,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
         <input id="last_name_input" class="w3-input w3-border" type="text" placeholder="Last name"  required>
       </div>
         <label>Phone number <span style="color:red;font-size:20px;">*</span></label>
-        <input class="w3-input w3-border" type="text" placeholder="(100) 123-4567"  required>
+        <input id="phone_number_input" class="w3-input w3-border" type="text" placeholder="(100) 123-4567"  required>
         <br>
     </form>
 
@@ -223,6 +223,13 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
 <script>
 
+function logout()
+{
+  localStorage.removeItem("UID");
+
+  location.reload();
+}
+
 
 function create_reservation()
 {
@@ -311,6 +318,22 @@ function load_hotel_info(){
     var tr = document.createElement('span');
     tr.innerHTML = user_account_option;
     document.getElementById('account_option').appendChild(tr);
+
+    const Http = new XMLHttpRequest();
+    const url='http://localhost:5000/get_user_info?UID='+UID;
+    Http.open("GET", url);
+    Http.send();
+    Http.onreadystatechange = (e) =>
+    {
+      var response = JSON.parse(Http.responseText);
+
+      document.getElementById('first_name_input').value = response[0].FIRST_NAME;
+      document.getElementById('last_name_input').value = response[0].LAST_NAME;
+      document.getElementById("phone_number_input").value = response[0].PHONE_NUM;
+      document.getElementById('email_input').value = response[0].EMAIL;
+
+
+    }
   }
   else
   {

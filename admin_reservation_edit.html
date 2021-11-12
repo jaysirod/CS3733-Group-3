@@ -149,6 +149,8 @@ function logout()
 {
   localStorage.removeItem("UID");
 
+  window.open("./admin_login.html","_self");
+
 }
 function get_admin()
 {
@@ -184,21 +186,56 @@ function set_selected_room(room_type)
   {
     document.getElementById('Standard').checked = true;
     localStorage.setItem("room_type","Standard");
+    try{
     document.getElementById('Queen').checked = false;
+    }
+    catch(e)
+    {
+      console.log('Unavailable')
+    }
+    try{
     document.getElementById('King').checked = false;
+    }
+    catch(e)
+    {
+      console.log('Unavailable')
+    }
   }else if(room_type == "Queen")
   {
     document.getElementById('Queen').checked = true;
     localStorage.setItem("room_type","Queen");
+    try{
     document.getElementById('Standard').checked = false;
+    }
+    catch(e)
+    {
+      console.log('Unavailable')
+    }
+    try{
     document.getElementById('King').checked = false;
-
+    }
+    catch(e)
+    {
+      console.log('Unavailable')
+    }
   }else if(room_type == "King")
   {
     document.getElementById('King').checked = true;
     localStorage.setItem("room_type","King");
-    document.getElementById('Queen').checked = false;
+    try{
     document.getElementById('Standard').checked = false;
+    }
+    catch(e)
+    {
+      console.log('Unavailable')
+    }
+    try{
+    document.getElementById('Queen').checked = false;
+    }
+    catch(e)
+    {
+      console.log('Unavailable')
+    }
 
   }
 }
@@ -208,8 +245,20 @@ function king_selected_room(room_type)
   if(document.getElementById('King').checked)
   {
     localStorage.setItem("room_type","King");
+    try{
     document.getElementById('Queen').checked = false;
+    }
+    catch(e)
+    {
+      console.log('Unavailable')
+    }
+    try{
     document.getElementById('Standard').checked = false;
+    }
+    catch(e)
+    {
+      console.log('Unavailable')
+    }
 
   }
 }
@@ -220,8 +269,20 @@ function queen_selected_room(room_type)
   if(document.getElementById('Queen').checked)
   {
     localStorage.setItem("room_type","Queen");
+    try{
     document.getElementById('Standard').checked = false;
+    }
+    catch(e)
+    {
+      console.log('Unavailable')
+    }
+    try{
     document.getElementById('King').checked = false;
+    }
+    catch(e)
+    {
+      console.log('Unavailable')
+    }
 
   }
 }
@@ -232,8 +293,20 @@ function stan_selected_room(room_type)
   if(document.getElementById('Standard').checked)
   {
     localStorage.setItem("room_type","Standard");
+    try{
     document.getElementById('Queen').checked = false;
+    }
+    catch(e)
+    {
+      console.log('Unavailable')
+    }
+    try{
     document.getElementById('King').checked = false;
+    }
+    catch(e)
+    {
+      console.log('Unavailable')
+    }
   }
 }
 
