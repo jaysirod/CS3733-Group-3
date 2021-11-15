@@ -120,7 +120,7 @@ function get_admin()
   var UID = localStorage.getItem("UID");
 
   const Http = new XMLHttpRequest();
-  const url='http://ec2-18-188-237-63.us-east-2.compute.amazonaws.com:5000/admin_verify?UID='+UID;
+  const url='http://localhost:5000/admin_verify?UID='+UID;
   Http.open("GET", url);
   Http.send();
 
@@ -157,7 +157,7 @@ function update_staff()
   var UID = localStorage.getItem("UID");
 
   const Http = new XMLHttpRequest();
-  const url='http://ec2-18-188-237-63.us-east-2.compute.amazonaws.com:5000/update_staff_info?UID='+UID+'&first_name='+first_name+'&last_name='+last_name+'&phone_number='+phone_number+'&member_email='+member_email+'&salary='+salary;
+  const url='http://localhost:5000/update_staff_info?UID='+UID+'&first_name='+first_name+'&last_name='+last_name+'&phone_number='+phone_number+'&member_email='+member_email+'&salary='+salary;
   Http.open("GET", url);
   Http.send();
 
@@ -186,7 +186,7 @@ function populate_staff_info()
     var UID = localStorage.getItem("UID");
 
     const Http = new XMLHttpRequest();
-    const url='http://ec2-18-188-237-63.us-east-2.compute.amazonaws.com:5000/admin_staff_info?UID='+UID;
+    const url='http://localhost:5000/admin_staff_info?UID='+UID;
     Http.open("GET", url);
     Http.send();
 

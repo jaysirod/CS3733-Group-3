@@ -370,7 +370,7 @@ function create_hotel_list() {
 
 
   const Http = new XMLHttpRequest();
-  const url='http://ec2-18-188-237-63.us-east-2.compute.amazonaws.com:5000/hotels?start_date='+start_date+'&end_date='+end_date+'&user_amenities='+amenities_text+'&lowest_price='+price_low_filter+'&highest_price='+price_high_filter;
+  const url='http://ec2-18-116-27-225.us-east-2.compute.amazonaws.com:5000/hotels?start_date='+start_date+'&end_date='+end_date+'&user_amenities='+amenities_text+'&lowest_price='+price_low_filter+'&highest_price='+price_high_filter;
   Http.open("GET", url);
   Http.send();
 

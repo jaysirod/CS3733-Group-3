@@ -158,7 +158,7 @@ function get_admin()
   var UID = localStorage.getItem("UID");
 
   const Http = new XMLHttpRequest();
-  const url='http://ec2-18-188-237-63.us-east-2.compute.amazonaws.com:5000/admin_verify?UID='+UID;
+  const url='http://localhost:5000/admin_verify?UID='+UID;
   Http.open("GET", url);
   Http.send();
 
@@ -324,7 +324,7 @@ function Update_Reservation()
   var adult_num = document.getElementById('adult_num').value;
   var children_num = document.getElementById('children_num').value;
   const Http = new XMLHttpRequest();
-  const url='http://ec2-18-188-237-63.us-east-2.compute.amazonaws.com:5000/update_reservation?RID='+RID+'&user_email='+user_email+'&first_name='+first_name+'&last_name='+last_name+'&room_type='+room_type+'&start_date='+start_date+'&end_date='+end_date+'&adult_num='+adult_num+'&children_num='+children_num;
+  const url='http://localhost:5000/update_reservation?RID='+RID+'&user_email='+user_email+'&first_name='+first_name+'&last_name='+last_name+'&room_type='+room_type+'&start_date='+start_date+'&end_date='+end_date+'&adult_num='+adult_num+'&children_num='+children_num;
   Http.open("GET", url);
   Http.send();
 
@@ -371,7 +371,7 @@ function load_reservation_information()
 
   var RID = localStorage.getItem("RID");
   const Http = new XMLHttpRequest();
-  const url='http://ec2-18-188-237-63.us-east-2.compute.amazonaws.com:5000/load_reservation_information?RID='+RID;
+  const url='http://localhost:5000/load_reservation_information?RID='+RID;
   Http.open("GET", url);
   Http.send();
 

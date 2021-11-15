@@ -200,7 +200,7 @@ function add_rooms()
   document.getElementById('reservation_details').innerHTML = '<b>Your Stay : '+start_month+'/'+start_day+'/'+start_year+' -> '+end_month+'/'+end_day+'/'+end_year+'</b>';
 
   const Http = new XMLHttpRequest();
-  const url='http://ec2-18-188-237-63.us-east-2.compute.amazonaws.com:5000/hotel_info?HID='+HID+'&start_date='+start_date+'&end_date='+end_date;
+  const url='http://localhost:5000/hotel_info?HID='+HID+'&start_date='+start_date+'&end_date='+end_date;
   Http.open("GET", url);
   Http.send();
 

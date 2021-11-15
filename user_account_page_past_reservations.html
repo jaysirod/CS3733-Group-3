@@ -135,7 +135,7 @@ function get_user_reservations()
 
 
   const Http = new XMLHttpRequest();
-  const url='http://ec2-18-188-237-63.us-east-2.compute.amazonaws.com:5000/get_reservations_user_past?UID='+UID;
+  const url='http://localhost:5000/get_reservations_user_past?UID='+UID;
   Http.open("GET", url);
   Http.send();
 
