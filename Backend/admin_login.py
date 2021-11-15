@@ -7,7 +7,7 @@ def login(user_email, user_password):
 
     print('[!] Accessing Database!')
 
-    conn = sqlite3.connect('./Database/test_DB.db')
+    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
 
     cursor = conn.execute("SELECT UID from ADMIN WHERE EMAIL='"+user_email+"' AND PASSWORD='"+user_password+"'")

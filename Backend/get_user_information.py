@@ -9,7 +9,7 @@ import re
 def get_user(UID):
     print('[!] Accessing Database!')
 
-    conn = sqlite3.connect('./Database/test_DB.db')
+    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
     cursor = conn.execute("SELECT UID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUM from USERS WHERE UID='"+str(UID)+"'")
     row_user = cursor.fetchall()
 

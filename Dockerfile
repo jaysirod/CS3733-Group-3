@@ -1,12 +1,18 @@
 FROM ubuntu:bionic
 
-RUN apt-get update -y && \
-    apt-get install -y python-pip python-dev
+RUN apt-get update && apt-get install -y \
+    python3 python3-pip \
+    fonts-liberation libappindicator3-1 libasound2 libatk-bridge2.0-0 \
+    libnspr4 libnss3 lsb-release xdg-utils libxss1 libdbus-glib-1-2 \
+    curl unzip wget \
+    xvfb
 
 
-RUN pip install flask
-RUN pip install requests
-RUN pip install flask_cors
+RUN pip3 install flask
+RUN pip3 install requests
+RUN pip3 install flask_cors
+RUN pip3 install Werkzeug
+RUN pip3 install email-to
 
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
@@ -22,4 +28,4 @@ EXPOSE 5000
 
 CMD tail -f /dev/null
 
-CMD python ./Backend/flask_server.py
+CMD python3 ./Backend/flask_server.py

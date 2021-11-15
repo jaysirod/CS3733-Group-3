@@ -19,7 +19,7 @@ def create_date(date_string):
 
 
 def get_past(UID):
-    conn = sqlite3.connect('./Database/test_DB.db')
+    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
     reservations = {}
     cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,EMAIL,FIRST_NAME,LAST_NAME,NUM_ADULTS,NUM_CHILDREN,END_DATE from RESERVATIONS WHERE UID ='"+str(UID)+"'")
@@ -48,7 +48,7 @@ def get_past(UID):
 
 
 def get_future(UID):
-    conn = sqlite3.connect('./Database/test_DB.db')
+    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
     reservations = {}
     cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,EMAIL,FIRST_NAME,LAST_NAME,NUM_ADULTS,NUM_CHILDREN,END_DATE from RESERVATIONS WHERE UID ='"+str(UID)+"'")

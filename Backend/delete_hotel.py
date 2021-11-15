@@ -7,7 +7,7 @@ import re
 
 
 def delete_hotel(HID):
-    conn = sqlite3.connect('./Database/test_DB.db')
+    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
 
     conn.execute("DELETE FROM HOTEL WHERE HID='"+str(HID)+"'")

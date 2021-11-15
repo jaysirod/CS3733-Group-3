@@ -26,7 +26,7 @@ def get_hotel_amenities(conn,HID):
 def get_hotels_admin():
     print('[!] Accessing Database!')
 
-    conn = sqlite3.connect('./Database/test_DB.db')
+    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
     cursor = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,PHONE_NUMBER from HOTEL")
 
     hotels = {}

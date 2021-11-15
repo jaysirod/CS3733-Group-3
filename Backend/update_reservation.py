@@ -16,7 +16,7 @@ def send_email(user_name,user_email,hotel_image,hotel_name,checkin,checkout,adul
     EMAIL_ADDRESS = "vhotels.project@gmail.com"
     EMAIL_PASSWORD = "@Test12345"
 
-    with open("."+hotel_image, 'rb') as f:
+    with open("/usr/src/app/"+hotel_image, 'rb') as f:
         file_data = f.read()
         file_type = imghdr.what(f.name)
         file_name = 'hotel_image.jpg'
@@ -58,7 +58,7 @@ def send_email(user_name,user_email,hotel_image,hotel_name,checkin,checkout,adul
 
     """, subtype='html')
 
-    fp = open("."+hotel_image, 'rb')
+    fp = open("/usr/src/app/"+hotel_image, 'rb')
     msgImage = MIMEImage(fp.read())
     fp.close()
 
@@ -119,7 +119,7 @@ def is_room_available(conn,HID,start_date,end_date,num_of_rooms,room_type):
 
 
 def update_user_reservation(RID,user_email,first_name,last_name,room_type,start_date,end_date,adult_num,children_num):
-    conn = sqlite3.connect('./Database/test_DB.db')
+    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
     cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,EMAIL,FIRST_NAME,LAST_NAME,NUM_ADULTS,NUM_CHILDREN,END_DATE from RESERVATIONS WHERE RID ='"+str(RID)+"'")
     row_reservation = cursor.fetchall()
@@ -131,8 +131,11 @@ def update_user_reservation(RID,user_email,first_name,last_name,room_type,start_
     cursor_hotel_rooms = conn.execute("SELECT HID,NUM,TYPE,IMG_URL,PRICE from HOTEL_ROOM WHERE HID ='"+str(HID)+"' AND TYPE = '"+str(room_type)+"'")
     row_hotel_rooms = cursor_hotel_rooms.fetchall()
 
+    end_date_datetime = create_date(end_date)
+    start_date_datetime = create_date(start_date)
 
-    price = str(round(float((int(row_hotel_rooms[0][4]) * 0.0825) + int(row_hotel_rooms[0][4])), 2))
+    num_nights = int((end_date_datetime.date() - start_date_datetime.date()).days)
+    price = str(round(float(((int(row_hotel_rooms[0][4]) * 0.0825) + int(row_hotel_rooms[0][4])) * num_nights), 2))
     if is_room_available(conn,HID,start_date,end_date,int(row_hotel[0][2]),room_type):
         conn.execute("UPDATE RESERVATIONS SET ROOM_TYPE = '"+room_type+"',START_DATE = '"+start_date+"',PRICE = '"+str(price)+"',EMAIL = '"+user_email+"',FIRST_NAME = '"+first_name+"',LAST_NAME = '"+last_name+"',NUM_ADULTS = '"+adult_num+"',NUM_CHILDREN = '"+children_num+"',END_DATE = '"+end_date+"' WHERE RID='"+str(RID)+"'")
         conn.commit()

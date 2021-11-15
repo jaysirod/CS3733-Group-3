@@ -9,7 +9,7 @@ def verify(UID):
 
     print('[!] Accessing Database!')
 
-    conn = sqlite3.connect('./Database/test_DB.db')
+    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
 
     cursor = conn.execute("SELECT FIRST_NAME from ADMIN WHERE UID='"+UID+"'")

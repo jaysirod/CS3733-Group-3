@@ -41,7 +41,7 @@ def is_room_available(conn,HID,start_date,end_date,num_of_rooms,room_type):
 
 def get_user_reservation(RID):
 
-    conn = sqlite3.connect('./Database/test_DB.db')
+    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
     reservations = {}
     count = 0
 

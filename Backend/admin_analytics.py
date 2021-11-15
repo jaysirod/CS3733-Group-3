@@ -27,7 +27,7 @@ def find_max_room(rooms):
 
 def get_reservations(time_period,hotel_id):
     if time_period == "Today":
-        conn = sqlite3.connect('./Database/test_DB.db')
+        conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
         if hotel_id == "All Hotels":
             cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE from RESERVATIONS ")
@@ -73,7 +73,7 @@ def get_reservations(time_period,hotel_id):
 
 
     elif time_period == "Yesterday":
-        conn = sqlite3.connect('./Database/test_DB.db')
+        conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
         if hotel_id == "All Hotels":
             cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE from RESERVATIONS ")
@@ -118,7 +118,7 @@ def get_reservations(time_period,hotel_id):
         return reservations_json
 
     elif time_period == "Past 7 Days":
-        conn = sqlite3.connect('./Database/test_DB.db')
+        conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
         if hotel_id == "All Hotels":
             cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE from RESERVATIONS ")
@@ -164,7 +164,7 @@ def get_reservations(time_period,hotel_id):
 
 
     elif time_period == "Past 30 Days":
-        conn = sqlite3.connect('./Database/test_DB.db')
+        conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
         if hotel_id == "All Hotels":
             cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE from RESERVATIONS ")
@@ -210,7 +210,7 @@ def get_reservations(time_period,hotel_id):
 
 
     elif time_period == "Past 365 Days":
-        conn = sqlite3.connect('./Database/test_DB.db')
+        conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
         if hotel_id == "All Hotels":
             cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE from RESERVATIONS ")
@@ -257,7 +257,7 @@ def get_reservations(time_period,hotel_id):
 
     elif time_period == "All Time":
 
-        conn = sqlite3.connect('./Database/test_DB.db')
+        conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
         if hotel_id == "All Hotels":
             cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,NUM_ADULTS,NUM_CHILDREN,END_DATE from RESERVATIONS ")
         else:

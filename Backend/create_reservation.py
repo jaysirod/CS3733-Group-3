@@ -15,7 +15,7 @@ def send_email(user_name,user_email,hotel_image,hotel_name,checkin,checkout,adul
     EMAIL_ADDRESS = "vhotels.project@gmail.com"
     EMAIL_PASSWORD = "@Test12345"
 
-    with open("."+hotel_image, 'rb') as f:
+    with open("/usr/src/app/"+hotel_image, 'rb') as f:
         file_data = f.read()
         file_type = imghdr.what(f.name)
         file_name = 'hotel_image.jpg'
@@ -57,7 +57,7 @@ def send_email(user_name,user_email,hotel_image,hotel_name,checkin,checkout,adul
 
     """, subtype='html')
 
-    fp = open("."+hotel_image, 'rb')
+    fp = open("/usr/src/app/"+hotel_image, 'rb')
     msgImage = MIMEImage(fp.read())
     fp.close()
 
@@ -125,7 +125,7 @@ def create(HID,UID,RID,start_date,end_date,ROOM_TYPE,price,num_adult,num_childre
 
     print('[!] Accessing Database!')
 
-    conn = sqlite3.connect('./Database/test_DB.db')
+    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
     cursor_hotel = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,PHONE_NUMBER from HOTEL WHERE HID ='"+str(HID)+"'")
     row_hotel = cursor_hotel.fetchall()
 

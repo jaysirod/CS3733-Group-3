@@ -16,7 +16,7 @@ def send_email(user_email,user_name):
     EMAIL_ADDRESS = "vhotels.project@gmail.com"
     EMAIL_PASSWORD = "@Test12345"
 
-    with open('../email_images/VHotels-Logo-Black.png', 'rb') as f:
+    with open('/usr/src/app/email_images/VHotels-Logo-Black.png', 'rb') as f:
         file_data = f.read()
         file_type = imghdr.what(f.name)
         file_name = 'VHotels-Logo-Black.png'
@@ -51,7 +51,7 @@ def send_email(user_email,user_name):
 
     """, subtype='html')
 
-    fp = open('../email_images/VHotels-Logo-Black.png', 'rb')
+    fp = open('/usr/src/app/email_images/VHotels-Logo-Black.png', 'rb')
     msgImage = MIMEImage(fp.read())
     fp.close()
 
@@ -68,7 +68,7 @@ def create_user(UID,first_name,last_name,user_email,phone_number,password):
 
     print('[!] Accessing Database!')
 
-    conn = sqlite3.connect('./Database/test_DB.db')
+    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
     cursor = conn.execute("SELECT UID,EMAIL from USERS WHERE EMAIL='"+user_email+"'")
     users_email_check = cursor.fetchall()

@@ -193,22 +193,22 @@ def success():
         king_img = request.files['king_img']
 
         try:
-            hotel_img.save('../hotel_images/'+hotel_img.filename)
+            hotel_img.save('/usr/src/app/hotel_images/'+hotel_img.filename)
         except:
             pass
 
         try:
-            standard_img.save('../hotel_room_images/'+standard_img.filename)
+            standard_img.save('/usr/src/app/hotel_room_images/'+standard_img.filename)
         except:
             pass
 
         try:
-            queen_img.save('../hotel_room_images/'+queen_img.filename)
+            queen_img.save('/usr/src/app/hotel_room_images/'+queen_img.filename)
         except:
             pass
 
         try:
-            king_img.save('../hotel_room_images/'+king_img.filename)
+            king_img.save('/usr/src/app/hotel_room_images/'+king_img.filename)
         except:
             pass
 

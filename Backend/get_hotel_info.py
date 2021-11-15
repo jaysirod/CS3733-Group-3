@@ -118,7 +118,7 @@ def get_hotel_rooms(conn,HID,num_of_rooms,user_start_date,user_end_date):
 def get_hotel_info(HID,start_date,end_date):
     print('[!] Accessing Database!')
 
-    conn = sqlite3.connect('./Database/test_DB.db')
+    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
     cursor = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,WEEKEND_PERCENT,PHONE_NUMBER from HOTEL WHERE HID="+str(HID))
 

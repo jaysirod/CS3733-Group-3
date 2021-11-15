@@ -9,7 +9,7 @@ import re
 def get_staff():
     print('[!] Accessing Database!')
 
-    conn = sqlite3.connect('./Database/test_DB.db')
+    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
     cursor = conn.execute("SELECT UID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUM,SALARY,PASSWORD from ADMIN")
 
     staff = {}

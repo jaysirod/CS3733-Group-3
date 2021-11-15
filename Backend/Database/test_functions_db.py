@@ -92,13 +92,13 @@ def add_hotels():
     conn = sqlite3.connect('test_DB.db')
     print("Opened database successfully")
     conn.execute("INSERT INTO HOTEL (HID,NAME,NUM_OF_ROOMS,IMG_URL,WEEKEND_PERCENT,PHONE_NUMBER) \
-          VALUES ('1000', 'The Magnolia All Suites', 20, './hotel_images/hotel_img1.jpg','25', 2101234567)")
+          VALUES ('1000', 'The Magnolia All Suites', 20, 'hotel_images/hotel_img1.jpg','25', 2101234567)")
 
     conn.execute("INSERT INTO HOTEL (HID,NAME,NUM_OF_ROOMS,IMG_URL,WEEKEND_PERCENT,PHONE_NUMBER) \
-          VALUES ('2000', 'The Lofts at Town Centre', 60, './hotel_images/hotel_img2.jpg','35', 2101234567)")
+          VALUES ('2000', 'The Lofts at Town Centre', 60, 'hotel_images/hotel_img2.jpg','35', 2101234567)")
 
     conn.execute("INSERT INTO HOTEL (HID,NAME,NUM_OF_ROOMS,IMG_URL,WEEKEND_PERCENT,PHONE_NUMBER) \
-          VALUES ('3000', 'Park North Hotel', 100,'./hotel_images/hotel_img3.jpg','15', 2101234567)")
+          VALUES ('3000', 'Park North Hotel', 100,'hotel_images/hotel_img3.jpg','15', 2101234567)")
 
     conn.commit()
     print("Successfully Added Hotels to Database")
@@ -174,33 +174,33 @@ def add_hotel_rooms():
 
 
     conn.execute("INSERT INTO HOTEL_ROOM (HID,NUM,TYPE,IMG_URL,PRICE) \
-          VALUES (1000, 0,'Standard','./hotel_room_images/hotel_room_img1.jpg', 100)")
+          VALUES (1000, 0,'Standard','hotel_room_images/hotel_room_img1.jpg', 100)")
 
     conn.execute("INSERT INTO HOTEL_ROOM (HID,NUM,TYPE,IMG_URL,PRICE) \
-          VALUES (1000, 0,'Queen','./hotel_room_images/hotel_room_img2.jpg', 150)")
+          VALUES (1000, 0,'Queen','hotel_room_images/hotel_room_img2.jpg', 150)")
 
     conn.execute("INSERT INTO HOTEL_ROOM (HID,NUM,TYPE,IMG_URL,PRICE) \
-          VALUES (1000, 0,'King','./hotel_room_images/hotel_room_img3.jpg', 250)")
-
-
-    conn.execute("INSERT INTO HOTEL_ROOM (HID,NUM,TYPE,IMG_URL,PRICE) \
-          VALUES (2000, 0,'Standard','./hotel_room_images/hotel_room_img1.jpg', 105)")
-
-    conn.execute("INSERT INTO HOTEL_ROOM (HID,NUM,TYPE,IMG_URL,PRICE) \
-          VALUES (2000, 0,'Queen','./hotel_room_images/hotel_room_img2.jpg', 120)")
-
-    conn.execute("INSERT INTO HOTEL_ROOM (HID,NUM,TYPE,IMG_URL,PRICE) \
-          VALUES (2000, 0,'King','./hotel_room_images/hotel_room_img3.jpg', 190)")
+          VALUES (1000, 0,'King','hotel_room_images/hotel_room_img3.jpg', 250)")
 
 
     conn.execute("INSERT INTO HOTEL_ROOM (HID,NUM,TYPE,IMG_URL,PRICE) \
-          VALUES (3000, 0,'Standard','./hotel_room_images/hotel_room_img1.jpg', 50)")
+          VALUES (2000, 0,'Standard','hotel_room_images/hotel_room_img1.jpg', 105)")
 
     conn.execute("INSERT INTO HOTEL_ROOM (HID,NUM,TYPE,IMG_URL,PRICE) \
-          VALUES (3000, 0,'Queen','./hotel_room_images/hotel_room_img2.jpg', 75)")
+          VALUES (2000, 0,'Queen','hotel_room_images/hotel_room_img2.jpg', 120)")
 
     conn.execute("INSERT INTO HOTEL_ROOM (HID,NUM,TYPE,IMG_URL,PRICE) \
-          VALUES (3000, 0,'King','./hotel_room_images/hotel_room_img3.jpg', 90)")
+          VALUES (2000, 0,'King','hotel_room_images/hotel_room_img3.jpg', 190)")
+
+
+    conn.execute("INSERT INTO HOTEL_ROOM (HID,NUM,TYPE,IMG_URL,PRICE) \
+          VALUES (3000, 0,'Standard','hotel_room_images/hotel_room_img1.jpg', 50)")
+
+    conn.execute("INSERT INTO HOTEL_ROOM (HID,NUM,TYPE,IMG_URL,PRICE) \
+          VALUES (3000, 0,'Queen','hotel_room_images/hotel_room_img2.jpg', 75)")
+
+    conn.execute("INSERT INTO HOTEL_ROOM (HID,NUM,TYPE,IMG_URL,PRICE) \
+          VALUES (3000, 0,'King','hotel_room_images/hotel_room_img3.jpg', 90)")
 
 
     conn.commit()

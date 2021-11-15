@@ -8,7 +8,7 @@ import re
 
 def get_user_reservations(RID,first_name,last_name,email):
     if RID == "" and not first_name == "" and not last_name == "" and not email == "":
-        conn = sqlite3.connect('./Database/test_DB.db')
+        conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
         cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,EMAIL,FIRST_NAME,LAST_NAME,NUM_ADULTS,NUM_CHILDREN,END_DATE from RESERVATIONS ")
 
@@ -34,7 +34,7 @@ def get_user_reservations(RID,first_name,last_name,email):
 
     elif not RID == "":
 
-        conn = sqlite3.connect('./Database/test_DB.db')
+        conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
         reservations = {}
         cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,EMAIL,FIRST_NAME,LAST_NAME,NUM_ADULTS,NUM_CHILDREN,END_DATE from RESERVATIONS WHERE RID ='"+str(RID)+"'")
