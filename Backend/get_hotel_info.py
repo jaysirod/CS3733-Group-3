@@ -30,7 +30,6 @@ def is_room_type_available(conn,HID,room_type,num_of_rooms,user_start_date,user_
     elif str(room_type) == "King":
         num_of_rooms = int(int(num_of_rooms) * 0.20)
 
-
     cursor = conn.execute("SELECT UID,RID,ROOM_TYPE,START_DATE,END_DATE from RESERVATIONS WHERE HID = '"+str(HID)+"'")
 
     #traverse through all of reservations.
@@ -116,26 +115,29 @@ def get_hotel_rooms(conn,HID,num_of_rooms,user_start_date,user_end_date):
 
 
 def get_hotel_info(HID,start_date,end_date):
-    print('[!] Accessing Database!')
+    try:
+        print('[!] Accessing Database!')
 
-    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
+        conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
-    cursor = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,WEEKEND_PERCENT,PHONE_NUMBER from HOTEL WHERE HID="+str(HID))
+        cursor = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,WEEKEND_PERCENT,PHONE_NUMBER from HOTEL WHERE HID="+str(HID))
 
-    row = cursor.fetchall()
+        row = cursor.fetchall()
 
-    hotel_information = {}
+        hotel_information = {}
 
-    hotel_amenities = get_hotel_amenities(conn,HID)
-    num_of_rooms = row[0][2]
-    hotel_rooms = get_hotel_rooms(conn,HID,num_of_rooms,start_date,end_date)
+        hotel_amenities = get_hotel_amenities(conn,HID)
+        num_of_rooms = row[0][2]
+        hotel_rooms = get_hotel_rooms(conn,HID,num_of_rooms,start_date,end_date)
 
-    hotel_information[0] = {"HID" : HID, "Name" : row[0][1], "NUM_OF_ROOMS" : num_of_rooms, "PHONE_NUMBER" : row[0][5], "AMENITIES" : hotel_amenities, "IMG_URL":row[0][3],"WEEKEND_PERCENT":row[0][4],"ROOMS": hotel_rooms}
+        hotel_information[0] = {"HID" : HID, "Name" : row[0][1], "NUM_OF_ROOMS" : num_of_rooms, "PHONE_NUMBER" : row[0][5], "AMENITIES" : hotel_amenities, "IMG_URL":row[0][3],"WEEKEND_PERCENT":row[0][4],"ROOMS": hotel_rooms}
 
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+        conn.close()
 
-    hotel_information_json = json.dumps(hotel_information)
-    print("[+] Packaged All Of Hotel Information into JSON Format")
-    return hotel_information_json
+        hotel_information_json = json.dumps(hotel_information)
+        print("[+] Packaged All Of Hotel Information into JSON Format")
+        return hotel_information_json
+    except:
+        conn.close()

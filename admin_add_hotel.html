@@ -60,7 +60,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   <center><h2>Add Hotel</h2></center>
   <br>
   <br>
-  <form action = "http://localhost:5000/uploader" method = "POST" class = "w3-container w3-border" enctype="multipart/form-data">
+  <form action = "http://ec2-18-188-237-63.us-east-2.compute.amazonaws.com:5000/uploader" method = "POST" class = "w3-container w3-border" enctype="multipart/form-data">
       <h2>Hotel Information</h2>
 
       <label>Hotel name:</label>
@@ -200,7 +200,7 @@ function get_admin()
   var UID = localStorage.getItem("UID");
 
   const Http = new XMLHttpRequest();
-  const url='http://localhost:5000/admin_verify?UID='+UID;
+  const url='http://ec2-18-188-237-63.us-east-2.compute.amazonaws.com:5000/admin_verify?UID='+UID;
   Http.open("GET", url);
   Http.send();
 
@@ -257,7 +257,7 @@ function add_hotel()
 
 
   const Http = new XMLHttpRequest();
-  const url='http://localhost:5000/add_hotel?&hotel_name='+hotel_name+'&num_of_rooms='+num_rooms+'&hotel_img='+new_hotel_img+'&weekend_percent='+weekend_percent+'&phone_number='+phone_number+'&standard_image='+new_standard_img+'&standard_price='+standard_price+'&queen_image='+new_queen_img+'&queen_price='+queen_price+'&king_image='+new_king_img+'&king_price='+king_price+'&amenities='+amenities+'&amenities_availability='+amenity_availability;
+  const url='http://ec2-18-188-237-63.us-east-2.compute.amazonaws.com:5000/add_hotel?&hotel_name='+hotel_name+'&num_of_rooms='+num_rooms+'&hotel_img='+new_hotel_img+'&weekend_percent='+weekend_percent+'&phone_number='+phone_number+'&standard_image='+new_standard_img+'&standard_price='+standard_price+'&queen_image='+new_queen_img+'&queen_price='+queen_price+'&king_image='+new_king_img+'&king_price='+king_price+'&amenities='+amenities+'&amenities_availability='+amenity_availability;
   Http.open("GET", url);
   Http.send();
 

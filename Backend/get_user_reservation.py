@@ -19,58 +19,64 @@ def create_date(date_string):
 
 
 def get_past(UID):
-    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
+    try:
+        conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
-    reservations = {}
-    cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,EMAIL,FIRST_NAME,LAST_NAME,NUM_ADULTS,NUM_CHILDREN,END_DATE from RESERVATIONS WHERE UID ='"+str(UID)+"'")
-    count = 0
-    for row in cursor:
-        reservation_date = create_date(row[4])
-        if(datetime.datetime.today().date() >= reservation_date.date()):
-            HID = row[0]
-            cursor_hotel = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,PHONE_NUMBER from HOTEL WHERE HID ='"+str(HID)+"'")
-            row_hotel = cursor_hotel.fetchall()
-            reservations[count] = {"IMG_URL" : row_hotel[0][3], "Name":row_hotel[0][1], "START_DATE":row[4], "END_DATE":row[11],"ROOM_TYPE":row[3],"Price":row[5],"RID":row[2]}
-            count +=1
-
-
-
-
-    conn.commit()
-
-    conn.close()
+        reservations = {}
+        cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,EMAIL,FIRST_NAME,LAST_NAME,NUM_ADULTS,NUM_CHILDREN,END_DATE from RESERVATIONS WHERE UID ='"+str(UID)+"'")
+        count = 0
+        for row in cursor:
+            reservation_date = create_date(row[4])
+            if(datetime.datetime.today().date() >= reservation_date.date()):
+                HID = row[0]
+                cursor_hotel = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,PHONE_NUMBER from HOTEL WHERE HID ='"+str(HID)+"'")
+                row_hotel = cursor_hotel.fetchall()
+                reservations[count] = {"IMG_URL" : row_hotel[0][3], "Name":row_hotel[0][1], "START_DATE":row[4], "END_DATE":row[11],"ROOM_TYPE":row[3],"Price":row[5],"RID":row[2]}
+                count +=1
 
 
-    reservations_json = json.dumps(reservations)
-    print("[+] Packaged All Reservations into JSON Format")
 
-    return reservations_json
+
+        conn.commit()
+
+        conn.close()
+
+
+        reservations_json = json.dumps(reservations)
+        print("[+] Packaged All Reservations into JSON Format")
+
+        return reservations_json
+    except:
+        conn.close()
 
 
 def get_future(UID):
-    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
+    try:
+        conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
-    reservations = {}
-    cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,EMAIL,FIRST_NAME,LAST_NAME,NUM_ADULTS,NUM_CHILDREN,END_DATE from RESERVATIONS WHERE UID ='"+str(UID)+"'")
-    count = 0
-    for row in cursor:
-        reservation_date = create_date(row[4])
-        if(datetime.datetime.today().date() < reservation_date.date()):
-            HID = row[0]
-            cursor_hotel = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,PHONE_NUMBER from HOTEL WHERE HID ='"+str(HID)+"'")
-            row_hotel = cursor_hotel.fetchall()
-            reservations[count] = {"IMG_URL" : row_hotel[0][3], "Name":row_hotel[0][1], "START_DATE":row[4], "END_DATE":row[11],"ROOM_TYPE":row[3],"Price":row[5],"RID":row[2]}
-            count +=1
-
-
-
-
-    conn.commit()
-
-    conn.close()
+        reservations = {}
+        cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,EMAIL,FIRST_NAME,LAST_NAME,NUM_ADULTS,NUM_CHILDREN,END_DATE from RESERVATIONS WHERE UID ='"+str(UID)+"'")
+        count = 0
+        for row in cursor:
+            reservation_date = create_date(row[4])
+            if(datetime.datetime.today().date() < reservation_date.date()):
+                HID = row[0]
+                cursor_hotel = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,PHONE_NUMBER from HOTEL WHERE HID ='"+str(HID)+"'")
+                row_hotel = cursor_hotel.fetchall()
+                reservations[count] = {"IMG_URL" : row_hotel[0][3], "Name":row_hotel[0][1], "START_DATE":row[4], "END_DATE":row[11],"ROOM_TYPE":row[3],"Price":row[5],"RID":row[2]}
+                count +=1
 
 
-    reservations_json = json.dumps(reservations)
-    print("[+] Packaged All Reservations into JSON Format")
 
-    return reservations_json
+
+        conn.commit()
+
+        conn.close()
+
+
+        reservations_json = json.dumps(reservations)
+        print("[+] Packaged All Reservations into JSON Format")
+
+        return reservations_json
+    except:
+        conn.close()

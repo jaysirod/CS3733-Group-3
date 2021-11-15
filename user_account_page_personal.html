@@ -165,7 +165,7 @@ function load_user_info()
 
   var UID = localStorage.getItem("UID");
   const Http = new XMLHttpRequest();
-  const url='http://localhost:5000/get_user_info?UID='+UID;
+  const url='http://ec2-18-188-237-63.us-east-2.compute.amazonaws.com:5000/get_user_info?UID='+UID;
   Http.open("GET", url);
   Http.send();
   Http.onreadystatechange = (e) =>
@@ -194,7 +194,7 @@ function modify_user()
   }
 
   const Http = new XMLHttpRequest();
-  const url='http://localhost:5000/change_user_info?first_name='+first_name+'&last_name='+last_name+'&phone_number='+phone_number+'&user_email='+email+'&UID='+UID;
+  const url='http://ec2-18-188-237-63.us-east-2.compute.amazonaws.com:5000/change_user_info?first_name='+first_name+'&last_name='+last_name+'&phone_number='+phone_number+'&user_email='+email+'&UID='+UID;
   Http.open("GET", url);
   Http.send();
   Http.onreadystatechange = (e) =>
@@ -225,7 +225,7 @@ function change_password()
   if(document.getElementById("new_password_1").value == document.getElementById("new_password_2").value)
   {
     const Http = new XMLHttpRequest();
-    const url='http://localhost:5000/update_user_password?UID='+UID+'&new_password='+new_password+'&old_password='+old_password;
+    const url='http://ec2-18-188-237-63.us-east-2.compute.amazonaws.com:5000/update_user_password?UID='+UID+'&new_password='+new_password+'&old_password='+old_password;
     Http.open("GET", url);
     Http.send();
     Http.onreadystatechange = (e) =>

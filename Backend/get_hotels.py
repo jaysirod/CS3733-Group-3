@@ -152,37 +152,40 @@ def get_hotel_amenities(conn,HID):
 
 
 def user_get_hotels(start_date,end_date,user_amenities,lowest_price,highest_price):
-    print('[!] Accessing Database!')
+    try:
+        print('[!] Accessing Database!')
 
-    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
-    cursor = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,WEEKEND_PERCENT,PHONE_NUMBER from HOTEL")
-
-    hotels = {}
-    count = 0
-    for row in cursor:
-        hotel_amenities = get_hotel_amenities(conn,row[0])
-        hotel_rooms = get_hotel_availability(conn,row[0],start_date,end_date,user_amenities,hotel_amenities,lowest_price,highest_price,row[2])
-
-        if not hotel_rooms == None:
-            hotels[count] = {"HID" : row[0], "Name" : row[1], "NUM_OF_ROOMS" : hotel_rooms[0],"WEEKEND_PERCENT":row[4], "PHONE_NUMBER" : row[5], "AMENITIES" : hotel_amenities, "ROOMS": hotel_rooms[1],"IMG_URL":row[3],"OTHER_OFFER":"NO"}
-            count += 1
-
-
-    if count == 0:
+        conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
         cursor = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,WEEKEND_PERCENT,PHONE_NUMBER from HOTEL")
 
+        hotels = {}
+        count = 0
         for row in cursor:
             hotel_amenities = get_hotel_amenities(conn,row[0])
-            hotel_rooms = get_hotel_availability(conn,row[0],start_date,end_date,[''],hotel_amenities,"","",row[2])
+            hotel_rooms = get_hotel_availability(conn,row[0],start_date,end_date,user_amenities,hotel_amenities,lowest_price,highest_price,row[2])
+
             if not hotel_rooms == None:
-                hotels[count] = {"HID" : row[0], "Name" : row[1], "NUM_OF_ROOMS" : hotel_rooms[0],"WEEKEND_PERCENT":row[4], "PHONE_NUMBER" : row[5], "AMENITIES" : hotel_amenities, "ROOMS": hotel_rooms[1],"IMG_URL":row[3],"OTHER_OFFER":"YES"}
+                hotels[count] = {"HID" : row[0], "Name" : row[1], "NUM_OF_ROOMS" : hotel_rooms[0],"WEEKEND_PERCENT":row[4], "PHONE_NUMBER" : row[5], "AMENITIES" : hotel_amenities, "ROOMS": hotel_rooms[1],"IMG_URL":row[3],"OTHER_OFFER":"NO"}
                 count += 1
 
 
+        if count == 0:
+            cursor = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,WEEKEND_PERCENT,PHONE_NUMBER from HOTEL")
 
-    conn.commit()
-    conn.close()
+            for row in cursor:
+                hotel_amenities = get_hotel_amenities(conn,row[0])
+                hotel_rooms = get_hotel_availability(conn,row[0],start_date,end_date,[''],hotel_amenities,"","",row[2])
+                if not hotel_rooms == None:
+                    hotels[count] = {"HID" : row[0], "Name" : row[1], "NUM_OF_ROOMS" : hotel_rooms[0],"WEEKEND_PERCENT":row[4], "PHONE_NUMBER" : row[5], "AMENITIES" : hotel_amenities, "ROOMS": hotel_rooms[1],"IMG_URL":row[3],"OTHER_OFFER":"YES"}
+                    count += 1
 
-    hotels_json = json.dumps(hotels)
-    print("[+] Packaged All Hotels into JSON Format")
-    return hotels_json
+
+
+        conn.commit()
+        conn.close()
+
+        hotels_json = json.dumps(hotels)
+        print("[+] Packaged All Hotels into JSON Format")
+        return hotels_json
+    except:
+        conn.close()

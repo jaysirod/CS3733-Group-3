@@ -77,7 +77,7 @@ proper data
 
 @app.route('/')
 def main_page():
-    return 'V Hotels Web Application V1'
+    return 'V Hotels Web Application V2 - Cloud Hosted'
 
 
 '''

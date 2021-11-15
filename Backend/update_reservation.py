@@ -119,35 +119,38 @@ def is_room_available(conn,HID,start_date,end_date,num_of_rooms,room_type):
 
 
 def update_user_reservation(RID,user_email,first_name,last_name,room_type,start_date,end_date,adult_num,children_num):
-    conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
+    try:
+        conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
 
-    cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,EMAIL,FIRST_NAME,LAST_NAME,NUM_ADULTS,NUM_CHILDREN,END_DATE from RESERVATIONS WHERE RID ='"+str(RID)+"'")
-    row_reservation = cursor.fetchall()
+        cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,EMAIL,FIRST_NAME,LAST_NAME,NUM_ADULTS,NUM_CHILDREN,END_DATE from RESERVATIONS WHERE RID ='"+str(RID)+"'")
+        row_reservation = cursor.fetchall()
 
-    HID = row_reservation[0][0]
-    cursor_hotel = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,PHONE_NUMBER from HOTEL WHERE HID ='"+str(HID)+"'")
-    row_hotel = cursor_hotel.fetchall()
+        HID = row_reservation[0][0]
+        cursor_hotel = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,PHONE_NUMBER from HOTEL WHERE HID ='"+str(HID)+"'")
+        row_hotel = cursor_hotel.fetchall()
 
-    cursor_hotel_rooms = conn.execute("SELECT HID,NUM,TYPE,IMG_URL,PRICE from HOTEL_ROOM WHERE HID ='"+str(HID)+"' AND TYPE = '"+str(room_type)+"'")
-    row_hotel_rooms = cursor_hotel_rooms.fetchall()
+        cursor_hotel_rooms = conn.execute("SELECT HID,NUM,TYPE,IMG_URL,PRICE from HOTEL_ROOM WHERE HID ='"+str(HID)+"' AND TYPE = '"+str(room_type)+"'")
+        row_hotel_rooms = cursor_hotel_rooms.fetchall()
 
-    end_date_datetime = create_date(end_date)
-    start_date_datetime = create_date(start_date)
+        end_date_datetime = create_date(end_date)
+        start_date_datetime = create_date(start_date)
 
-    num_nights = int((end_date_datetime.date() - start_date_datetime.date()).days)
-    price = str(round(float(((int(row_hotel_rooms[0][4]) * 0.0825) + int(row_hotel_rooms[0][4])) * num_nights), 2))
-    if is_room_available(conn,HID,start_date,end_date,int(row_hotel[0][2]),room_type):
-        conn.execute("UPDATE RESERVATIONS SET ROOM_TYPE = '"+room_type+"',START_DATE = '"+start_date+"',PRICE = '"+str(price)+"',EMAIL = '"+user_email+"',FIRST_NAME = '"+first_name+"',LAST_NAME = '"+last_name+"',NUM_ADULTS = '"+adult_num+"',NUM_CHILDREN = '"+children_num+"',END_DATE = '"+end_date+"' WHERE RID='"+str(RID)+"'")
-        conn.commit()
+        num_nights = int((end_date_datetime.date() - start_date_datetime.date()).days)
+        price = str(round(float(((int(row_hotel_rooms[0][4]) * 0.0825) + int(row_hotel_rooms[0][4])) * num_nights), 2))
+        if is_room_available(conn,HID,start_date,end_date,int(row_hotel[0][2]),room_type):
+            conn.execute("UPDATE RESERVATIONS SET ROOM_TYPE = '"+room_type+"',START_DATE = '"+start_date+"',PRICE = '"+str(price)+"',EMAIL = '"+user_email+"',FIRST_NAME = '"+first_name+"',LAST_NAME = '"+last_name+"',NUM_ADULTS = '"+adult_num+"',NUM_CHILDREN = '"+children_num+"',END_DATE = '"+end_date+"' WHERE RID='"+str(RID)+"'")
+            conn.commit()
+            conn.close()
+
+            send_email(first_name,user_email,row_hotel[0][3],row_hotel[0][1],start_date,end_date,adult_num,children_num,price,RID)
+
+            print("[+] Successfully Updated Reservation")
+
+            return "0"
+        else:
+            conn.close()
+            print("[+] Failed to Update Reservation")
+
+            return "1"
+    except:
         conn.close()
-
-        send_email(first_name,user_email,row_hotel[0][3],row_hotel[0][1],start_date,end_date,adult_num,children_num,price,RID)
-
-        print("[+] Successfully Updated Reservation")
-
-        return "0"
-    else:
-        conn.close()
-        print("[+] Failed to Update Reservation")
-
-        return "1"
