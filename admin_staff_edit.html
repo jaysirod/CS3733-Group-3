@@ -146,7 +146,7 @@ function get_admin()
 function update_staff()
 {
 
-  var UID = localStorage.getItem("UID");
+  var UID = localStorage.getItem("sUID");
   var first_name = document.getElementById('first_name').value;
   var last_name = document.getElementById('last_name').value;
   var phone_number = document.getElementById('phone_number').value;
@@ -154,7 +154,6 @@ function update_staff()
   var salary = document.getElementById('salary').value;
 
 
-  var UID = localStorage.getItem("UID");
 
   const Http = new XMLHttpRequest();
   const url='http://localhost:5000/update_staff_info?UID='+UID+'&first_name='+first_name+'&last_name='+last_name+'&phone_number='+phone_number+'&member_email='+member_email+'&salary='+salary;
@@ -166,7 +165,7 @@ function update_staff()
     if (parseInt(Http.responseText) == 0)
     {
       alert("Staff Member Successfully Updated!");
-      location.reload();
+      window.open("./admin_staff.html","_self");
 
     }
   }
@@ -183,7 +182,7 @@ function populate_staff_info()
 {
 
     get_admin()
-    var UID = localStorage.getItem("UID");
+    var UID = localStorage.getItem("sUID");
 
     const Http = new XMLHttpRequest();
     const url='http://localhost:5000/admin_staff_info?UID='+UID;

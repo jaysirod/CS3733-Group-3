@@ -104,7 +104,10 @@ def get_hotel_rooms(conn,HID,num_of_rooms,user_start_date,user_end_date):
         if str(HID) == str(row[0]):
             rooms = is_room_type_available(conn,HID,row[2],num_of_rooms,user_start_date,user_end_date)
             if rooms[0] == True:
-                hotel_rooms[str(row[2])] = {'IMAGE_URL':row[3],'PRICE':row[4] , 'AVAILABLE':"True","NUM_OF_ROOMS":str(rooms[1])}
+                if str(row[4]) == "999999":
+                    hotel_rooms[str(row[2])] = {'IMAGE_URL':row[3],'PRICE':row[4], 'AVAILABLE': "False","NUM_OF_ROOMS":str(rooms[1])}
+                else:
+                    hotel_rooms[str(row[2])] = {'IMAGE_URL':row[3],'PRICE':row[4] , 'AVAILABLE':"True","NUM_OF_ROOMS":str(rooms[1])}
                 count += 1
             else:
                 hotel_rooms[str(row[2])] = {'IMAGE_URL':row[3],'PRICE':row[4], 'AVAILABLE': "False","NUM_OF_ROOMS":str(rooms[1])}

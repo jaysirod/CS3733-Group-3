@@ -164,7 +164,7 @@ function add_staff()
     if (parseInt(Http.responseText) == 0)
     {
       alert("Staff Member Successfully Added!");
-      location.reload();
+      window.open("./admin_staff.html","_self")
 
     }else if(parseInt(Http.responseText) == 1)
     {

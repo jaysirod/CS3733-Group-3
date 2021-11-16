@@ -264,8 +264,8 @@ function add_hotel()
   Http.onreadystatechange = (e) => {
     if (parseInt(Http.responseText) == 0)
     {
-      alert("Hotel Successfully Updated!");
-      location.reload();
+      alert("Hotel Successfully Added!");
+      window.open("./admin_hotels.html","_self");
 
     }
   }
