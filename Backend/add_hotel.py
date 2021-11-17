@@ -3,7 +3,7 @@ import sqlite3
 import datetime
 import re
 
-#Admistration: Add and changes amenities
+#Admistration: Add and changes amenities to database
 def add_amenities(HID,amenities,amenities_availability):
     try:
         conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
