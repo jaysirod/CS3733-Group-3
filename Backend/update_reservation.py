@@ -91,15 +91,24 @@ def create_date(date_string):
     return date
 
 
-def is_room_available(conn,HID,start_date,end_date,num_of_rooms,room_type):
+def is_room_available(conn,HID,start_date,end_date,num_of_rooms,room_type,distribution):
     cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,END_DATE from RESERVATIONS")
 
-    if str(room_type) == "Standard":
-        num_of_rooms = int(num_of_rooms) * 0.50
-    elif str(room_type) == "Queen":
-        num_of_rooms = int(num_of_rooms) * 0.30
-    elif str(room_type) == "King":
-        num_of_rooms = int(num_of_rooms) * 0.20
+    if distribution == 3:
+        # out of total num rooms = 50% will be standard , 30% will be Queen, and 20% will be King = 100% total
+        if str(room_type) == "Standard":
+            num_of_rooms = int(int(num_of_rooms) * 0.50)
+        elif str(room_type) == "Queen":
+            num_of_rooms = int(int(num_of_rooms) * 0.30)
+        elif str(room_type) == "King":
+            num_of_rooms = int(int(num_of_rooms) * 0.20)
+    elif distribution == 2:
+        # 50% split between two rooms
+        num_of_rooms = int(int(num_of_rooms) * 0.50)
+    elif distribution == 1:
+        # one room will contain all of the available rooms 100%
+        num_of_rooms = int(int(num_of_rooms) * 1)
+
 
     #traverse through all of reservations.
     conn.commit()
@@ -137,7 +146,16 @@ def update_user_reservation(RID,user_email,first_name,last_name,room_type,start_
 
         num_nights = int((end_date_datetime.date() - start_date_datetime.date()).days)
         price = str(round(float(((int(row_hotel_rooms[0][4]) * 0.0825) + int(row_hotel_rooms[0][4])) * num_nights), 2))
-        if is_room_available(conn,HID,start_date,end_date,int(row_hotel[0][2]),room_type):
+
+        cursor_hotel_rooms_dist = conn.execute("SELECT HID,NUM,TYPE,IMG_URL,PRICE from HOTEL_ROOM WHERE HID ='"+str(HID)+"'")
+
+        rooms_available = 0
+        for row in cursor_hotel_rooms_dist:
+            if str(row[4]) != "999999":
+                rooms_available += 1
+
+
+        if is_room_available(conn,HID,start_date,end_date,int(row_hotel[0][2]),room_type,rooms_available):
             conn.execute("UPDATE RESERVATIONS SET ROOM_TYPE = '"+room_type+"',START_DATE = '"+start_date+"',PRICE = '"+str(price)+"',EMAIL = '"+user_email+"',FIRST_NAME = '"+first_name+"',LAST_NAME = '"+last_name+"',NUM_ADULTS = '"+adult_num+"',NUM_CHILDREN = '"+children_num+"',END_DATE = '"+end_date+"' WHERE RID='"+str(RID)+"'")
             conn.commit()
             conn.close()

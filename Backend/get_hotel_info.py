@@ -21,14 +21,21 @@ def create_date(date_string):
     return date
 
 
-def is_room_type_available(conn,HID,room_type,num_of_rooms,user_start_date,user_end_date):
-    # out of total num rooms = 50% will be standard , 30% will be Queen, and 20% will be King = 100% total
-    if str(room_type) == "Standard":
+def is_room_type_available(conn,HID,room_type,num_of_rooms,user_start_date,user_end_date,distribution):
+    if distribution == 3:
+        # out of total num rooms = 50% will be standard , 30% will be Queen, and 20% will be King = 100% total
+        if str(room_type) == "Standard":
+            num_of_rooms = int(int(num_of_rooms) * 0.50)
+        elif str(room_type) == "Queen":
+            num_of_rooms = int(int(num_of_rooms) * 0.30)
+        elif str(room_type) == "King":
+            num_of_rooms = int(int(num_of_rooms) * 0.20)
+    elif distribution == 2:
+        # 50% split between two rooms
         num_of_rooms = int(int(num_of_rooms) * 0.50)
-    elif str(room_type) == "Queen":
-        num_of_rooms = int(int(num_of_rooms) * 0.30)
-    elif str(room_type) == "King":
-        num_of_rooms = int(int(num_of_rooms) * 0.20)
+    elif distribution == 1:
+        # one room will contain all of the available rooms 100%
+        num_of_rooms = int(int(num_of_rooms) * 1)
 
     cursor = conn.execute("SELECT UID,RID,ROOM_TYPE,START_DATE,END_DATE from RESERVATIONS WHERE HID = '"+str(HID)+"'")
 
@@ -99,10 +106,22 @@ def get_hotel_rooms(conn,HID,num_of_rooms,user_start_date,user_end_date):
 
     hotel_rooms = {}
 
+
+    #find the available rooms
     count = 0
+    rooms_available = []
     for row in cursor:
+        if str(row[4]) != "999999":
+            rooms_available.append(row)
+        else:
+            hotel_rooms[str(row[2])] = {'IMAGE_URL':row[3],'PRICE':row[4], 'AVAILABLE': "False","NUM_OF_ROOMS":0}
+
+    rooms_available_distribution = len(rooms_available)
+
+    count = 0
+    for row in rooms_available:
         if str(HID) == str(row[0]):
-            rooms = is_room_type_available(conn,HID,row[2],num_of_rooms,user_start_date,user_end_date)
+            rooms = is_room_type_available(conn,HID,row[2],num_of_rooms,user_start_date,user_end_date,rooms_available_distribution)
             if rooms[0] == True:
                 if str(row[4]) == "999999":
                     hotel_rooms[str(row[2])] = {'IMAGE_URL':row[3],'PRICE':row[4], 'AVAILABLE': "False","NUM_OF_ROOMS":str(rooms[1])}
@@ -113,6 +132,7 @@ def get_hotel_rooms(conn,HID,num_of_rooms,user_start_date,user_end_date):
                 hotel_rooms[str(row[2])] = {'IMAGE_URL':row[3],'PRICE':row[4], 'AVAILABLE': "False","NUM_OF_ROOMS":str(rooms[1])}
 
     conn.commit()
+
 
     return hotel_rooms
 

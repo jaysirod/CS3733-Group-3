@@ -89,16 +89,24 @@ def create_date(date_string):
     return date
 
 
-def is_room_available(conn,HID,start_date,end_date,num_of_rooms,room_type):
+def is_room_available(conn,HID,start_date,end_date,num_of_rooms,room_type,distribution):
     try:
         cursor = conn.execute("SELECT HID,UID,RID,ROOM_TYPE,START_DATE,END_DATE from RESERVATIONS")
 
-        if str(room_type) == "Standard":
-            num_of_rooms = int(num_of_rooms) * 0.50
-        elif str(room_type) == "Queen":
-            num_of_rooms = int(num_of_rooms) * 0.30
-        elif str(room_type) == "King":
-            num_of_rooms = int(num_of_rooms) * 0.20
+        if distribution == 3:
+            # out of total num rooms = 50% will be standard , 30% will be Queen, and 20% will be King = 100% total
+            if str(room_type) == "Standard":
+                num_of_rooms = int(int(num_of_rooms) * 0.50)
+            elif str(room_type) == "Queen":
+                num_of_rooms = int(int(num_of_rooms) * 0.30)
+            elif str(room_type) == "King":
+                num_of_rooms = int(int(num_of_rooms) * 0.20)
+        elif distribution == 2:
+            # 50% split between two rooms
+            num_of_rooms = int(int(num_of_rooms) * 0.50)
+        elif distribution == 1:
+            # one room will contain all of the available rooms 100%
+            num_of_rooms = int(int(num_of_rooms) * 1)
 
         #traverse through all of reservations.
         conn.commit()
@@ -131,8 +139,16 @@ def create(HID,UID,RID,start_date,end_date,ROOM_TYPE,price,num_adult,num_childre
         conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
         cursor_hotel = conn.execute("SELECT HID,NAME,NUM_OF_ROOMS,IMG_URL,PHONE_NUMBER from HOTEL WHERE HID ='"+str(HID)+"'")
         row_hotel = cursor_hotel.fetchall()
+        cursor_hotel_rooms_dist = conn.execute("SELECT HID,NUM,TYPE,IMG_URL,PRICE from HOTEL_ROOM WHERE HID ='"+str(HID)+"'")
 
-        if is_room_available(conn,HID,start_date,end_date,int(row_hotel[0][2]),ROOM_TYPE):
+
+        rooms_available = 0
+        for row in cursor_hotel_rooms_dist:
+            if str(row[4]) != "999999":
+                rooms_available += 1
+
+
+        if is_room_available(conn,HID,start_date,end_date,int(row_hotel[0][2]),ROOM_TYPE,rooms_available):
             conn.execute("INSERT INTO RESERVATIONS (HID,UID,RID,ROOM_TYPE,START_DATE,PRICE,EMAIL,FIRST_NAME,LAST_NAME,NUM_ADULTS,NUM_CHILDREN,END_DATE) \
                   VALUES ('"+HID+"', '"+UID+"', '"+RID+"', '"+ROOM_TYPE+"','"+start_date+"', '"+price+"','"+user_email+"','"+first_name+"','"+last_name+"','"+num_adult+"','"+num_children+"','"+end_date+"')")
 
