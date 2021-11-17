@@ -3,9 +3,7 @@ import sqlite3
 import datetime
 import re
 
-
-
-
+#Deletes staff from database
 def delete_staff(UID):
     try:
         print('[!] Accessing Database!')
