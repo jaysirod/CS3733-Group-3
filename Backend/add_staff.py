@@ -2,9 +2,6 @@ import json
 import sqlite3
 import datetime
 import re
-
-
-
 import smtplib
 import imghdr
 from email.message import EmailMessage
