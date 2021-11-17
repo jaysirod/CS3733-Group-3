@@ -39,7 +39,6 @@ def add_rooms(HID,standard_image,standard_price,queen_image,queen_price,king_ima
     except:
         conn.close()
 
-
 #Adminstration: Addes hotel to database
 def add_hotel(HID,hotel_name,num_of_rooms,hotel_img,weekend_percent,phone_number,standard_image,
               standard_price,queen_image,queen_price,king_image,king_price,amenities,amenities_availability):
