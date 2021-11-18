@@ -3,10 +3,7 @@ import sqlite3
 import datetime
 import re
 
-
-
-
-
+#Deletes reservations from database
 def delete_reservation(RID):
     try:
         conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')

@@ -2,9 +2,6 @@ import json
 import sqlite3
 import datetime
 import re
-
-
-
 import smtplib
 import imghdr
 from email.message import EmailMessage
@@ -12,8 +9,7 @@ from email.mime.multipart import MIMEMultipart #pip install email-to
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 
-
-
+#Sends email when account is created
 def send_email(user_email,user_name):
     EMAIL_ADDRESS = "vhotels.project@gmail.com"
     EMAIL_PASSWORD = "@Test12345"
@@ -65,7 +61,7 @@ def send_email(user_email,user_name):
         smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
         smtp.send_message(msg)
 
-
+#Admistration: Add Staffs to database
 def add_staff(UID,first_name,last_name,email,phone_number,salary,password):
     try:
         conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')

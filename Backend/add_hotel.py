@@ -3,6 +3,7 @@ import sqlite3
 import datetime
 import re
 
+#Admistration: Add and changes amenities to database
 def add_amenities(HID,amenities,amenities_availability):
     try:
         conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
@@ -18,7 +19,7 @@ def add_amenities(HID,amenities,amenities_availability):
         conn.close()
 
 
-
+#Admistration: Add room to database
 def add_rooms(HID,standard_image,standard_price,queen_image,queen_price,king_image,king_price):
     try:
         conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
@@ -38,8 +39,9 @@ def add_rooms(HID,standard_image,standard_price,queen_image,queen_price,king_ima
     except:
         conn.close()
 
-
-def add_hotel(HID,hotel_name,num_of_rooms,hotel_img,weekend_percent,phone_number,standard_image,standard_price,queen_image,queen_price,king_image,king_price,amenities,amenities_availability):
+#Adminstration: Addes hotel to database
+def add_hotel(HID,hotel_name,num_of_rooms,hotel_img,weekend_percent,phone_number,standard_image,
+              standard_price,queen_image,queen_price,king_image,king_price,amenities,amenities_availability):
     try:
         print('[!] Accessing Database!')
 

@@ -3,9 +3,7 @@ import sqlite3
 import datetime
 import re
 
-
-
-
+#Administartion: deletes hotel from database
 def delete_hotel(HID):
     try:
         conn = sqlite3.connect('/usr/src/app/Backend/Database/test_DB.db')
